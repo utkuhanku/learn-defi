@@ -1,26 +1,86 @@
+/*
+ * Learn DeFi — Base Brand Design System
+ *
+ * RULE: Grayscale outweighs Base Blue. 80%+ of the UI should be
+ * grayscale + negative space. Base Blue (#0000FF) is the ONLY primary
+ * accent — use it for max 1 CTA + 1 active indicator per screen.
+ * Secondary colors (yellow, green, lime, red, pink, cerulean, tan)
+ * appear ONLY at critical moments: XP burst, quiz result, badge earn.
+ * No gradients. All headings lowercase.
+ */
+
 @import "tailwindcss";
 
+@theme inline {
+  /* ── Core palette ─────────────────────────────────────────────── */
+  --color-base-blue: #0000ff;
+
+  /* Gray scale (Base brand) */
+  --color-gray-0: #ffffff;
+  --color-gray-10: #eef0f3;
+  --color-gray-15: #dee1e7;
+  --color-gray-30: #b1b7c3;
+  --color-gray-50: #717886;
+  --color-gray-60: #5b616e;
+  --color-gray-80: #32353d;
+  --color-gray-100: #0a0b0d;
+
+  /* Secondary palette (spotlight only) */
+  --color-cerulean: #3c8aff;
+  --color-tan: #b8a581;
+  --color-yellow: #ffd12f;
+  --color-green: #66c800;
+  --color-lime: #b6f569;
+  --color-red: #fc401f;
+  --color-pink: #fea8cd;
+
+  /* ── Typography ───────────────────────────────────────────────── */
+  --font-sans: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono: var(--font-roboto-mono), ui-monospace, monospace;
+  --font-display: var(--font-doto), monospace;
+
+  /* ── Border radius (Base Square derived) ──────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+}
+
+/* ── Light mode (default) ──────────────────────────────────────── */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0b0d;
+  --surface: #eef0f3;
+  --border: #dee1e7;
+  --text-muted: #717886;
+  --text-secondary: #5b616e;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ── Dark mode: system preference ──────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0b0d;
+    --foreground: #ffffff;
+    --surface: #32353d;
+    --border: #32353d;
+    --text-muted: #b1b7c3;
+    --text-secondary: #dee1e7;
   }
 }
 
+/* ── Dark mode: manual toggle (.dark class) ────────────────────── */
+.dark {
+  --background: #0a0b0d;
+  --foreground: #ffffff;
+  --surface: #32353d;
+  --border: #32353d;
+  --text-muted: #b1b7c3;
+  --text-secondary: #dee1e7;
+}
+
+/* ── Base styles ───────────────────────────────────────────────── */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
