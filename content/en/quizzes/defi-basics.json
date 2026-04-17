@@ -1,0 +1,35 @@
+{
+  "moduleId": "defi-basics",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Which of these is NOT a feature of DeFi?",
+      "options": ["24/7 availability", "No middlemen needed", "A personal account manager", "Permissionless access"],
+      "correctIndex": 2
+    },
+    {
+      "id": "q2",
+      "text": "What is Base?",
+      "options": ["A cryptocurrency token", "A Layer 2 chain built by Coinbase", "A centralized exchange", "A hardware wallet"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q3",
+      "text": "Why do gas fees exist?",
+      "options": ["To make crypto expensive", "To pay validators who process transactions", "To fund Coinbase", "To prevent trading"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q4",
+      "text": "Where should you NEVER store your seed phrase?",
+      "options": ["Written on paper in a safe", "In a password manager", "In a cloud note or DM", "On a steel plate"],
+      "correctIndex": 2
+    },
+    {
+      "id": "q5",
+      "text": "What advantage does a smart wallet have over a classic EOA?",
+      "options": ["Higher gas fees", "Social recovery and batched transactions", "More seed phrases to remember", "Slower confirmation times"],
+      "correctIndex": 1
+    }
+  ]
+}

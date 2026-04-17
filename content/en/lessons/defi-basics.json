@@ -1,0 +1,115 @@
+{
+  "moduleId": "defi-basics",
+  "lessons": [
+    {
+      "id": "defi-basics-1",
+      "title": "what is defi?",
+      "order": 1,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "decentralized finance",
+          "body": "DeFi replaces banks with code. Smart contracts on blockchains like Ethereum handle lending, trading, and earning — no middleman, no office hours, no permission needed."
+        },
+        {
+          "type": "comparison",
+          "left": { "label": "Traditional Finance", "items": ["banks control your money", "9-to-5 hours", "KYC paperwork", "days to settle"] },
+          "right": { "label": "DeFi", "items": ["you hold your keys", "24/7/365", "connect wallet, done", "seconds to settle"] }
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "DeFi doesn't mean 'no rules' — it means the rules are written in code that anyone can read and verify."
+        }
+      ]
+    },
+    {
+      "id": "defi-basics-2",
+      "title": "what is a wallet?",
+      "order": 2,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "your keys, your coins",
+          "body": "A crypto wallet stores your private keys — the passwords that prove you own your assets. Unlike a bank account, nobody can freeze or seize your wallet."
+        },
+        {
+          "type": "comparison",
+          "left": { "label": "EOA (classic)", "items": ["single private key", "seed phrase backup", "you pay gas directly"] },
+          "right": { "label": "Smart Wallet", "items": ["social recovery", "batched transactions", "gas sponsoring possible"] }
+        },
+        {
+          "type": "highlight",
+          "emoji": "🔐",
+          "text": "Never share your seed phrase. Not with 'support', not on a website, not in a DM. Ever."
+        }
+      ]
+    },
+    {
+      "id": "defi-basics-3",
+      "title": "what is gas?",
+      "order": 3,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "the cost of computation",
+          "body": "Every transaction on a blockchain costs gas — a small fee paid to validators who process your request. More complex actions (like swaps) cost more gas than simple transfers."
+        },
+        {
+          "type": "text",
+          "heading": "why gas prices change",
+          "body": "Gas is priced by demand. When many people transact at once, gas spikes. L2 chains like Base batch transactions to Ethereum, making gas 50-100x cheaper."
+        },
+        {
+          "type": "highlight",
+          "emoji": "⛽",
+          "text": "On Base, a typical swap costs less than $0.01. The same swap on Ethereum L1 can cost $5-50+."
+        }
+      ]
+    },
+    {
+      "id": "defi-basics-4",
+      "title": "what is Base?",
+      "order": 4,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "ethereum, but faster and cheaper",
+          "body": "Base is a Layer 2 (L2) chain built by Coinbase. It inherits Ethereum's security while processing transactions faster and cheaper. Your assets on Base are secured by Ethereum."
+        },
+        {
+          "type": "text",
+          "heading": "why builders choose Base",
+          "body": "Low fees, fast confirmations, Coinbase ecosystem distribution, and a growing community of apps and users. Over 100M transactions processed."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🟦",
+          "text": "Base is open-source, permissionless, and decentralized. Anyone can build on it."
+        }
+      ]
+    },
+    {
+      "id": "defi-basics-5",
+      "title": "anatomy of a transaction",
+      "order": 5,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "what happens when you tap 'send'",
+          "body": "1. You sign the transaction with your private key.\n2. It enters the mempool (waiting room).\n3. A validator picks it up and includes it in a block.\n4. The block is confirmed — your transaction is final."
+        },
+        {
+          "type": "text",
+          "heading": "reading a transaction",
+          "body": "Every tx has: sender (from), receiver (to), value, gas used, gas price, status (success/fail), and a unique hash. You can view any tx on BaseScan."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🔍",
+          "text": "Try it: open basescan.org, paste any address, and explore the transaction history. Everything is public."
+        }
+      ]
+    }
+  ]
+}

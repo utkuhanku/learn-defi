@@ -1,0 +1,51 @@
+[
+  {
+    "id": "defi-basics",
+    "title": "defi basics",
+    "description": "wallet, gas, L1/L2, Base — start here.",
+    "order": 1,
+    "lessonCount": 5,
+    "icon": "BookOpen"
+  },
+  {
+    "id": "stablecoins",
+    "title": "stablecoins",
+    "description": "why a dollar stays a dollar — usually.",
+    "order": 2,
+    "lessonCount": 5,
+    "icon": "Coins"
+  },
+  {
+    "id": "lending",
+    "title": "lending & borrowing",
+    "description": "collateral, health factor, liquidation.",
+    "order": 3,
+    "lessonCount": 5,
+    "icon": "Landmark"
+  },
+  {
+    "id": "dex-swaps",
+    "title": "dex & swaps",
+    "description": "AMMs, slippage, impermanent loss.",
+    "order": 4,
+    "lessonCount": 5,
+    "icon": "ArrowLeftRight"
+  },
+  {
+    "id": "yield",
+    "title": "yield farming",
+    "description": "APR vs APY, compounding, risk-return.",
+    "order": 5,
+    "lessonCount": 5,
+    "icon": "TrendingUp"
+  },
+  {
+    "id": "advanced",
+    "title": "advanced strategies",
+    "description": "delta-neutral, funding rate, Pendle.",
+    "order": 6,
+    "lessonCount": 6,
+    "icon": "Brain",
+    "locked": true
+  }
+]
