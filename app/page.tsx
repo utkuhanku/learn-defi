@@ -53,7 +53,7 @@ export default function Home() {
               }`}
             >
               <div className="flex items-start justify-between">
-                <BaseSquare size={20} variant="black" />
+                <BaseSquare size={20} variant="current" className="text-gray-80 dark:text-gray-30" />
                 {m.locked && (
                   <Lock size={14} strokeWidth={1.5} className="text-[var(--text-muted)]" />
                 )}
@@ -61,7 +61,7 @@ export default function Home() {
               <div className="space-y-2">
                 <span className="text-sm font-medium">{m.title}</span>
                 {m.locked ? (
-                  <span className="text-xs text-[var(--text-muted)]">coming soon</span>
+                  <span className="mt-1 text-xs text-[var(--text-muted)]">coming soon</span>
                 ) : (
                   <div className="h-1 w-full rounded-xs bg-gray-15 dark:bg-gray-80">
                     <div className="h-full w-0 rounded-xs bg-base-blue" />
@@ -74,7 +74,7 @@ export default function Home() {
       </section>
 
       {/* primary CTA */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-28">
         <Link href="/module/defi-basics" className="block">
           <button className="w-full min-h-11 cursor-pointer rounded-md bg-base-blue py-4 text-base font-medium text-white transition-all duration-120 hover:brightness-[1.04] active:scale-[0.98]">
             start with defi basics →

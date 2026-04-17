@@ -2,6 +2,7 @@ const FILL = {
   blue: '#0000ff',
   white: '#ffffff',
   black: '#0a0b0d',
+  current: 'currentColor',
 } as const
 
 type BaseSquareProps = {

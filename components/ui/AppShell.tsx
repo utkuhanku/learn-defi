@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect } from 'react'
 import { BaseSquare } from '@/components/brand/BaseSquare'
 import { BottomNav } from '@/components/ui/BottomNav'
 import { UserChip } from '@/components/ui/UserChip'
 import { ConnectButton } from '@/components/ui/ConnectButton'
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
+import { useTheme } from '@/stores/useTheme'
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { context } = useMiniKit()
@@ -14,6 +16,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     bottom: 0,
     left: 0,
   }
+
+  const theme = useTheme((s) => s.theme)
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === 'dark') {
+      root.classList.add('dark')
+    } else if (theme === 'light') {
+      root.classList.remove('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+  }, [theme])
 
   const hasUser = !!(context?.user as { displayName?: string } | undefined)?.displayName
 
