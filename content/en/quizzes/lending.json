@@ -1,0 +1,35 @@
+{
+  "moduleId": "lending",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What does a health factor of 0.9 mean?",
+      "options": ["Your position is very safe", "Your position can be liquidated", "You need to deposit more collateral to borrow", "Your interest rate is 0.9%"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q2",
+      "text": "If the LTV is 75% and you borrow at 60%, are you safe?",
+      "options": ["No, you're over the limit", "Yes, but you have limited buffer against price drops", "Yes, with a comfortable safety margin", "It depends on the interest rate"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q3",
+      "text": "Why is Supply APY lower than Borrow APY?",
+      "options": ["It's a bug in the protocol", "The protocol takes a spread for reserves and revenue", "Suppliers take more risk", "Borrowers get a discount"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q4",
+      "text": "What is the liquidation penalty for?",
+      "options": ["Punishing the borrower", "Incentivizing liquidators to repay bad debt", "Paying gas fees", "Funding the DAO treasury"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q5",
+      "text": "You deposit ETH and borrow USDC. ETH price drops 30%. What happens?",
+      "options": ["Nothing, USDC is stable", "Your health factor drops and you risk liquidation", "Your borrow amount increases", "Your ETH amount decreases"],
+      "correctIndex": 1
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "moduleId": "yield",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "10% APR compounded daily gives approximately what APY?",
+      "options": ["10.00%", "10.52%", "11.00%", "15.00%"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q2",
+      "text": "What is the biggest red flag for a high-APY farm?",
+      "options": ["It's on a reputable protocol", "The yield comes from token emissions with a declining token price", "It has many users", "It offers auto-compounding"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q3",
+      "text": "What is the goal of delta-neutral farming?",
+      "options": ["Maximize token exposure", "Eliminate price risk and earn only fees", "Buy low, sell high", "Avoid all smart contract risk"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q4",
+      "text": "When calculating net yield from LP farming, what must you subtract?",
+      "options": ["Only gas fees", "Impermanent loss, gas costs, and risk premium", "Nothing, APY is the final number", "The token's market cap"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q5",
+      "text": "What is the difference between real yield and emission yield?",
+      "options": ["There is no difference", "Real yield comes from protocol fees; emission yield comes from token inflation", "Real yield is higher", "Emission yield is more sustainable"],
+      "correctIndex": 1
+    }
+  ]
+}

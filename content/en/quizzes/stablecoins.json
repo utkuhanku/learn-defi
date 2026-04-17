@@ -1,0 +1,35 @@
+{
+  "moduleId": "stablecoins",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "How does USDC maintain its dollar peg?",
+      "options": ["An algorithm adjusts supply", "Circle holds dollar reserves and allows 1:1 redemption", "Miners vote on the price", "It's backed by Bitcoin"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q2",
+      "text": "What is the biggest risk of algorithmic stablecoins?",
+      "options": ["High gas fees", "Slow transactions", "A death spiral where the peg breaks and can't recover", "Too many audits"],
+      "correctIndex": 2
+    },
+    {
+      "id": "q3",
+      "text": "Which stablecoin is natively issued on Base?",
+      "options": ["DAI", "USDT", "USDC", "BUSD"],
+      "correctIndex": 2
+    },
+    {
+      "id": "q4",
+      "text": "What category is DAI?",
+      "options": ["Fiat-backed", "Algorithmic", "Crypto-backed and overcollateralized", "Commodity-backed"],
+      "correctIndex": 2
+    },
+    {
+      "id": "q5",
+      "text": "If USDC drops to $0.98, what happens?",
+      "options": ["Nothing, it stays there", "Arbitrageurs buy cheap USDC and redeem at $1 for profit", "Circle prints more USDC", "The blockchain halts"],
+      "correctIndex": 1
+    }
+  ]
+}

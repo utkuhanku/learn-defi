@@ -8,6 +8,14 @@ import { Progress } from '@/components/ui/Progress'
 import { useProgress } from '@/stores/useProgress'
 import type { Module, Lesson } from '@/lib/types'
 
+const TOOL_NAMES: Record<string, string> = {
+  'defi-basics': 'gas cost comparator',
+  'stablecoins': 'stablecoin peg tracker',
+  'lending': 'health factor calculator',
+  'dex-swaps': 'impermanent loss simulator',
+  'yield': 'APR → APY calculator',
+}
+
 type Props = {
   module: Module
   lessons: Lesson[]
@@ -101,7 +109,7 @@ export function ModuleContent({ module: mod, lessons }: Props) {
           <Link href={`/module/${mod.id}/tool`}>
             <Card hoverable className="flex items-center gap-3">
               <Wrench size={20} className="text-base-blue" />
-              <span className="text-sm font-medium">gas cost comparator</span>
+              <span className="text-sm font-medium">{TOOL_NAMES[mod.id] ?? 'interactive tool'}</span>
             </Card>
           </Link>
         </div>

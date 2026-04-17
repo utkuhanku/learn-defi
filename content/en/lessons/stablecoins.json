@@ -1,0 +1,115 @@
+{
+  "moduleId": "stablecoins",
+  "lessons": [
+    {
+      "id": "stablecoins-1",
+      "title": "what is a stablecoin?",
+      "order": 1,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "dollars on the blockchain",
+          "body": "A stablecoin is a cryptocurrency designed to maintain a stable value — usually pegged 1:1 to the US dollar. They bridge traditional finance and DeFi, letting you hold dollar value without leaving the blockchain."
+        },
+        {
+          "type": "text",
+          "heading": "why stablecoins matter",
+          "body": "Crypto prices swing wildly, but you still need a stable unit of account. Stablecoins let you park profits, pay for things, earn yield, and move money globally — all without touching a bank."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💵",
+          "text": "Stablecoins process over $10 trillion in annual volume — more than Visa and Mastercard combined."
+        }
+      ]
+    },
+    {
+      "id": "stablecoins-2",
+      "title": "USDC, USDT, DAI",
+      "order": 2,
+      "cards": [
+        {
+          "type": "comparison",
+          "left": { "label": "Fiat-backed (USDC, USDT)", "items": ["backed by real dollars in bank accounts", "issued by companies (Circle, Tether)", "redeemable 1:1 for USD", "centralized — issuer can freeze"] },
+          "right": { "label": "Crypto-backed (DAI)", "items": ["backed by crypto collateral (ETH, etc.)", "issued by smart contracts (MakerDAO)", "overcollateralized (>150%)", "decentralized — no single issuer"] }
+        },
+        {
+          "type": "text",
+          "heading": "algorithmic stablecoins",
+          "body": "Some stablecoins tried to maintain their peg using algorithms instead of real reserves. UST (Terra) was the most famous — it collapsed in May 2022, erasing $40B. The lesson: without real backing, pegs can break catastrophically."
+        },
+        {
+          "type": "highlight",
+          "emoji": "⚖️",
+          "text": "USDC is the most used stablecoin on Base. It's natively issued, meaning it's not bridged — fewer smart contract risks."
+        }
+      ]
+    },
+    {
+      "id": "stablecoins-3",
+      "title": "how the peg works",
+      "order": 3,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "the redemption mechanism",
+          "body": "For USDC: anyone can deposit $1 with Circle and receive 1 USDC, or return 1 USDC and get $1 back. This creates a floor and ceiling — if USDC trades at $0.99, arbitrageurs buy it cheap and redeem for $1, pushing the price back up."
+        },
+        {
+          "type": "text",
+          "heading": "reserves and audits",
+          "body": "Fiat-backed stablecoins publish reserve reports showing they hold enough dollars (or short-term treasuries) to back every token. Circle publishes monthly attestations for USDC. Tether's reserves have been more controversial."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🔄",
+          "text": "Arbitrage is the invisible hand that keeps stablecoins at $1. When the price dips, traders profit by buying cheap and redeeming at par."
+        }
+      ]
+    },
+    {
+      "id": "stablecoins-4",
+      "title": "when the peg breaks",
+      "order": 4,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "depeg events",
+          "body": "In March 2023, USDC briefly dropped to $0.87 after Silicon Valley Bank (which held $3.3B of Circle's reserves) collapsed. The peg recovered within days when the US government backstopped depositors."
+        },
+        {
+          "type": "text",
+          "heading": "signs of trouble",
+          "body": "Watch for: reserve composition changes, redemption delays, large deviations lasting more than hours, issuer legal troubles. A healthy stablecoin trades within ±0.5% of its peg virtually all the time."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🚨",
+          "text": "The UST death spiral: algorithmic peg broke → holders panic-sold → price dropped further → more selling. $40B gone in a week. Always check what backs your stablecoin."
+        }
+      ]
+    },
+    {
+      "id": "stablecoins-5",
+      "title": "stablecoins on Base",
+      "order": 5,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "native USDC on Base",
+          "body": "Base has native USDC — issued directly by Circle on Base L2, not bridged from Ethereum. This means lower risk, instant finality, and transfer fees under $0.001. It's the default stablecoin for Base DeFi."
+        },
+        {
+          "type": "text",
+          "heading": "what you can do with stablecoins on Base",
+          "body": "Lend for yield on Aave or Moonwell, provide liquidity on Aerodrome, swap between tokens, or simply hold dollar value while you research your next move. Gas costs are negligible."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🟦",
+          "text": "Sending $10,000 in USDC on Base costs less than a penny. The same transfer on Ethereum L1 could cost $5-20."
+        }
+      ]
+    }
+  ]
+}

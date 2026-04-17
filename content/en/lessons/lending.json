@@ -1,0 +1,115 @@
+{
+  "moduleId": "lending",
+  "lessons": [
+    {
+      "id": "lending-1",
+      "title": "lending basics",
+      "order": 1,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "supply and borrow",
+          "body": "DeFi lending works like a peer-to-pool system. Suppliers deposit assets into a smart contract pool and earn interest. Borrowers take assets from the pool by posting collateral and paying interest."
+        },
+        {
+          "type": "text",
+          "heading": "how interest rates work",
+          "body": "Rates are set by supply and demand. When many people borrow, the utilization rate rises and interest goes up — incentivizing more suppliers. Protocols like Aave and Compound automate this with rate curves."
+        },
+        {
+          "type": "highlight",
+          "emoji": "🏦",
+          "text": "Unlike a bank, there's no credit check. Anyone with collateral can borrow instantly. The smart contract is the only intermediary."
+        }
+      ]
+    },
+    {
+      "id": "lending-2",
+      "title": "overcollateralization",
+      "order": 2,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "why >100% collateral?",
+          "body": "In DeFi, there's no identity or credit score. The only guarantee is your collateral. To protect lenders, protocols require you to deposit more value than you borrow — typically 120-150% of the loan value."
+        },
+        {
+          "type": "comparison",
+          "left": { "label": "Traditional loan", "items": ["credit score matters", "can be undercollateralized", "takes days to approve", "legal recourse if you default"] },
+          "right": { "label": "DeFi loan", "items": ["no credit check", "always overcollateralized", "instant approval", "smart contract liquidates automatically"] }
+        },
+        {
+          "type": "highlight",
+          "emoji": "🛡️",
+          "text": "Overcollateralization means if you want to borrow $1,000, you might need to lock up $1,500 in ETH. The extra cushion protects against price drops."
+        }
+      ]
+    },
+    {
+      "id": "lending-3",
+      "title": "health factor explained",
+      "order": 3,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "the number that keeps you safe",
+          "body": "Health Factor = (Collateral Value × Liquidation Threshold) / Borrow Value. Above 1.0, you're safe. At 1.0, you get liquidated. Most users aim to stay above 1.5 for a comfortable buffer."
+        },
+        {
+          "type": "text",
+          "heading": "what happens at liquidation",
+          "body": "When HF drops to 1.0, a liquidator repays part of your debt and takes your collateral at a discount (typically 5-10% bonus). You lose your collateral and still owe the remaining debt minus what was repaid."
+        },
+        {
+          "type": "highlight",
+          "emoji": "⚠️",
+          "text": "A health factor of 1.1 means a 10% drop in your collateral's price could trigger liquidation. Always monitor your positions."
+        }
+      ]
+    },
+    {
+      "id": "lending-4",
+      "title": "LTV vs liquidation threshold",
+      "order": 4,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "two different numbers",
+          "body": "LTV (Loan-to-Value) is the maximum you can borrow against your collateral — e.g., 75% LTV means you can borrow up to $750 per $1,000 collateral. The Liquidation Threshold is higher (e.g., 82.5%) — the point where liquidation actually happens."
+        },
+        {
+          "type": "text",
+          "heading": "the buffer zone",
+          "body": "The gap between LTV (75%) and Liquidation Threshold (82.5%) is your safety buffer. If you borrow the maximum immediately, you have only a 7.5% cushion before liquidation. Smart borrowers stay well below max LTV."
+        },
+        {
+          "type": "highlight",
+          "emoji": "📊",
+          "text": "Rule of thumb: borrow at 50-60% of your max LTV. This gives you room to absorb a 30-40% price drop without getting liquidated."
+        }
+      ]
+    },
+    {
+      "id": "lending-5",
+      "title": "variable vs stable rates",
+      "order": 5,
+      "cards": [
+        {
+          "type": "text",
+          "heading": "variable rate",
+          "body": "Changes based on pool utilization — when demand is high, rates spike. Good when you expect rates to stay low or you plan to repay quickly. Most DeFi borrowing uses variable rates."
+        },
+        {
+          "type": "text",
+          "heading": "stable rate",
+          "body": "Locks in a rate for predictability, but typically starts higher than the current variable rate. Some protocols (like Aave) offer this, though it can be rebalanced in extreme conditions."
+        },
+        {
+          "type": "highlight",
+          "emoji": "📈",
+          "text": "Supply APY is almost always lower than Borrow APY — the difference is the protocol's spread and reserve factor. This is how lending protocols generate revenue."
+        }
+      ]
+    }
+  ]
+}

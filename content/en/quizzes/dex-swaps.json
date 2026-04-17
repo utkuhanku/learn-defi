@@ -1,0 +1,35 @@
+{
+  "moduleId": "dex-swaps",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What does the x × y = k formula describe?",
+      "options": ["A lending interest rate curve", "The constant product invariant of an AMM", "A stablecoin peg mechanism", "A gas price calculation"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q2",
+      "text": "When does impermanent loss become permanent?",
+      "options": ["When gas fees are high", "When you withdraw liquidity at a different price ratio", "When the pool runs out of tokens", "It's always permanent"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q3",
+      "text": "You set 5% slippage tolerance on a shallow pool. What might happen?",
+      "options": ["Your swap executes at a much worse price", "Nothing, 5% is always safe", "The pool gets drained", "Your tokens are locked forever"],
+      "correctIndex": 0
+    },
+    {
+      "id": "q4",
+      "text": "What is the main advantage of concentrated liquidity?",
+      "options": ["Zero impermanent loss", "Higher capital efficiency and more fees per dollar", "No gas costs", "Guaranteed profits"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q5",
+      "text": "What are the main risks of being an LP?",
+      "options": ["Only gas fees", "Impermanent loss and smart contract risk", "Losing your wallet password", "Exchange rate fees"],
+      "correctIndex": 1
+    }
+  ]
+}
