@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Chip } from '@/components/ui/Chip'
 import { useProgress } from '@/stores/useProgress'
 import { healthFactor } from '@/lib/formulas/healthFactor'
+
+const ETH_PRICE = 3000
 
 export function HealthFactorCalc() {
   const [collateral, setCollateral] = useState(10000)
@@ -21,90 +22,151 @@ export function HealthFactorCalc() {
   }
 
   const hf = healthFactor(collateral, lt, borrow)
-  const ethAmount = collateral / 3000
-  const liqPriceDisplay =
-    ethAmount > 0 && lt > 0 ? (borrow / (ethAmount * lt)).toFixed(0) : '0'
+  const ethAmount = collateral / ETH_PRICE
+  const liqEthPrice =
+    ethAmount > 0 && lt > 0 ? borrow / (ethAmount * lt) : 0
+  const crashPct =
+    ETH_PRICE > 0 ? ((ETH_PRICE - liqEthPrice) / ETH_PRICE) * 100 : 0
 
-  let hfColor = 'text-green'
-  let hfChip: 'green' | 'yellow' | 'red' = 'green'
-  let hfLabel = 'safe'
-  if (hf < 1.0) {
-    hfColor = 'text-red'
-    hfChip = 'red'
-    hfLabel = 'liquidation'
-  } else if (hf < 1.5) {
-    hfColor = 'text-yellow'
-    hfChip = 'yellow'
-    hfLabel = 'caution'
-  }
+  type State = 'safe' | 'risky' | 'liquidated'
+  let state: State = 'safe'
+  if (hf < 1.0) state = 'liquidated'
+  else if (hf < 1.5) state = 'risky'
+
+  const stateStyle = {
+    safe: 'bg-green/5 ring-green/20',
+    risky: 'bg-yellow/5 ring-yellow/20',
+    liquidated: 'bg-red/5 ring-red/20',
+  }[state]
+
+  const hfColor = {
+    safe: 'text-green',
+    risky: 'text-yellow',
+    liquidated: 'text-red',
+  }[state]
+
+  const statusMessage = {
+    safe: '✅ you\'re safe — sleep well',
+    risky: '⚠️ getting risky — consider repaying',
+    liquidated: '🚨 liquidation! — you just lost your collateral',
+  }[state]
+
+  const liquidationLoss = collateral * 0.05 // 5% liquidation penalty
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="text-2xl font-bold tracking-[-0.02em]">
-          health factor calculator
-        </h2>
-        <p className="mt-1 text-sm text-[var(--text-3)]">
-          check if your lending position is safe
+    <div>
+      {/* scenario */}
+      <div className="mb-8 rounded-2xl bg-[var(--surface)] p-6">
+        <div className="mb-2 text-[28px]">🏦</div>
+        <p className="text-[15px] italic leading-relaxed text-[var(--text-2)]">
+          you deposited ETH as collateral and borrowed USDC. ETH starts
+          dropping. how far can it fall before you get liquidated?
         </p>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-2)]">
-          collateral value: ${collateral.toLocaleString()}
-        </label>
-        <input
-          type="range"
-          min={0}
-          max={50000}
-          step={100}
-          value={collateral}
-          onChange={(e) => { setCollateral(Number(e.target.value)); trackUsage() }}
-          className="w-full accent-base-blue"
-        />
+      {/* sliders */}
+      <div className="mb-6 space-y-4">
+        <div className="rounded-2xl bg-[var(--surface)] p-5">
+          <div className="mb-3 flex items-baseline justify-between">
+            <span className="label">collateral (ETH)</span>
+            <span className="text-lg font-bold tabular-nums tracking-[-0.02em]">
+              ${collateral.toLocaleString()}
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={50000}
+            step={100}
+            value={collateral}
+            onChange={(e) => { setCollateral(Number(e.target.value)); trackUsage() }}
+            className="w-full accent-base-blue"
+          />
+        </div>
+
+        <div className="rounded-2xl bg-[var(--surface)] p-5">
+          <div className="mb-3 flex items-baseline justify-between">
+            <span className="label">borrowed (USDC)</span>
+            <span className="text-lg font-bold tabular-nums tracking-[-0.02em]">
+              ${borrow.toLocaleString()}
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={40000}
+            step={100}
+            value={borrow}
+            onChange={(e) => { setBorrow(Number(e.target.value)); trackUsage() }}
+            className="w-full accent-base-blue"
+          />
+        </div>
+
+        <div className="rounded-2xl bg-[var(--surface)] p-5">
+          <div className="mb-3 flex items-baseline justify-between">
+            <span className="label">liquidation threshold</span>
+            <span className="text-lg font-bold tabular-nums tracking-[-0.02em]">
+              {(lt * 100).toFixed(1)}%
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0.5}
+            max={0.95}
+            step={0.005}
+            value={lt}
+            onChange={(e) => { setLt(Number(e.target.value)); trackUsage() }}
+            className="w-full accent-base-blue"
+          />
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-2)]">
-          borrow value: ${borrow.toLocaleString()}
-        </label>
-        <input
-          type="range"
-          min={0}
-          max={40000}
-          step={100}
-          value={borrow}
-          onChange={(e) => { setBorrow(Number(e.target.value)); trackUsage() }}
-          className="w-full accent-base-blue"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-2)]">
-          liquidation threshold: {(lt * 100).toFixed(1)}%
-        </label>
-        <input
-          type="range"
-          min={0.5}
-          max={0.95}
-          step={0.005}
-          value={lt}
-          onChange={(e) => { setLt(Number(e.target.value)); trackUsage() }}
-          className="w-full accent-base-blue"
-        />
-      </div>
-
-      <div className="flex flex-col items-center gap-4 rounded-xl bg-[var(--surface)] p-8 text-center">
-        <p className="label">health factor</p>
-        <p className={`text-6xl font-bold tracking-[-0.03em] ${hfColor}`}>
+      {/* big HF display */}
+      <div className={`mb-8 rounded-2xl p-8 text-center ring-1 ${stateStyle}`}>
+        <p className="label mb-4">health factor</p>
+        <p className={`text-7xl font-bold tracking-[-0.04em] ${hfColor}`}>
           {hf === Infinity ? '∞' : hf.toFixed(2)}
         </p>
-        <Chip variant={hfChip}>{hfLabel}</Chip>
-        {borrow > 0 && collateral > 0 && (
-          <p className="text-sm text-[var(--text-3)]">
-            liquidation if ETH drops to ~${liqPriceDisplay}
-          </p>
+        <p className="mt-4 text-base font-semibold">{statusMessage}</p>
+
+        {borrow > 0 && collateral > 0 && state !== 'liquidated' && (
+          <div className="mt-6 border-t border-[var(--border)] pt-6 text-sm text-[var(--text-2)]">
+            <p>
+              ETH can drop to{' '}
+              <span className="font-bold text-white tabular-nums">
+                ${liqEthPrice.toFixed(0)}
+              </span>
+            </p>
+            <p className="mt-1 text-[var(--text-3)]">
+              that&apos;s a{' '}
+              <span className="font-bold text-white tabular-nums">
+                {crashPct.toFixed(0)}%
+              </span>{' '}
+              crash from today
+            </p>
+          </div>
         )}
+
+        {state === 'liquidated' && (
+          <div className="mt-6 border-t border-red/20 pt-6 text-sm text-[var(--text-2)]">
+            <p>a liquidator took your ETH at a 5% discount.</p>
+            <p className="mt-1">
+              you lost{' '}
+              <span className="font-bold text-red tabular-nums">
+                ${liquidationLoss.toFixed(0)}
+              </span>{' '}
+              in penalties.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* fun fact */}
+      <div className="mt-8 border-t border-[var(--border)] pt-6">
+        <p className="text-sm italic leading-relaxed text-[var(--text-3)]">
+          💡 most experienced DeFi users keep their HF above 2.0. the extra
+          buffer lets them sleep at night.
+        </p>
       </div>
     </div>
   )

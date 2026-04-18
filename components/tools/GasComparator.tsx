@@ -1,18 +1,6 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-} from 'recharts'
-import { Button } from '@/components/ui/Button'
-import { Chip } from '@/components/ui/Chip'
 import { useProgress } from '@/stores/useProgress'
 
 const TX_TYPES = [
@@ -29,19 +17,19 @@ function costUsd(gasUnits: number, gasPriceGwei: number): number {
   return gasUnits * gasPriceGwei * 1e-9 * ETH_PRICE
 }
 
-const tooltipStyle = {
-  background: '#1a1a1a',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '8px',
+function formatUsd(n: number): string {
+  if (n < 0.01) return `$${n.toFixed(4)}`
+  if (n < 1) return `$${n.toFixed(3)}`
+  return `$${n.toFixed(2)}`
 }
 
 export function GasComparator() {
-  const [selectedTx, setSelectedTx] = useState<(typeof TX_TYPES)[number]>(TX_TYPES[0])
+  const [selectedTx, setSelectedTx] = useState<(typeof TX_TYPES)[number]>(TX_TYPES[1])
+  const [txCount, setTxCount] = useState(10)
   const { markToolUsed, addXp, toolsUsed } = useProgress()
   const trackedRef = useRef(false)
 
-  function handleSelect(tx: (typeof TX_TYPES)[number]) {
-    setSelectedTx(tx)
+  function trackUsage() {
     if (!trackedRef.current && !toolsUsed.includes('gas-comparator')) {
       markToolUsed('gas-comparator')
       addXp(15)
@@ -49,65 +37,102 @@ export function GasComparator() {
     }
   }
 
-  const l1Cost = costUsd(selectedTx.gasUnits, L1_GWEI)
-  const baseCost = costUsd(selectedTx.gasUnits, BASE_GWEI)
-  const savePct = ((1 - baseCost / l1Cost) * 100).toFixed(1)
-
-  const chartData = [
-    { name: 'Ethereum L1', cost: Number(l1Cost.toFixed(4)) },
-    { name: 'Base', cost: Number(baseCost.toFixed(6)) },
-  ]
+  const l1Total = costUsd(selectedTx.gasUnits, L1_GWEI) * txCount
+  const baseTotal = costUsd(selectedTx.gasUnits, BASE_GWEI) * txCount
+  const savings = l1Total - baseTotal
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="text-2xl font-bold tracking-[-0.02em]">
-          gas cost comparator
-        </h2>
-        <p className="mt-1 text-sm text-[var(--text-3)]">
-          compare transaction costs between Ethereum L1 and Base
+    <div>
+      {/* scenario */}
+      <div className="mb-8 rounded-2xl bg-[var(--surface)] p-6">
+        <div className="mb-2 text-[28px]">⛽</div>
+        <p className="text-[15px] italic leading-relaxed text-[var(--text-2)]">
+          imagine you&apos;re trading on a busy day. you want to make several swaps.
+          let&apos;s see what that actually costs on Ethereum vs Base.
         </p>
       </div>
 
-      <div className="flex gap-2">
-        {TX_TYPES.map((tx) => (
-          <Button
-            key={tx.id}
-            variant={selectedTx.id === tx.id ? 'primary' : 'secondary'}
-            size="sm"
-            onClick={() => handleSelect(tx)}
-          >
-            {tx.label}
-          </Button>
-        ))}
-      </div>
-
-      <div className="h-56 w-full rounded-xl bg-[var(--surface)] p-4">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} barCategoryGap="30%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-            <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} tickFormatter={(v: number) => `$${v}`} axisLine={false} tickLine={false} />
-            <Tooltip
-              formatter={(value) => [`$${Number(value).toFixed(4)}`, 'Cost']}
-              contentStyle={tooltipStyle}
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-            />
-            <Bar dataKey="cost" radius={[6, 6, 0, 0]}>
-              <Cell fill="rgba(255,255,255,0.25)" />
-              <Cell fill="#0000ff" />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="flex flex-col items-center gap-2 text-center">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-[var(--text-2)]">you save</span>
-          <Chip variant="green">{savePct}%</Chip>
+      {/* tx type chips */}
+      <div className="mb-6">
+        <p className="label mb-3">transaction type</p>
+        <div className="flex gap-2">
+          {TX_TYPES.map((tx) => {
+            const active = selectedTx.id === tx.id
+            return (
+              <button
+                key={tx.id}
+                onClick={() => { setSelectedTx(tx); trackUsage() }}
+                className={`press cursor-pointer rounded-xl px-4 py-2.5 text-sm font-semibold tracking-[-0.01em] transition-colors duration-150 ${
+                  active
+                    ? 'bg-base-blue text-white'
+                    : 'bg-[var(--surface)] text-white/70 hover:bg-[var(--surface-2)]'
+                }`}
+              >
+                {tx.label}
+              </button>
+            )
+          })}
         </div>
-        <p className="text-sm text-[var(--text-3)]">
-          on Base, a {selectedTx.label} costs less than a penny
+      </div>
+
+      {/* tx count slider */}
+      <div className="mb-10 rounded-2xl bg-[var(--surface)] p-6">
+        <div className="mb-3 flex items-baseline justify-between">
+          <span className="label">how many?</span>
+          <span className="text-3xl font-bold tabular-nums tracking-[-0.02em]">
+            {txCount}<span className="ml-1 text-sm font-normal text-[var(--text-3)]">tx</span>
+          </span>
+        </div>
+        <input
+          type="range"
+          min={1}
+          max={50}
+          step={1}
+          value={txCount}
+          onChange={(e) => { setTxCount(Number(e.target.value)); trackUsage() }}
+          className="w-full accent-base-blue"
+        />
+      </div>
+
+      {/* results — side by side */}
+      <div className="mb-8 grid grid-cols-2 gap-3">
+        <div className="rounded-2xl bg-red/5 p-6 text-center ring-1 ring-red/20">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-3)]">
+            ethereum L1
+          </p>
+          <p className="text-4xl font-bold tracking-[-0.02em] text-red">
+            {formatUsd(l1Total)}
+          </p>
+          <p className="mt-3 text-2xl">😰</p>
+          <p className="text-xs text-[var(--text-3)]">ouch</p>
+        </div>
+        <div className="rounded-2xl bg-green/5 p-6 text-center ring-1 ring-green/20">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-3)]">
+            base
+          </p>
+          <p className="text-4xl font-bold tracking-[-0.02em] text-green">
+            {formatUsd(baseTotal)}
+          </p>
+          <p className="mt-3 text-2xl">😎</p>
+          <p className="text-xs text-[var(--text-3)]">nice</p>
+        </div>
+      </div>
+
+      {/* savings */}
+      <div className="mb-8 text-center">
+        <p className="text-sm text-[var(--text-3)]">you save</p>
+        <p className="mt-1 text-4xl font-bold tracking-[-0.02em] text-green">
+          {formatUsd(savings)}
+        </p>
+        <p className="mt-1 text-sm text-[var(--text-3)]">
+          on {txCount} {selectedTx.label}{txCount > 1 ? 's' : ''}
+        </p>
+      </div>
+
+      {/* fun fact */}
+      <div className="mt-8 border-t border-[var(--border)] pt-6">
+        <p className="text-sm italic leading-relaxed text-[var(--text-3)]">
+          💡 on Base, you could make 10,000 swaps for the price of 1 swap on Ethereum L1.
         </p>
       </div>
     </div>

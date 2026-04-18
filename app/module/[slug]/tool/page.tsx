@@ -1,6 +1,8 @@
 'use client'
 
 import { use } from 'react'
+import Link from 'next/link'
+import { ChevronLeft } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
 import { GasComparator } from '@/components/tools/GasComparator'
 import { PegTracker } from '@/components/tools/PegTracker'
@@ -26,13 +28,21 @@ export default function ToolPage({
 
   return (
     <AppShell>
-      <div className="px-4 py-6">
+      <div className="px-5 py-6">
+        <Link
+          href={`/module/${slug}`}
+          className="press mb-6 inline-flex items-center gap-1 text-sm font-medium text-[var(--text-3)] transition-colors duration-150 hover:text-[var(--text)]"
+        >
+          <ChevronLeft size={16} />
+          back to module
+        </Link>
+
         {Tool ? (
           <Tool />
         ) : (
           <div className="py-16 text-center">
             <h2 className="text-xl font-semibold">tool coming soon</h2>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">
+            <p className="mt-2 text-sm text-[var(--text-3)]">
               this interactive tool will be available in a future update.
             </p>
           </div>
