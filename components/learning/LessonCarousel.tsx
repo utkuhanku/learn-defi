@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
+import { LessonComplete } from '@/components/learning/LessonComplete'
 import { useProgress } from '@/stores/useProgress'
 import type { Lesson, LessonCard } from '@/lib/types'
 
@@ -86,6 +87,7 @@ export function LessonCarousel({
   totalLessons,
 }: Props) {
   const [cardIndex, setCardIndex] = useState(0)
+  const [showComplete, setShowComplete] = useState(false)
   const router = useRouter()
   const { completeLesson, addXp } = useProgress()
 
@@ -96,10 +98,25 @@ export function LessonCarousel({
     if (isLast) {
       completeLesson(lesson.id)
       addXp(10)
-      router.push(`/module/${moduleSlug}`)
+      setShowComplete(true)
     } else {
       setCardIndex((i) => i + 1)
     }
+  }
+
+  if (showComplete) {
+    return (
+      <LessonComplete
+        stats={{
+          type: 'lesson',
+          xpEarned: 10,
+          totalCards: cards.length,
+          moduleSlug,
+          lessonTitle: lesson.title,
+        }}
+        onContinue={() => router.push(`/module/${moduleSlug}`)}
+      />
+    )
   }
 
   return (

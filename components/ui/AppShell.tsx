@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
+import { Zap, Flame } from 'lucide-react'
 import { BaseSquare } from '@/components/brand/BaseSquare'
 import { BottomNav } from '@/components/ui/BottomNav'
-import { UserChip } from '@/components/ui/UserChip'
-import { ConnectButton } from '@/components/ui/ConnectButton'
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import { useTheme } from '@/stores/useTheme'
+import { useProgress } from '@/stores/useProgress'
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { context } = useMiniKit()
@@ -19,14 +19,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     left: 0,
   }
 
-  const hasUser = !!(context?.user as { displayName?: string } | undefined)?.displayName
-
   const theme = useTheme((s) => s.theme)
   useEffect(() => {
     const root = document.documentElement
     if (theme === 'dark') root.classList.add('dark')
     else root.classList.remove('dark')
   }, [theme])
+
+  const xp = useProgress((s) => s.xp)
+  const streakCurrent = useProgress((s) => s.streak.current)
 
   return (
     <div
@@ -39,12 +40,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     >
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg)] px-5 py-3.5">
         <div className="flex items-center gap-2">
-          <BaseSquare size={20} />
+          <BaseSquare size={18} />
           <span className="text-[15px] font-semibold tracking-[-0.01em]">
             learn defi
           </span>
         </div>
-        {hasUser ? <UserChip /> : <ConnectButton />}
+        <div className="flex items-center gap-3 text-sm">
+          <div className="flex items-center gap-1">
+            <span className="font-bold tabular-nums">{xp}</span>
+            <Zap size={14} className="text-yellow fill-yellow" strokeWidth={0} />
+          </div>
+          <span className="text-[var(--text-4)]">·</span>
+          <div className="flex items-center gap-1">
+            <span className="font-bold tabular-nums">{streakCurrent}</span>
+            <Flame
+              size={14}
+              className={
+                streakCurrent >= 1
+                  ? 'text-[#ff8800] fill-[#ff8800]'
+                  : 'text-white/20'
+              }
+              strokeWidth={0}
+            />
+          </div>
+        </div>
       </header>
 
       <main className="flex-1 pb-24">{children}</main>

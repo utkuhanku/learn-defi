@@ -8,7 +8,8 @@ import { Chip } from '@/components/ui/Chip'
 import { NumberTicker } from '@/components/ui/NumberTicker'
 import { StreakRing } from '@/components/gamification/StreakRing'
 import { BadgeGrid } from '@/components/gamification/BadgeGrid'
-import { useProgress, LEVEL_THRESHOLDS } from '@/stores/useProgress'
+import { DailyGoal } from '@/components/gamification/DailyGoal'
+import { useProgress, LEVEL_THRESHOLDS, DAILY_GOAL } from '@/stores/useProgress'
 
 export default function ProfilePage() {
   const { context } = useMiniKit()
@@ -21,6 +22,7 @@ export default function ProfilePage() {
     completedLessons,
     completedQuizzes,
     toolsUsed,
+    dailyXp,
   } = useProgress()
 
   const user = context?.user as
@@ -87,6 +89,11 @@ export default function ProfilePage() {
                 : 'max level reached'}
             </p>
           </div>
+        </div>
+
+        {/* daily goal */}
+        <div className="mb-10">
+          <DailyGoal current={dailyXp} target={DAILY_GOAL} />
         </div>
 
         {/* streak */}

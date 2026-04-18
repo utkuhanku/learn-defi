@@ -10,6 +10,8 @@ const LEVEL_THRESHOLDS = [
   { level: 6, xp: 2000, title: 'Onchain Native' },
 ] as const
 
+export const DAILY_GOAL = 100
+
 export type LevelInfo = (typeof LEVEL_THRESHOLDS)[number]
 
 function computeLevel(xp: number): LevelInfo {
@@ -38,6 +40,8 @@ type ProgressState = {
   earnedBadges: string[]
   streak: { current: number; longest: number; lastDayISO: string }
   toolsUsed: string[]
+  dailyXp: number
+  lastDailyReset: string
 
   addXp: (amount: number) => void
   completeLesson: (lessonId: string) => void
@@ -50,7 +54,7 @@ type ProgressState = {
 
 const INITIAL: Pick<
   ProgressState,
-  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'streak' | 'toolsUsed'
+  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'streak' | 'toolsUsed' | 'dailyXp' | 'lastDailyReset'
 > = {
   xp: 0,
   level: 1,
@@ -60,6 +64,8 @@ const INITIAL: Pick<
   earnedBadges: [],
   streak: { current: 0, longest: 0, lastDayISO: '' },
   toolsUsed: [],
+  dailyXp: 0,
+  lastDailyReset: '',
 }
 
 export const useProgress = create<ProgressState>()(
@@ -71,7 +77,16 @@ export const useProgress = create<ProgressState>()(
         set((s) => {
           const xp = s.xp + amount
           const info = computeLevel(xp)
-          return { xp, level: info.level, levelTitle: info.title }
+          const today = todayISO()
+          const dailyXp =
+            s.lastDailyReset === today ? s.dailyXp + amount : amount
+          return {
+            xp,
+            level: info.level,
+            levelTitle: info.title,
+            dailyXp,
+            lastDailyReset: today,
+          }
         }),
 
       completeLesson: (lessonId) =>
@@ -99,7 +114,15 @@ export const useProgress = create<ProgressState>()(
       touchStreak: () =>
         set((s) => {
           const today = todayISO()
-          if (s.streak.lastDayISO === today) return s
+          // daily XP reset check (runs on every app load)
+          const dailyXpUpdate =
+            s.lastDailyReset === today
+              ? {}
+              : { dailyXp: 0, lastDailyReset: today }
+
+          if (s.streak.lastDayISO === today) {
+            return { ...dailyXpUpdate }
+          }
           if (s.streak.lastDayISO === yesterdayISO()) {
             const current = s.streak.current + 1
             return {
@@ -108,9 +131,17 @@ export const useProgress = create<ProgressState>()(
                 longest: Math.max(current, s.streak.longest),
                 lastDayISO: today,
               },
+              ...dailyXpUpdate,
             }
           }
-          return { streak: { current: 1, longest: Math.max(1, s.streak.longest), lastDayISO: today } }
+          return {
+            streak: {
+              current: 1,
+              longest: Math.max(1, s.streak.longest),
+              lastDayISO: today,
+            },
+            ...dailyXpUpdate,
+          }
         }),
 
       markToolUsed: (toolId) =>

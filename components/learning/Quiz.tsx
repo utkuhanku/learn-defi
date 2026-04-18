@@ -1,13 +1,27 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import Link from 'next/link'
+import { useState, useCallback, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { Check, X } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
 import { Chip } from '@/components/ui/Chip'
-import { NumberTicker } from '@/components/ui/NumberTicker'
+import { LessonComplete } from '@/components/learning/LessonComplete'
 import { useProgress } from '@/stores/useProgress'
 import type { Quiz as QuizType } from '@/lib/types'
+
+const MOTIVATIONS = [
+  'excellent!',
+  'nice one!',
+  "you're on fire!",
+  'nailed it!',
+  'perfect!',
+  'keep going!',
+  'brilliant!',
+  'well done!',
+]
+
+function randomMotivation() {
+  return MOTIVATIONS[Math.floor(Math.random() * MOTIVATIONS.length)]
+}
 
 type Props = {
   quiz: QuizType
@@ -15,15 +29,20 @@ type Props = {
 }
 
 export function Quiz({ quiz, moduleSlug }: Props) {
+  const router = useRouter()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [finished, setFinished] = useState(false)
+  const [finalStats, setFinalStats] = useState<{ score: number; xp: number } | null>(null)
   const { submitQuiz, addXp, earnBadge, completedLessons } = useProgress()
 
   const total = quiz.questions.length
   const question = quiz.questions[currentIndex]
-  const xpEarned = score === total ? 50 : score >= 3 ? 30 : 10
+
+  // fresh motivation per question (not per render)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const motivation = useMemo(() => randomMotivation(), [currentIndex])
 
   const handleSelect = useCallback(
     (optionIndex: number) => {
@@ -48,32 +67,32 @@ export function Quiz({ quiz, moduleSlug }: Props) {
           const allLessons = lessonIds.every((id) => completedLessons[id])
           if (allLessons) earnBadge(moduleSlug === 'defi-basics' ? 'defi-101' : moduleSlug)
 
+          setFinalStats({ score: finalScore, xp })
           setFinished(true)
         }
-      }, 750)
+      }, 900)
     },
     [selected, question, currentIndex, total, score, quiz.moduleId, moduleSlug, submitQuiz, addXp, earnBadge, completedLessons],
   )
 
-  if (finished) {
+  if (finished && finalStats) {
     return (
-      <div className="flex flex-col items-center gap-6 py-12 text-center">
-        <p className="label">quiz complete</p>
-        <p className="text-7xl font-bold tracking-[-0.03em] hero-glow">
-          {score}/{total}
-        </p>
-        <div className="flex items-center gap-2">
-          <span className="text-lg text-[var(--text-2)]">+</span>
-          <NumberTicker value={xpEarned} className="text-lg font-bold" />
-          <Chip variant="yellow">XP</Chip>
-        </div>
-        {score === total && <Chip variant="green">perfect score</Chip>}
-        <Link href={`/module/${moduleSlug}`}>
-          <Button variant="secondary">back to module</Button>
-        </Link>
-      </div>
+      <LessonComplete
+        stats={{
+          type: 'quiz',
+          xpEarned: finalStats.xp,
+          score: finalStats.score,
+          total,
+          accuracy: Math.round((finalStats.score / total) * 100),
+          isPerfect: finalStats.score === total,
+          moduleSlug,
+        }}
+        onContinue={() => router.push(`/module/${moduleSlug}`)}
+      />
     )
   }
+
+  const showMotivation = selected !== null && selected === question.correctIndex
 
   return (
     <div className="flex flex-col gap-8">
@@ -93,9 +112,16 @@ export function Quiz({ quiz, moduleSlug }: Props) {
         </div>
       </div>
 
-      <h2 className="text-xl font-semibold leading-snug tracking-[-0.01em]">
-        {question.text}
-      </h2>
+      <div className="space-y-3">
+        <h2 className="text-xl font-semibold leading-snug tracking-[-0.01em]">
+          {question.text}
+        </h2>
+        {showMotivation && (
+          <div className="animate-celebrate">
+            <Chip variant="green">{motivation}</Chip>
+          </div>
+        )}
+      </div>
 
       <div className="flex flex-col gap-3">
         {question.options.map((option, i) => {

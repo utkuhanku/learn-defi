@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ChevronRight, HelpCircle, Wrench, Lock } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
-import { Progress } from '@/components/ui/Progress'
+import { ProgressRing } from '@/components/ui/ProgressRing'
 import { useProgress } from '@/stores/useProgress'
 import type { Module, Lesson } from '@/lib/types'
 
@@ -33,19 +33,19 @@ export function ModuleContent({ module: mod, lessons }: Props) {
     <AppShell>
       <div className="px-5 py-8">
         {/* header */}
-        <div className="mb-10 space-y-4">
-          <h1 className="text-4xl font-bold tracking-[-0.03em] text-white">
-            {mod.title}
-          </h1>
-          <p className="text-[15px] leading-relaxed text-[var(--text-2)]">
-            {mod.description}
-          </p>
-          <div className="flex items-center gap-3 pt-2">
-            <Progress value={progressPct} size="md" className="flex-1" />
-            <span className="text-xs font-semibold tabular-nums text-[var(--text-3)]">
-              {completedCount}/{lessons.length}
-            </span>
+        <div className="mb-10 flex items-start justify-between gap-4">
+          <div className="flex-1 space-y-3">
+            <h1 className="text-4xl font-bold tracking-[-0.03em] text-white">
+              {mod.title}
+            </h1>
+            <p className="text-[15px] leading-relaxed text-[var(--text-2)]">
+              {mod.description}
+            </p>
+            <p className="text-xs font-semibold tabular-nums text-[var(--text-3)]">
+              {completedCount}/{lessons.length} lessons
+            </p>
           </div>
+          <ProgressRing value={progressPct} size={64} strokeWidth={5} />
         </div>
 
         {/* lessons */}
