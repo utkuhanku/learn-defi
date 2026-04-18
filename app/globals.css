@@ -134,13 +134,23 @@ body {
   animation: xp-pop 0.8s ease-out forwards;
 }
 
+/* Soft pulse — for active module CTAs */
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+.animate-soft-pulse {
+  animation: soft-pulse 2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .press:active {
     transform: none;
     opacity: 1;
   }
   .animate-celebrate,
-  .animate-xp-pop {
+  .animate-xp-pop,
+  .animate-soft-pulse {
     animation: none;
   }
 }

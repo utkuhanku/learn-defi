@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { useProgress } from '@/stores/useProgress'
 import { healthFactor } from '@/lib/formulas/healthFactor'
 
@@ -56,13 +57,18 @@ export function HealthFactorCalc() {
   return (
     <div>
       {/* scenario */}
-      <div className="mb-8 rounded-2xl bg-[var(--surface)] p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="mb-8 rounded-2xl bg-[var(--surface)] p-6"
+      >
         <div className="mb-2 text-[28px]">🏦</div>
         <p className="text-[15px] italic leading-relaxed text-[var(--text-2)]">
           you deposited ETH as collateral and borrowed USDC. ETH starts
           dropping. how far can it fall before you get liquidated?
         </p>
-      </div>
+      </motion.div>
 
       {/* sliders */}
       <div className="mb-6 space-y-4">

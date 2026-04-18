@@ -25,7 +25,7 @@ export function Progress({
       className={`${h} w-full overflow-hidden rounded-full bg-[var(--surface-2)] ${className}`}
     >
       <div
-        className={`${h} rounded-full ${color} transition-all duration-300`}
+        className={`${h} rounded-full ${color} transition-all duration-700 ease-out`}
         style={{ width: `${pct}%` }}
       />
     </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import {
   LineChart,
   Line,
@@ -89,13 +90,18 @@ export function AprApyCalc() {
   return (
     <div>
       {/* scenario */}
-      <div className="mb-8 rounded-2xl bg-[var(--surface)] p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="mb-8 rounded-2xl bg-[var(--surface)] p-6"
+      >
         <div className="mb-2 text-[28px]">🌾</div>
         <p className="text-[15px] italic leading-relaxed text-[var(--text-2)]">
           a protocol advertises a juicy APR. but what does that actually mean
           for your money? let&apos;s find out.
         </p>
-      </div>
+      </motion.div>
 
       {/* APR presets */}
       <div className="mb-6">

@@ -38,6 +38,7 @@ type ProgressState = {
   completedLessons: Record<string, number>
   completedQuizzes: Record<string, { score: number; total: number; ts: number }>
   earnedBadges: string[]
+  lastEarnedBadge: string | null
   streak: { current: number; longest: number; lastDayISO: string }
   toolsUsed: string[]
   dailyXp: number
@@ -47,6 +48,7 @@ type ProgressState = {
   completeLesson: (lessonId: string) => void
   submitQuiz: (quizId: string, score: number, total: number) => void
   earnBadge: (badgeId: string) => void
+  clearLastBadge: () => void
   touchStreak: () => void
   markToolUsed: (toolId: string) => void
   reset: () => void
@@ -54,7 +56,7 @@ type ProgressState = {
 
 const INITIAL: Pick<
   ProgressState,
-  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'streak' | 'toolsUsed' | 'dailyXp' | 'lastDailyReset'
+  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'lastEarnedBadge' | 'streak' | 'toolsUsed' | 'dailyXp' | 'lastDailyReset'
 > = {
   xp: 0,
   level: 1,
@@ -62,6 +64,7 @@ const INITIAL: Pick<
   completedLessons: {},
   completedQuizzes: {},
   earnedBadges: [],
+  lastEarnedBadge: null,
   streak: { current: 0, longest: 0, lastDayISO: '' },
   toolsUsed: [],
   dailyXp: 0,
@@ -108,8 +111,13 @@ export const useProgress = create<ProgressState>()(
       earnBadge: (badgeId) =>
         set((s) => {
           if (s.earnedBadges.includes(badgeId)) return s
-          return { earnedBadges: [...s.earnedBadges, badgeId] }
+          return {
+            earnedBadges: [...s.earnedBadges, badgeId],
+            lastEarnedBadge: badgeId,
+          }
         }),
+
+      clearLastBadge: () => set({ lastEarnedBadge: null }),
 
       touchStreak: () =>
         set((s) => {

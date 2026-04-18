@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { Check, Lock, ChevronRight } from 'lucide-react'
 import { ProgressRing } from '@/components/ui/ProgressRing'
 import { Chip } from '@/components/ui/Chip'
+import { LottieAnimation } from '@/components/ui/LottieAnimation'
+import { ANIMATIONS } from '@/lib/animations'
 import type { Module } from '@/lib/types'
 
 const EMOJI: Record<string, string> = {
@@ -60,7 +62,7 @@ export function PathNode({
         </div>
 
         <Link href={continueHref} className="mt-5 block">
-          <button className="press w-full cursor-pointer rounded-xl bg-base-blue py-3 text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-150 hover:brightness-110">
+          <button className="press animate-soft-pulse w-full cursor-pointer rounded-xl bg-base-blue py-3 text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-150 hover:brightness-110 hover:animate-none">
             {completedLessons > 0
               ? `continue · lesson ${completedLessons + 1}`
               : 'start →'}
@@ -77,9 +79,19 @@ export function PathNode({
         <div className="press flex cursor-pointer items-center gap-4 rounded-2xl bg-base-blue/5 p-5 transition-colors duration-150 hover:bg-base-blue/10">
           <div className="text-[28px] leading-none">{emoji}</div>
           <div className="flex-1">
-            <p className="text-[15px] font-semibold tracking-[-0.01em]">
-              {mod.title}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[15px] font-semibold tracking-[-0.01em]">
+                {mod.title}
+              </p>
+              <div className="h-6 w-6">
+                <LottieAnimation
+                  src={ANIMATIONS.checkmark}
+                  loop={false}
+                  className="h-full w-full"
+                  fallback={<Check size={16} className="text-green" />}
+                />
+              </div>
+            </div>
             <p className="text-xs text-[var(--text-3)]">
               {totalLessons}/{totalLessons} lessons
             </p>

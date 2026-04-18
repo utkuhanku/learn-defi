@@ -3,8 +3,11 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { Check, X } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Chip } from '@/components/ui/Chip'
+import { LottieAnimation } from '@/components/ui/LottieAnimation'
 import { LessonComplete } from '@/components/learning/LessonComplete'
+import { ANIMATIONS } from '@/lib/animations'
 import { useProgress } from '@/stores/useProgress'
 import type { Quiz as QuizType } from '@/lib/types'
 
@@ -117,7 +120,15 @@ export function Quiz({ quiz, moduleSlug }: Props) {
           {question.text}
         </h2>
         {showMotivation && (
-          <div className="animate-celebrate">
+          <div className="flex animate-celebrate items-center gap-2">
+            <div className="h-6 w-6">
+              <LottieAnimation
+                src={ANIMATIONS.lightning}
+                loop={false}
+                className="h-full w-full"
+                fallback={<span className="text-lg">⚡</span>}
+              />
+            </div>
             <Chip variant="green">{motivation}</Chip>
           </div>
         )}
@@ -141,17 +152,19 @@ export function Quiz({ quiz, moduleSlug }: Props) {
           }
 
           return (
-            <button
+            <motion.button
               key={i}
               onClick={() => handleSelect(i)}
               disabled={selected !== null}
-              className={`press flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-left text-[15px] font-medium tracking-[-0.01em] transition-colors duration-150 ${cls} ${
+              whileHover={selected === null ? { scale: 1.02 } : undefined}
+              whileTap={selected === null ? { scale: 0.97 } : undefined}
+              className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-left text-[15px] font-medium tracking-[-0.01em] transition-colors duration-150 ${cls} ${
                 selected !== null ? 'cursor-not-allowed' : ''
               }`}
             >
               {icon}
               {option}
-            </button>
+            </motion.button>
           )
         })}
       </div>

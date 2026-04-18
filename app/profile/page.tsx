@@ -9,6 +9,8 @@ import { NumberTicker } from '@/components/ui/NumberTicker'
 import { StreakRing } from '@/components/gamification/StreakRing'
 import { BadgeGrid } from '@/components/gamification/BadgeGrid'
 import { DailyGoal } from '@/components/gamification/DailyGoal'
+import { LottieAnimation } from '@/components/ui/LottieAnimation'
+import { ANIMATIONS } from '@/lib/animations'
 import { useProgress, LEVEL_THRESHOLDS, DAILY_GOAL } from '@/stores/useProgress'
 
 export default function ProfilePage() {
@@ -100,7 +102,19 @@ export default function ProfilePage() {
         <div className="mb-10">
           <p className="label mb-5 px-1">streak</p>
           <div className="flex justify-center rounded-xl bg-[var(--surface)] py-8">
-            <StreakRing current={streak.current} longest={streak.longest} />
+            <div className="relative">
+              {streak.current >= 1 && (
+                <div className="absolute -top-5 left-1/2 h-10 w-10 -translate-x-1/2">
+                  <LottieAnimation
+                    src={ANIMATIONS.fire}
+                    loop
+                    className="h-full w-full"
+                    fallback={<span className="text-2xl">🔥</span>}
+                  />
+                </div>
+              )}
+              <StreakRing current={streak.current} longest={streak.longest} />
+            </div>
           </div>
         </div>
 

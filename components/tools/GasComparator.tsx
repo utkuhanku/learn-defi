@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { useProgress } from '@/stores/useProgress'
 
 const TX_TYPES = [
@@ -44,13 +45,18 @@ export function GasComparator() {
   return (
     <div>
       {/* scenario */}
-      <div className="mb-8 rounded-2xl bg-[var(--surface)] p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="mb-8 rounded-2xl bg-[var(--surface)] p-6"
+      >
         <div className="mb-2 text-[28px]">⛽</div>
         <p className="text-[15px] italic leading-relaxed text-[var(--text-2)]">
           imagine you&apos;re trading on a busy day. you want to make several swaps.
           let&apos;s see what that actually costs on Ethereum vs Base.
         </p>
-      </div>
+      </motion.div>
 
       {/* tx type chips */}
       <div className="mb-6">

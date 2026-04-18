@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { Zap, Flame } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { BaseSquare } from '@/components/brand/BaseSquare'
 import { BottomNav } from '@/components/ui/BottomNav'
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
@@ -47,7 +48,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex items-center gap-3 text-sm">
           <div className="flex items-center gap-1">
-            <span className="font-bold tabular-nums">{xp}</span>
+            <motion.span
+              key={xp}
+              initial={{ scale: 1.35, color: '#ffd12f' }}
+              animate={{ scale: 1, color: '#ffffff' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="font-bold tabular-nums"
+            >
+              {xp}
+            </motion.span>
             <Zap size={14} className="text-yellow fill-yellow" strokeWidth={0} />
           </div>
           <span className="text-[var(--text-4)]">·</span>
