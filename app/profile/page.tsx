@@ -6,7 +6,6 @@ import { AppShell } from '@/components/ui/AppShell'
 import { Progress } from '@/components/ui/Progress'
 import { Chip } from '@/components/ui/Chip'
 import { NumberTicker } from '@/components/ui/NumberTicker'
-import { Card } from '@/components/ui/Card'
 import { StreakRing } from '@/components/gamification/StreakRing'
 import { BadgeGrid } from '@/components/gamification/BadgeGrid'
 import { useProgress, LEVEL_THRESHOLDS } from '@/stores/useProgress'
@@ -43,22 +42,22 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-6">
+      <div className="px-4 py-8">
         {/* user identity */}
-        <div className="mb-8 flex flex-col items-center gap-3 text-center">
+        <div className="mb-10 flex flex-col items-center gap-3 text-center">
           {pfpUrl ? (
             <img
               src={pfpUrl}
               alt=""
-              className="h-16 w-16 rounded-full object-cover"
+              className="h-20 w-20 rounded-full object-cover ring-1 ring-white/10"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-10 dark:bg-gray-80">
-              <User size={32} strokeWidth={1.5} className="text-gray-50" />
+            <div className="glass flex h-20 w-20 items-center justify-center rounded-full">
+              <User size={36} strokeWidth={1.5} className="text-white/50" />
             </div>
           )}
-          <div>
-            <p className="text-lg font-semibold">
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-xl font-semibold tracking-[-0.02em]">
               {displayName ?? 'guest'}
             </p>
             <Chip variant="blue">{levelTitle}</Chip>
@@ -66,11 +65,16 @@ export default function ProfilePage() {
         </div>
 
         {/* XP & level */}
-        <div className="mb-8 space-y-3">
+        <div className="mb-10 space-y-3">
           <div className="flex items-baseline justify-between">
-            <span className="text-sm text-[var(--text-muted)]">experience</span>
+            <span className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
+              experience
+            </span>
             <div className="flex items-baseline gap-1">
-              <NumberTicker value={xp} className="text-2xl font-bold" />
+              <NumberTicker
+                value={xp}
+                className="text-4xl font-bold tracking-[-0.02em]"
+              />
               <span className="text-sm text-[var(--text-muted)]">XP</span>
             </div>
           </div>
@@ -78,7 +82,7 @@ export default function ProfilePage() {
             value={nextThreshold ? (xpInLevel / xpForLevel) * 100 : 100}
             size="md"
           />
-          <p className="text-xs text-[var(--text-muted)]">
+          <p className="text-xs text-[var(--text-dim)]">
             {nextThreshold
               ? `${xpInLevel} / ${xpForLevel} XP to level ${level + 1}`
               : 'max level reached'}
@@ -86,19 +90,18 @@ export default function ProfilePage() {
         </div>
 
         {/* streak */}
-        <div className="mb-8 flex flex-col items-center">
-          <h2 className="mb-4 self-start text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        <div className="mb-10">
+          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             streak
           </h2>
-          <StreakRing
-            current={streak.current}
-            longest={streak.longest}
-          />
+          <div className="flex justify-center">
+            <StreakRing current={streak.current} longest={streak.longest} />
+          </div>
         </div>
 
         {/* badges */}
-        <div className="mb-8">
-          <h2 className="mb-4 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        <div className="mb-10">
+          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             badges
           </h2>
           <BadgeGrid earnedBadges={earnedBadges} />
@@ -106,22 +109,25 @@ export default function ProfilePage() {
 
         {/* stats */}
         <div>
-          <h2 className="mb-4 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+          <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             stats
           </h2>
           <div className="grid grid-cols-3 gap-3">
-            <Card variant="surface" className="text-center">
-              <p className="text-2xl font-bold">{lessonCount}</p>
-              <p className="text-xs text-[var(--text-muted)]">lessons</p>
-            </Card>
-            <Card variant="surface" className="text-center">
-              <p className="text-2xl font-bold">{quizCount}</p>
-              <p className="text-xs text-[var(--text-muted)]">quizzes</p>
-            </Card>
-            <Card variant="surface" className="text-center">
-              <p className="text-2xl font-bold">{toolCount}</p>
-              <p className="text-xs text-[var(--text-muted)]">tools</p>
-            </Card>
+            {[
+              { label: 'lessons', value: lessonCount },
+              { label: 'quizzes', value: quizCount },
+              { label: 'tools', value: toolCount },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="glass flex flex-col items-center gap-1 rounded-md p-4"
+              >
+                <p className="text-2xl font-bold tracking-[-0.02em] text-white">
+                  {s.value}
+                </p>
+                <p className="text-xs text-[var(--text-dim)]">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

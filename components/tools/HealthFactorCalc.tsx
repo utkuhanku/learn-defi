@@ -22,35 +22,40 @@ export function HealthFactorCalc() {
 
   const hf = healthFactor(collateral, lt, borrow)
   const ethAmount = collateral / 3000
-  const liqPriceDisplay = ethAmount > 0 && lt > 0
-    ? (borrow / (ethAmount * lt)).toFixed(0)
-    : '0'
+  const liqPriceDisplay =
+    ethAmount > 0 && lt > 0
+      ? (borrow / (ethAmount * lt)).toFixed(0)
+      : '0'
 
   let hfColor = 'text-green'
   let hfChip: 'green' | 'yellow' | 'red' = 'green'
   let hfLabel = 'safe'
+  let hfGlow = '0 0 32px rgba(102,200,0,0.25)'
   if (hf < 1.0) {
     hfColor = 'text-red'
     hfChip = 'red'
     hfLabel = 'liquidation'
+    hfGlow = '0 0 32px rgba(252,64,31,0.3)'
   } else if (hf < 1.5) {
     hfColor = 'text-yellow'
     hfChip = 'yellow'
     hfLabel = 'caution'
+    hfGlow = '0 0 32px rgba(255,209,47,0.25)'
   }
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold">health factor calculator</h2>
+        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+          health factor calculator
+        </h2>
         <p className="mt-1 text-sm text-[var(--text-muted)]">
           check if your lending position is safe
         </p>
       </div>
 
-      {/* collateral input */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">
+        <label className="text-sm font-medium text-[var(--text-secondary)]">
           collateral value: ${collateral.toLocaleString()}
         </label>
         <input
@@ -59,17 +64,13 @@ export function HealthFactorCalc() {
           max={50000}
           step={100}
           value={collateral}
-          onChange={(e) => {
-            setCollateral(Number(e.target.value))
-            trackUsage()
-          }}
+          onChange={(e) => { setCollateral(Number(e.target.value)); trackUsage() }}
           className="w-full accent-base-blue"
         />
       </div>
 
-      {/* borrow input */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">
+        <label className="text-sm font-medium text-[var(--text-secondary)]">
           borrow value: ${borrow.toLocaleString()}
         </label>
         <input
@@ -78,17 +79,13 @@ export function HealthFactorCalc() {
           max={40000}
           step={100}
           value={borrow}
-          onChange={(e) => {
-            setBorrow(Number(e.target.value))
-            trackUsage()
-          }}
+          onChange={(e) => { setBorrow(Number(e.target.value)); trackUsage() }}
           className="w-full accent-base-blue"
         />
       </div>
 
-      {/* liquidation threshold */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">
+        <label className="text-sm font-medium text-[var(--text-secondary)]">
           liquidation threshold: {(lt * 100).toFixed(1)}%
         </label>
         <input
@@ -97,18 +94,19 @@ export function HealthFactorCalc() {
           max={0.95}
           step={0.005}
           value={lt}
-          onChange={(e) => {
-            setLt(Number(e.target.value))
-            trackUsage()
-          }}
+          onChange={(e) => { setLt(Number(e.target.value)); trackUsage() }}
           className="w-full accent-base-blue"
         />
       </div>
 
-      {/* result */}
-      <div className="flex flex-col items-center gap-4 rounded-md border border-[var(--border)] bg-[var(--surface)] p-6 text-center">
-        <p className="text-sm text-[var(--text-muted)]">health factor</p>
-        <p className={`text-5xl font-bold ${hfColor}`}>
+      <div
+        className="glass flex flex-col items-center gap-4 rounded-md p-8 text-center"
+        style={{ boxShadow: hfGlow }}
+      >
+        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
+          health factor
+        </p>
+        <p className={`text-6xl font-bold tracking-[-0.03em] ${hfColor}`}>
           {hf === Infinity ? '∞' : hf.toFixed(2)}
         </p>
         <Chip variant={hfChip}>{hfLabel}</Chip>

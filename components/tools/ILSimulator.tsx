@@ -17,6 +17,13 @@ import { impermanentLoss } from '@/lib/formulas/impermanentLoss'
 
 const INITIAL_VALUE = 1000
 
+const tooltipStyle = {
+  background: 'rgba(10,11,13,0.9)',
+  border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: '8px',
+  backdropFilter: 'blur(12px)',
+}
+
 export function ILSimulator() {
   const [priceChangeA, setPriceChangeA] = useState(0)
   const [priceChangeB, setPriceChangeB] = useState(0)
@@ -56,7 +63,9 @@ export function ILSimulator() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold">impermanent loss simulator</h2>
+        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+          impermanent loss simulator
+        </h2>
         <p className="mt-1 text-sm text-[var(--text-muted)]">
           see how price changes affect your LP position
         </p>
@@ -64,7 +73,7 @@ export function ILSimulator() {
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium">
+          <label className="text-sm font-medium text-[var(--text-secondary)]">
             token A price change: {priceChangeA > 0 ? '+' : ''}{priceChangeA}%
           </label>
           <input
@@ -73,15 +82,12 @@ export function ILSimulator() {
             max={500}
             step={5}
             value={priceChangeA}
-            onChange={(e) => {
-              setPriceChangeA(Number(e.target.value))
-              trackUsage()
-            }}
+            onChange={(e) => { setPriceChangeA(Number(e.target.value)); trackUsage() }}
             className="w-full accent-base-blue"
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">
+          <label className="text-sm font-medium text-[var(--text-secondary)]">
             token B price change: {priceChangeB > 0 ? '+' : ''}{priceChangeB}%
           </label>
           <input
@@ -90,44 +96,39 @@ export function ILSimulator() {
             max={500}
             step={5}
             value={priceChangeB}
-            onChange={(e) => {
-              setPriceChangeB(Number(e.target.value))
-              trackUsage()
-            }}
+            onChange={(e) => { setPriceChangeB(Number(e.target.value)); trackUsage() }}
             className="w-full accent-base-blue"
           />
         </div>
       </div>
 
-      <div className="h-48 w-full">
+      <div className="glass h-52 w-full rounded-md p-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-            <XAxis dataKey="change" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} interval={3} />
-            <YAxis tick={{ fontSize: 12, fill: 'var(--text-muted)' }} tickFormatter={(v: number) => `$${v}`} />
-            <Tooltip
-              contentStyle={{ background: 'var(--background)', border: '1px solid var(--border)', borderRadius: '8px' }}
-            />
-            <Legend />
-            <Area type="monotone" dataKey="hold" stroke="#717886" fill="#717886" fillOpacity={0.1} name="HODL" />
-            <Area type="monotone" dataKey="lp" stroke="#0000ff" fill="#0000ff" fillOpacity={0.1} name="LP" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+            <XAxis dataKey="change" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.4)' }} interval={3} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `$${v}`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: 'rgba(255,255,255,0.1)' }} />
+            <Legend wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }} />
+            <Area type="monotone" dataKey="hold" stroke="rgba(255,255,255,0.4)" fill="rgba(255,255,255,0.05)" name="HODL" />
+            <Area type="monotone" dataKey="lp" stroke="#0000ff" fill="rgba(0,0,255,0.08)" name="LP" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
       <div className="grid grid-cols-2 gap-3 text-center">
-        <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] p-4">
-          <p className="text-xs text-[var(--text-muted)]">if you held</p>
-          <p className="text-lg font-bold">${holdValue.toFixed(0)}</p>
+        <div className="glass rounded-md p-4">
+          <p className="text-xs text-[var(--text-dim)]">if you held</p>
+          <p className="mt-1 text-xl font-bold tracking-[-0.02em]">${holdValue.toFixed(0)}</p>
         </div>
-        <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] p-4">
-          <p className="text-xs text-[var(--text-muted)]">as LP</p>
-          <p className="text-lg font-bold">${lpValue.toFixed(0)}</p>
+        <div className="glass rounded-md p-4">
+          <p className="text-xs text-[var(--text-dim)]">as LP</p>
+          <p className="mt-1 text-xl font-bold tracking-[-0.02em]">${lpValue.toFixed(0)}</p>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <span className="text-sm">impermanent loss:</span>
+        <span className="text-sm text-[var(--text-secondary)]">impermanent loss:</span>
         <Chip variant="red">{(il * 100).toFixed(2)}%</Chip>
       </div>
     </div>

@@ -15,7 +15,7 @@ export function ModuleGrid({ modules }: Props) {
   const { completedLessons } = useProgress()
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-4">
       {modules.map((m) => {
         const completedCount = Array.from(
           { length: m.lessonCount },
@@ -26,28 +26,32 @@ export function ModuleGrid({ modules }: Props) {
 
         const inner = (
           <div
-            className={`flex aspect-square flex-col justify-between rounded-md border border-[var(--border)] bg-[var(--surface)] p-4${
-              m.locked ? ' cursor-not-allowed opacity-60' : ''
+            className={`glass press flex aspect-square flex-col justify-between rounded-md p-5 ${
+              m.locked
+                ? 'cursor-not-allowed opacity-30'
+                : 'glass-hover cursor-pointer'
             }`}
           >
             <div className="flex items-start justify-between">
               <BaseSquare
                 size={20}
                 variant="current"
-                className="text-gray-80 dark:text-gray-30"
+                className="text-white/40"
               />
               {m.locked && (
                 <Lock
                   size={14}
                   strokeWidth={1.5}
-                  className="text-[var(--text-muted)]"
+                  className="text-[var(--text-dim)]"
                 />
               )}
             </div>
             <div className="space-y-2">
-              <span className="text-sm font-medium">{m.title}</span>
+              <span className="text-sm font-medium tracking-[-0.01em] text-white/80">
+                {m.title}
+              </span>
               {m.locked ? (
-                <span className="mt-1 text-xs text-[var(--text-muted)]">
+                <span className="block text-xs text-[var(--text-dim)]">
                   coming soon
                 </span>
               ) : (

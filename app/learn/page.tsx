@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { AppShell } from '@/components/ui/AppShell'
-import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Progress } from '@/components/ui/Progress'
 import { useProgress } from '@/stores/useProgress'
@@ -26,7 +25,6 @@ function useActiveModule(modules: Module[]) {
     }
   }
 
-  // no in-progress module — return first incomplete
   for (const mod of modules) {
     const lessonIds = Array.from(
       { length: mod.lessonCount },
@@ -48,17 +46,19 @@ export default function LearnPage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-6">
+      <div className="px-4 py-8">
         {/* continue section */}
         {active && (
-          <div className="mb-8">
-            <h2 className="mb-3 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+          <div className="mb-10">
+            <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
               continue
             </h2>
-            <Card hoverable className="space-y-4">
+            <div className="glass space-y-5 rounded-md p-5">
               <div>
-                <h3 className="text-lg font-semibold">{active.mod.title}</h3>
-                <p className="text-sm text-[var(--text-muted)]">
+                <h3 className="text-xl font-semibold tracking-[-0.02em]">
+                  {active.mod.title}
+                </h3>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   lesson {active.completed + 1} of {active.mod.lessonCount}
                 </p>
               </div>
@@ -71,12 +71,12 @@ export default function LearnPage() {
               >
                 <Button className="w-full">continue →</Button>
               </Link>
-            </Card>
+            </div>
           </div>
         )}
 
         {/* all modules */}
-        <h2 className="mb-3 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
           your modules
         </h2>
         <div className="space-y-3">
@@ -89,23 +89,23 @@ export default function LearnPage() {
               (id) => completedLessons[id],
             ).length
             const pct =
-              mod.lessonCount > 0
-                ? (completed / mod.lessonCount) * 100
-                : 0
+              mod.lessonCount > 0 ? (completed / mod.lessonCount) * 100 : 0
 
             return (
               <Link key={mod.id} href={`/module/${mod.id}`}>
-                <Card hoverable className="flex items-center gap-4">
+                <div className="glass glass-hover press flex cursor-pointer items-center gap-4 rounded-md p-4">
                   <div className="flex-1">
-                    <p className="text-sm font-medium">{mod.title}</p>
-                    <p className="text-xs text-[var(--text-muted)]">
+                    <p className="text-sm font-medium tracking-[-0.01em]">
+                      {mod.title}
+                    </p>
+                    <p className="text-xs text-[var(--text-dim)]">
                       {completed}/{mod.lessonCount} lessons
                     </p>
                   </div>
                   <div className="w-20">
                     <Progress value={pct} size="sm" />
                   </div>
-                </Card>
+                </div>
               </Link>
             )
           })}

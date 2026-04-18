@@ -2,15 +2,15 @@ import { type ButtonHTMLAttributes } from 'react'
 
 const variantStyles = {
   primary:
-    'bg-base-blue text-white hover:brightness-[1.04]',
+    'bg-base-blue text-white shadow-[0_0_16px_rgba(0,0,255,0.25)] hover:shadow-[0_0_24px_rgba(0,0,255,0.35)] hover:brightness-[1.08]',
   secondary:
-    'bg-transparent text-[var(--foreground)] border border-gray-30 hover:bg-gray-10 dark:hover:bg-gray-80',
+    'glass text-white/80 hover:border-white/20 hover:text-white dark:text-white/80',
   ghost:
-    'bg-transparent text-[var(--text-muted)] hover:bg-gray-10 dark:hover:bg-gray-80',
+    'bg-transparent text-[var(--text-muted)] hover:bg-white/5 hover:text-[var(--text-primary)]',
   success:
-    'bg-green text-white hover:brightness-[1.04]',
+    'bg-green text-white shadow-[0_0_16px_rgba(102,200,0,0.2)] hover:brightness-[1.08]',
   danger:
-    'bg-red text-white hover:brightness-[1.04]',
+    'bg-red text-white shadow-[0_0_16px_rgba(252,64,31,0.2)] hover:brightness-[1.08]',
 } as const
 
 const sizeStyles = {
@@ -34,8 +34,8 @@ export function Button({
   return (
     <button
       disabled={disabled}
-      className={`min-h-11 cursor-pointer rounded-sm font-medium transition-all duration-120 active:scale-[0.98] ${variantStyles[variant]} ${sizeStyles[size]} ${
-        disabled ? 'cursor-not-allowed opacity-50' : ''
+      className={`press min-h-11 cursor-pointer rounded-sm font-medium tracking-[-0.01em] transition-all duration-150 ${variantStyles[variant]} ${sizeStyles[size]} ${
+        disabled ? 'cursor-not-allowed opacity-40' : ''
       } ${className}`}
       {...props}
     />

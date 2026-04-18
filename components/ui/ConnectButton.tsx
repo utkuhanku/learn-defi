@@ -26,12 +26,12 @@ export function ConnectButton() {
   if (isConnected && address) {
     return (
       <div className="flex items-center gap-3">
-        <span className="font-mono text-sm text-gray-60 dark:text-gray-30">
+        <span className="font-mono text-sm text-[var(--text-secondary)]">
           {truncateAddress(address)}
         </span>
         <button
           onClick={() => disconnect()}
-          className="min-h-11 cursor-pointer text-sm font-medium text-gray-50 transition-colors duration-120 hover:text-gray-100 dark:hover:text-gray-0"
+          className="press min-h-11 cursor-pointer text-sm font-medium text-[var(--text-muted)] transition-colors duration-150 hover:text-[var(--text-primary)]"
         >
           disconnect
         </button>
@@ -42,9 +42,9 @@ export function ConnectButton() {
   return (
     <button
       onClick={handleConnect}
-      className="min-h-11 cursor-pointer rounded-sm bg-base-blue px-5 py-3 text-base font-medium text-white transition-all duration-120 hover:brightness-[1.04] active:scale-[0.98]"
+      className="press min-h-11 cursor-pointer rounded-sm bg-base-blue px-5 py-2.5 text-sm font-medium tracking-[-0.01em] text-white shadow-[0_0_16px_rgba(0,0,255,0.25)] transition-all duration-150 hover:brightness-[1.08] hover:shadow-[0_0_24px_rgba(0,0,255,0.35)]"
     >
-      connect wallet
+      connect
     </button>
   )
 }

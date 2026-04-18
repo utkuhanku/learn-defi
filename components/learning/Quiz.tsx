@@ -45,7 +45,6 @@ export function Quiz({ quiz, moduleSlug }: Props) {
           addXp(xp)
           if (finalScore === total) earnBadge('perfect-quiz')
 
-          // check module completion (all 5 lessons + quiz)
           const lessonIds = Array.from({ length: 5 }, (_, i) => `${moduleSlug}-${i + 1}`)
           const allLessons = lessonIds.every((id) => completedLessons[id])
           if (allLessons) earnBadge(moduleSlug === 'defi-basics' ? 'defi-101' : moduleSlug)
@@ -60,18 +59,18 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   if (finished) {
     return (
       <div className="flex flex-col items-center gap-6 py-12 text-center">
-        <h2 className="text-2xl font-semibold">quiz complete</h2>
-        <p className="text-5xl font-bold">
+        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
+          quiz complete
+        </p>
+        <p className="text-6xl font-bold tracking-[-0.03em] hero-glow">
           {score}/{total}
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-lg">+</span>
+          <span className="text-lg text-[var(--text-secondary)]">+</span>
           <NumberTicker value={xpEarned} className="text-lg font-bold" />
           <Chip variant="yellow">XP</Chip>
         </div>
-        {score === total && (
-          <Chip variant="green">perfect score</Chip>
-        )}
+        {score === total && <Chip variant="green">perfect score</Chip>}
         <Link href={`/module/${moduleSlug}`}>
           <Button variant="secondary">back to module</Button>
         </Link>
@@ -80,25 +79,28 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="space-y-1">
-        <p className="text-sm text-[var(--text-muted)]">
+    <div className="flex flex-col gap-8">
+      <div className="space-y-3">
+        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
           question {currentIndex + 1} of {total}
         </p>
-        {/* progress dots */}
         <div className="flex gap-1.5">
           {quiz.questions.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${
-                i <= currentIndex ? 'bg-base-blue' : 'bg-gray-15 dark:bg-gray-80'
+              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                i <= currentIndex
+                  ? 'bg-base-blue shadow-[0_0_8px_rgba(0,0,255,0.4)]'
+                  : 'bg-white/[0.08]'
               }`}
             />
           ))}
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold">{question.text}</h2>
+      <h2 className="text-xl font-semibold tracking-[-0.02em] leading-snug">
+        {question.text}
+      </h2>
 
       <div className="flex flex-col gap-3">
         {question.options.map((option, i) => {

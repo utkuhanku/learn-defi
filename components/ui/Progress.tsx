@@ -22,11 +22,17 @@ export function Progress({
       aria-valuenow={value}
       aria-valuemin={0}
       aria-valuemax={max}
-      className={`${h} w-full overflow-hidden rounded-full bg-gray-15 dark:bg-gray-80 ${className}`}
+      className={`${h} w-full overflow-hidden rounded-full bg-white/[0.06] ${className}`}
     >
       <div
         className={`${h} rounded-full ${color} transition-all duration-300`}
-        style={{ width: `${pct}%` }}
+        style={{
+          width: `${pct}%`,
+          boxShadow:
+            pct > 0 && color.includes('base-blue')
+              ? '0 0 12px rgba(0,0,255,0.4)'
+              : undefined,
+        }}
       />
     </div>
   )

@@ -20,22 +20,28 @@ const steps = [
 
 export function OnboardingExplainer() {
   return (
-    <section className="px-6 pb-10">
-      <h2 className="mb-6 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+    <section className="px-6 pb-12">
+      <h2 className="mb-6 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
         how it works
       </h2>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-3">
         {steps.map((step, i) => (
           <div
             key={i}
-            className="flex items-start gap-4 rounded-md border border-[var(--border)] bg-[var(--surface)] p-4"
+            className="glass flex items-start gap-4 rounded-md p-4"
           >
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-gray-15 dark:bg-gray-80">
-              <step.icon size={20} strokeWidth={1.5} className="text-gray-60 dark:text-gray-30" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-white/[0.05]">
+              <step.icon
+                size={20}
+                strokeWidth={1.5}
+                className="text-white/60"
+              />
             </div>
             <div>
-              <h3 className="text-sm font-semibold">{step.title}</h3>
-              <p className="mt-1 text-sm text-[var(--text-secondary)]">
+              <h3 className="text-sm font-semibold tracking-[-0.01em]">
+                {step.title}
+              </h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
                 {step.description}
               </p>
             </div>

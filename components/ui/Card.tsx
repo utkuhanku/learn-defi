@@ -1,4 +1,5 @@
 type CardProps = {
+  /** kept for API compatibility; all cards now use glass surface */
   variant?: 'default' | 'surface'
   hoverable?: boolean
   className?: string
@@ -6,22 +7,16 @@ type CardProps = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 export function Card({
-  variant = 'default',
+  variant,
   hoverable = false,
   className = '',
   children,
   ...props
 }: CardProps) {
-  const bg =
-    variant === 'surface'
-      ? 'bg-[var(--surface)]'
-      : 'bg-[var(--background)]'
-
+  void variant
   return (
     <div
-      className={`rounded-md border border-[var(--border)] p-5 ${bg} ${
-        hoverable ? 'transition-shadow duration-120 hover:shadow-[0_4px_24px_rgba(0,0,255,0.08)]' : ''
-      } ${className}`}
+      className={`glass rounded-md p-5 ${hoverable ? 'glass-hover cursor-pointer' : ''} ${className}`}
       {...props}
     >
       {children}

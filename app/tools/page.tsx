@@ -10,7 +10,6 @@ import {
   Lock,
 } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
-import { Card } from '@/components/ui/Card'
 import { Chip } from '@/components/ui/Chip'
 import { useProgress } from '@/stores/useProgress'
 
@@ -70,8 +69,10 @@ export default function ToolsPage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-6">
-        <h1 className="mb-6 text-2xl font-semibold">calculators</h1>
+      <div className="px-4 py-8">
+        <h1 className="mb-8 text-3xl font-semibold tracking-[-0.02em]">
+          calculators
+        </h1>
         <div className="space-y-3">
           {tools.map((tool) => {
             const used = toolsUsed.includes(tool.id)
@@ -79,29 +80,46 @@ export default function ToolsPage() {
 
             if (tool.locked) {
               return (
-                <Card
+                <div
                   key={tool.id}
-                  className="flex items-center gap-4 opacity-50"
+                  className="glass flex items-center gap-4 rounded-md p-4 opacity-30"
                 >
-                  <Lock size={24} strokeWidth={1.5} className="shrink-0 text-[var(--text-muted)]" />
+                  <Lock
+                    size={22}
+                    strokeWidth={1.5}
+                    className="shrink-0 text-[var(--text-muted)]"
+                  />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">{tool.name}</p>
-                    <p className="text-xs text-[var(--text-muted)]">coming soon</p>
+                    <p className="text-sm font-medium tracking-[-0.01em]">
+                      {tool.name}
+                    </p>
+                    <p className="text-xs text-[var(--text-dim)]">
+                      coming soon
+                    </p>
                   </div>
-                </Card>
+                </div>
               )
             }
 
             return (
               <Link key={tool.id} href={tool.href}>
-                <Card hoverable className="flex items-center gap-4">
-                  <Icon size={24} strokeWidth={1.5} className="shrink-0 text-base-blue" />
+                <div className="glass glass-hover press flex cursor-pointer items-center gap-4 rounded-md p-4">
+                  <Icon
+                    size={22}
+                    strokeWidth={1.5}
+                    className="shrink-0 text-base-blue"
+                    style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,255,0.3))' }}
+                  />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">{tool.name}</p>
-                    <p className="text-xs text-[var(--text-muted)]">{tool.desc}</p>
+                    <p className="text-sm font-medium tracking-[-0.01em]">
+                      {tool.name}
+                    </p>
+                    <p className="text-xs text-[var(--text-muted)]">
+                      {tool.desc}
+                    </p>
                   </div>
                   {used && <Chip variant="green">used</Chip>}
-                </Card>
+                </div>
               </Link>
             )
           })}

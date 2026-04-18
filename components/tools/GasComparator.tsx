@@ -29,10 +29,15 @@ function costUsd(gasUnits: number, gasPriceGwei: number): number {
   return gasUnits * gasPriceGwei * 1e-9 * ETH_PRICE
 }
 
+const tooltipStyle = {
+  background: 'rgba(10,11,13,0.9)',
+  border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: '8px',
+  backdropFilter: 'blur(12px)',
+}
+
 export function GasComparator() {
-  const [selectedTx, setSelectedTx] = useState<(typeof TX_TYPES)[number]>(
-    TX_TYPES[0],
-  )
+  const [selectedTx, setSelectedTx] = useState<(typeof TX_TYPES)[number]>(TX_TYPES[0])
   const { markToolUsed, addXp, toolsUsed } = useProgress()
   const trackedRef = useRef(false)
 
@@ -57,13 +62,14 @@ export function GasComparator() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-xl font-semibold">gas cost comparator</h2>
+        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+          gas cost comparator
+        </h2>
         <p className="mt-1 text-sm text-[var(--text-muted)]">
           compare transaction costs between Ethereum L1 and Base
         </p>
       </div>
 
-      {/* tx type selector */}
       <div className="flex gap-2">
         {TX_TYPES.map((tx) => (
           <Button
@@ -77,39 +83,28 @@ export function GasComparator() {
         ))}
       </div>
 
-      {/* chart */}
-      <div className="h-48 w-full">
+      <div className="glass h-52 w-full rounded-md p-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} barCategoryGap="30%">
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-            <XAxis
-              dataKey="name"
-              tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
-            />
-            <YAxis
-              tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
-              tickFormatter={(v: number) => `$${v}`}
-            />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+            <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `$${v}`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
             <Tooltip
               formatter={(value) => [`$${Number(value).toFixed(4)}`, 'Cost']}
-              contentStyle={{
-                background: 'var(--background)',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-              }}
+              contentStyle={tooltipStyle}
+              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
             />
             <Bar dataKey="cost" radius={[4, 4, 0, 0]}>
-              <Cell fill="#717886" />
+              <Cell fill="rgba(255,255,255,0.3)" />
               <Cell fill="#0000ff" />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* result */}
       <div className="flex flex-col items-center gap-2 text-center">
         <div className="flex items-center gap-2">
-          <span className="text-sm">you save</span>
+          <span className="text-sm text-[var(--text-secondary)]">you save</span>
           <Chip variant="green">{savePct}%</Chip>
         </div>
         <p className="text-sm text-[var(--text-muted)]">

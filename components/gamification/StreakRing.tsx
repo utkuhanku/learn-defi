@@ -6,28 +6,34 @@ type Props = {
   size?: number
 }
 
-export function StreakRing({ current, longest, size = 80 }: Props) {
+export function StreakRing({ current, longest, size = 96 }: Props) {
   const strokeWidth = 6
   const radius = (size - strokeWidth) / 2
   const circumference = 2 * Math.PI * radius
   const progress = Math.min(current / 30, 1)
   const dashOffset = circumference * (1 - progress)
-  const color = current >= 7 ? 'var(--color-yellow, #ffd12f)' : 'var(--color-gray-50, #717886)'
+  const isActive = current >= 7
+  const color = isActive ? '#ffd12f' : 'rgba(255,255,255,0.4)'
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="relative" style={{ width: size, height: size }}>
+      <div
+        className="relative"
+        style={{
+          width: size,
+          height: size,
+          filter: isActive ? 'drop-shadow(0 0 16px rgba(255,209,47,0.3))' : undefined,
+        }}
+      >
         <svg width={size} height={size} className="-rotate-90">
-          {/* track */}
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="var(--border)"
+            stroke="rgba(255,255,255,0.08)"
             strokeWidth={strokeWidth}
           />
-          {/* fill */}
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -41,15 +47,12 @@ export function StreakRing({ current, longest, size = 80 }: Props) {
             className="transition-all duration-500"
           />
         </svg>
-        {/* center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-xl font-bold">{current}</span>
+          <span className="text-2xl font-bold tracking-[-0.02em]">{current}</span>
           <span className="text-xs text-[var(--text-muted)]">days</span>
         </div>
       </div>
-      <span className="text-xs text-[var(--text-muted)]">
-        longest: {longest}
-      </span>
+      <span className="text-xs text-[var(--text-dim)]">longest: {longest}</span>
     </div>
   )
 }

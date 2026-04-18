@@ -1,9 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Check, HelpCircle, Wrench } from 'lucide-react'
+import { Check, HelpCircle, Wrench, Lock } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
-import { Card } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/Progress'
 import { useProgress } from '@/stores/useProgress'
 import type { Module, Lesson } from '@/lib/types'
@@ -24,9 +23,7 @@ type Props = {
 export function ModuleContent({ module: mod, lessons }: Props) {
   const { completedLessons, completedQuizzes } = useProgress()
 
-  const completedCount = lessons.filter(
-    (l) => completedLessons[l.id],
-  ).length
+  const completedCount = lessons.filter((l) => completedLessons[l.id]).length
   const allLessonsDone = completedCount === lessons.length
   const quizDone = !!completedQuizzes[mod.id]
   const progressPct =
@@ -34,20 +31,22 @@ export function ModuleContent({ module: mod, lessons }: Props) {
 
   return (
     <AppShell>
-      <div className="px-4 py-6">
+      <div className="px-4 py-8">
         {/* header */}
-        <div className="mb-6 space-y-3">
-          <h1 className="text-2xl font-semibold">{mod.title}</h1>
-          <p className="text-sm text-[var(--text-muted)]">{mod.description}</p>
+        <div className="mb-10 space-y-4">
+          <h1 className="text-3xl font-semibold tracking-[-0.02em]">{mod.title}</h1>
+          <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+            {mod.description}
+          </p>
           <Progress value={progressPct} size="md" />
-          <p className="text-xs text-[var(--text-muted)]">
-            {completedCount}/{lessons.length} lessons
+          <p className="text-xs text-[var(--text-dim)]">
+            {completedCount}/{lessons.length} lessons complete
           </p>
         </div>
 
         {/* lesson list */}
-        <div className="mb-6 space-y-3">
-          <h2 className="text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        <div className="mb-10 space-y-3">
+          <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             lessons
           </h2>
           {lessons.map((lesson, i) => {
@@ -57,60 +56,70 @@ export function ModuleContent({ module: mod, lessons }: Props) {
                 key={lesson.id}
                 href={`/module/${mod.id}/lesson/${lesson.id}`}
               >
-                <Card
-                  hoverable
-                  className="flex items-center justify-between"
-                >
+                <div className="glass glass-hover press flex cursor-pointer items-center justify-between rounded-md p-4">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-10 text-xs font-semibold dark:bg-gray-80">
+                    <span
+                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold tracking-[-0.01em] ${
+                        done
+                          ? 'bg-base-blue/15 text-base-blue'
+                          : 'border border-white/10 text-white/60'
+                      }`}
+                      style={
+                        done
+                          ? { boxShadow: '0 0 8px rgba(0,0,255,0.25)' }
+                          : undefined
+                      }
+                    >
                       {i + 1}
                     </span>
-                    <span className="text-sm font-medium">{lesson.title}</span>
+                    <span className="text-sm font-medium tracking-[-0.01em]">
+                      {lesson.title}
+                    </span>
                   </div>
-                  {done && (
-                    <Check size={16} className="text-green" />
-                  )}
-                </Card>
+                  {done && <Check size={16} className="text-base-blue" />}
+                </div>
               </Link>
             )
           })}
         </div>
 
         {/* quiz */}
-        <div className="mb-3">
-          <h2 className="mb-3 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+        <div className="mb-6">
+          <h2 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             quiz
           </h2>
           {allLessonsDone ? (
             <Link href={`/module/${mod.id}/quiz`}>
-              <Card hoverable className="flex items-center gap-3">
+              <div className="glass glass-hover press flex cursor-pointer items-center gap-3 rounded-md p-4">
                 <HelpCircle size={20} className="text-base-blue" />
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium tracking-[-0.01em]">
                   {quizDone ? 'retake quiz' : 'take the quiz'}
                 </span>
-                {quizDone && <Check size={16} className="ml-auto text-green" />}
-              </Card>
+                {quizDone && <Check size={16} className="ml-auto text-base-blue" />}
+              </div>
             </Link>
           ) : (
-            <Card className="flex items-center gap-3 opacity-50">
-              <HelpCircle size={20} className="text-[var(--text-muted)]" />
+            <div className="glass flex items-center gap-3 rounded-md p-4 opacity-40">
+              <Lock size={18} className="text-[var(--text-muted)]" />
               <span className="text-sm text-[var(--text-muted)]">
                 complete all lessons to unlock
               </span>
-            </Card>
+            </div>
           )}
         </div>
 
         {/* tool */}
         <div>
-          <h2 className="mb-3 text-sm font-medium uppercase tracking-widest text-[var(--text-muted)]">
+          <h2 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
             tool
           </h2>
           <Link href={`/module/${mod.id}/tool`}>
-            <Card hoverable className="flex items-center gap-3">
+            <div className="glass glass-hover press flex cursor-pointer items-center gap-3 rounded-md p-4">
               <Wrench size={20} className="text-base-blue" />
-              <span className="text-sm font-medium">{TOOL_NAMES[mod.id] ?? 'interactive tool'}</span>
-            </Card>
+              <span className="text-sm font-medium tracking-[-0.01em]">
+                {TOOL_NAMES[mod.id] ?? 'interactive tool'}
+              </span>
+            </div>
           </Link>
         </div>
       </div>
