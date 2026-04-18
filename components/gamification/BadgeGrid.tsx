@@ -46,25 +46,16 @@ export function BadgeGrid({ earnedBadges }: Props) {
         return (
           <div
             key={badge.id}
-            className={`glass flex flex-col items-center gap-2 rounded-md p-4 ${
-              earned ? '' : 'opacity-30'
+            className={`flex flex-col items-center gap-2 rounded-xl bg-[var(--surface)] p-4 ${
+              earned ? '' : 'opacity-20'
             }`}
-            style={
-              earned
-                ? {
-                    boxShadow:
-                      '0 0 16px rgba(0, 0, 255, 0.08), inset 0 0 0 1px rgba(0, 0, 255, 0.15)',
-                    background: 'rgba(0, 0, 255, 0.04)',
-                  }
-                : undefined
-            }
           >
             <badge.icon
               size={22}
-              strokeWidth={1.5}
+              strokeWidth={1.75}
               className={earned ? 'text-base-blue' : 'text-white/40'}
             />
-            <span className="text-center text-[10px] font-medium leading-tight tracking-[-0.01em]">
+            <span className="text-center text-[10px] font-semibold leading-tight tracking-[-0.01em]">
               {badge.label}
             </span>
           </div>

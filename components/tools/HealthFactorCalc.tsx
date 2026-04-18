@@ -23,39 +23,34 @@ export function HealthFactorCalc() {
   const hf = healthFactor(collateral, lt, borrow)
   const ethAmount = collateral / 3000
   const liqPriceDisplay =
-    ethAmount > 0 && lt > 0
-      ? (borrow / (ethAmount * lt)).toFixed(0)
-      : '0'
+    ethAmount > 0 && lt > 0 ? (borrow / (ethAmount * lt)).toFixed(0) : '0'
 
   let hfColor = 'text-green'
   let hfChip: 'green' | 'yellow' | 'red' = 'green'
   let hfLabel = 'safe'
-  let hfGlow = '0 0 32px rgba(102,200,0,0.25)'
   if (hf < 1.0) {
     hfColor = 'text-red'
     hfChip = 'red'
     hfLabel = 'liquidation'
-    hfGlow = '0 0 32px rgba(252,64,31,0.3)'
   } else if (hf < 1.5) {
     hfColor = 'text-yellow'
     hfChip = 'yellow'
     hfLabel = 'caution'
-    hfGlow = '0 0 32px rgba(255,209,47,0.25)'
   }
 
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+        <h2 className="text-2xl font-bold tracking-[-0.02em]">
           health factor calculator
         </h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">
+        <p className="mt-1 text-sm text-[var(--text-3)]">
           check if your lending position is safe
         </p>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-secondary)]">
+        <label className="text-sm font-medium text-[var(--text-2)]">
           collateral value: ${collateral.toLocaleString()}
         </label>
         <input
@@ -70,7 +65,7 @@ export function HealthFactorCalc() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-secondary)]">
+        <label className="text-sm font-medium text-[var(--text-2)]">
           borrow value: ${borrow.toLocaleString()}
         </label>
         <input
@@ -85,7 +80,7 @@ export function HealthFactorCalc() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-secondary)]">
+        <label className="text-sm font-medium text-[var(--text-2)]">
           liquidation threshold: {(lt * 100).toFixed(1)}%
         </label>
         <input
@@ -99,19 +94,14 @@ export function HealthFactorCalc() {
         />
       </div>
 
-      <div
-        className="glass flex flex-col items-center gap-4 rounded-md p-8 text-center"
-        style={{ boxShadow: hfGlow }}
-      >
-        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-          health factor
-        </p>
+      <div className="flex flex-col items-center gap-4 rounded-xl bg-[var(--surface)] p-8 text-center">
+        <p className="label">health factor</p>
         <p className={`text-6xl font-bold tracking-[-0.03em] ${hfColor}`}>
           {hf === Infinity ? '∞' : hf.toFixed(2)}
         </p>
         <Chip variant={hfChip}>{hfLabel}</Chip>
         {borrow > 0 && collateral > 0 && (
-          <p className="text-sm text-[var(--text-muted)]">
+          <p className="text-sm text-[var(--text-3)]">
             liquidation if ETH drops to ~${liqPriceDisplay}
           </p>
         )}

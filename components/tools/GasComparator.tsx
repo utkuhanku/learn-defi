@@ -30,10 +30,9 @@ function costUsd(gasUnits: number, gasPriceGwei: number): number {
 }
 
 const tooltipStyle = {
-  background: 'rgba(10,11,13,0.9)',
+  background: '#1a1a1a',
   border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: '8px',
-  backdropFilter: 'blur(12px)',
 }
 
 export function GasComparator() {
@@ -62,10 +61,10 @@ export function GasComparator() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+        <h2 className="text-2xl font-bold tracking-[-0.02em]">
           gas cost comparator
         </h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">
+        <p className="mt-1 text-sm text-[var(--text-3)]">
           compare transaction costs between Ethereum L1 and Base
         </p>
       </div>
@@ -83,19 +82,19 @@ export function GasComparator() {
         ))}
       </div>
 
-      <div className="glass h-52 w-full rounded-md p-4">
+      <div className="h-56 w-full rounded-xl bg-[var(--surface)] p-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} barCategoryGap="30%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
-            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `$${v}`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+            <XAxis dataKey="name" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} tickFormatter={(v: number) => `$${v}`} axisLine={false} tickLine={false} />
             <Tooltip
               formatter={(value) => [`$${Number(value).toFixed(4)}`, 'Cost']}
               contentStyle={tooltipStyle}
               cursor={{ fill: 'rgba(255,255,255,0.03)' }}
             />
-            <Bar dataKey="cost" radius={[4, 4, 0, 0]}>
-              <Cell fill="rgba(255,255,255,0.3)" />
+            <Bar dataKey="cost" radius={[6, 6, 0, 0]}>
+              <Cell fill="rgba(255,255,255,0.25)" />
               <Cell fill="#0000ff" />
             </Bar>
           </BarChart>
@@ -104,10 +103,10 @@ export function GasComparator() {
 
       <div className="flex flex-col items-center gap-2 text-center">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-[var(--text-secondary)]">you save</span>
+          <span className="text-sm text-[var(--text-2)]">you save</span>
           <Chip variant="green">{savePct}%</Chip>
         </div>
-        <p className="text-sm text-[var(--text-muted)]">
+        <p className="text-sm text-[var(--text-3)]">
           on Base, a {selectedTx.label} costs less than a penny
         </p>
       </div>

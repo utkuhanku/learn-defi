@@ -26,10 +26,9 @@ const FREQUENCIES = [
 ] as const
 
 const tooltipStyle = {
-  background: 'rgba(10,11,13,0.9)',
+  background: '#1a1a1a',
   border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: '8px',
-  backdropFilter: 'blur(12px)',
 }
 
 export function AprApyCalc() {
@@ -71,16 +70,16 @@ export function AprApyCalc() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+        <h2 className="text-2xl font-bold tracking-[-0.02em]">
           APR → APY calculator
         </h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">
+        <p className="mt-1 text-sm text-[var(--text-3)]">
           see how compounding frequency affects your returns
         </p>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-secondary)]">APR: {apr}%</label>
+        <label className="text-sm font-medium text-[var(--text-2)]">APR: {apr}%</label>
         <input
           type="range"
           min={1}
@@ -93,7 +92,7 @@ export function AprApyCalc() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-[var(--text-secondary)]">compounding</label>
+        <label className="text-sm font-medium text-[var(--text-2)]">compounding</label>
         <div className="flex flex-wrap gap-2">
           {FREQUENCIES.map((f, i) => (
             <Button
@@ -110,7 +109,7 @@ export function AprApyCalc() {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">
+          <label className="text-sm font-medium text-[var(--text-2)]">
             invest: ${amount.toLocaleString()}
           </label>
           <input
@@ -124,7 +123,7 @@ export function AprApyCalc() {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">
+          <label className="text-sm font-medium text-[var(--text-2)]">
             duration: {months}mo
           </label>
           <input
@@ -139,32 +138,29 @@ export function AprApyCalc() {
         </div>
       </div>
 
-      <div
-        className="glass flex items-center justify-center gap-3 rounded-md p-6"
-        style={{ boxShadow: '0 0 24px rgba(0,0,255,0.15)' }}
-      >
-        <span className="text-sm text-[var(--text-muted)]">APY:</span>
+      <div className="flex items-center justify-center gap-3 rounded-xl bg-[var(--surface)] p-6">
+        <span className="text-sm text-[var(--text-3)]">APY:</span>
         <span className="text-4xl font-bold tracking-[-0.02em] text-white">
           <NumberTicker value={Math.round(apy * 10000) / 100} />%
         </span>
       </div>
 
-      <div className="glass h-52 w-full rounded-md p-4">
+      <div className="h-56 w-full rounded-xl bg-[var(--surface)] p-4">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `${v}mo`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
-            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `$${v}`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+            <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} tickFormatter={(v: number) => `${v}mo`} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} tickFormatter={(v: number) => `$${v}`} axisLine={false} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <Legend wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }} />
+            <Legend wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }} />
             <Line type="monotone" dataKey="compound" stroke="#0000ff" strokeWidth={2} dot={false} name="compound" />
-            <Line type="monotone" dataKey="simple" stroke="rgba(255,255,255,0.4)" strokeWidth={2} dot={false} name="simple" />
+            <Line type="monotone" dataKey="simple" stroke="rgba(255,255,255,0.3)" strokeWidth={2} dot={false} name="simple" />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
       <div className="flex items-center justify-center gap-2 text-sm">
-        <span className="text-[var(--text-secondary)]">compound advantage:</span>
+        <span className="text-[var(--text-2)]">compound advantage:</span>
         <Chip variant="green">+${advantage.toFixed(0)}</Chip>
       </div>
     </div>

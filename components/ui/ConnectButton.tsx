@@ -8,8 +8,6 @@ function truncateAddress(address: string) {
 
 /**
  * Fallback connect button for non-Base-App contexts.
- * Inside Base App, MiniKit handles auth — this button
- * only shows when context.user is unavailable.
  */
 export function ConnectButton() {
   const { address, isConnected } = useAccount()
@@ -26,12 +24,12 @@ export function ConnectButton() {
   if (isConnected && address) {
     return (
       <div className="flex items-center gap-3">
-        <span className="font-mono text-sm text-[var(--text-secondary)]">
+        <span className="font-mono text-sm text-[var(--text-2)]">
           {truncateAddress(address)}
         </span>
         <button
           onClick={() => disconnect()}
-          className="press min-h-11 cursor-pointer text-sm font-medium text-[var(--text-muted)] transition-colors duration-150 hover:text-[var(--text-primary)]"
+          className="press cursor-pointer text-sm font-medium text-[var(--text-3)] transition-colors duration-150 hover:text-[var(--text)]"
         >
           disconnect
         </button>
@@ -42,7 +40,7 @@ export function ConnectButton() {
   return (
     <button
       onClick={handleConnect}
-      className="press min-h-11 cursor-pointer rounded-sm bg-base-blue px-5 py-2.5 text-sm font-medium tracking-[-0.01em] text-white shadow-[0_0_16px_rgba(0,0,255,0.25)] transition-all duration-150 hover:brightness-[1.08] hover:shadow-[0_0_24px_rgba(0,0,255,0.35)]"
+      className="press cursor-pointer rounded-xl bg-base-blue px-4 py-2 text-sm font-semibold tracking-[-0.01em] text-white transition-colors duration-150 hover:brightness-110"
     >
       connect
     </button>

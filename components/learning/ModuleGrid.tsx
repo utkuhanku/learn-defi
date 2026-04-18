@@ -1,11 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { Lock } from 'lucide-react'
-import { BaseSquare } from '@/components/brand/BaseSquare'
-import { Progress } from '@/components/ui/Progress'
 import { useProgress } from '@/stores/useProgress'
+import { Progress } from '@/components/ui/Progress'
 import type { Module } from '@/lib/types'
+
+const EMOJI: Record<string, string> = {
+  'defi-basics': '📚',
+  'stablecoins': '💵',
+  'lending': '🏦',
+  'dex-swaps': '🔄',
+  'yield': '🌾',
+  'advanced': '🧠',
+}
 
 type Props = {
   modules: Module[]
@@ -15,7 +22,7 @@ export function ModuleGrid({ modules }: Props) {
   const { completedLessons } = useProgress()
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-3">
       {modules.map((m) => {
         const completedCount = Array.from(
           { length: m.lessonCount },
@@ -24,38 +31,31 @@ export function ModuleGrid({ modules }: Props) {
         const pct =
           m.lessonCount > 0 ? (completedCount / m.lessonCount) * 100 : 0
 
+        const emoji = EMOJI[m.id] ?? '📦'
+
         const inner = (
           <div
-            className={`glass press flex aspect-square flex-col justify-between rounded-md p-5 ${
+            className={`flex h-full flex-col justify-between rounded-xl bg-[var(--surface)] p-5 ${
               m.locked
                 ? 'cursor-not-allowed opacity-30'
-                : 'glass-hover cursor-pointer'
+                : 'press cursor-pointer transition-colors duration-150 hover:bg-[var(--surface-2)]'
             }`}
           >
-            <div className="flex items-start justify-between">
-              <BaseSquare
-                size={20}
-                variant="current"
-                className="text-white/40"
-              />
-              {m.locked && (
-                <Lock
-                  size={14}
-                  strokeWidth={1.5}
-                  className="text-[var(--text-dim)]"
-                />
-              )}
-            </div>
-            <div className="space-y-2">
-              <span className="text-sm font-medium tracking-[-0.01em] text-white/80">
+            <div className="text-[28px] leading-none">{emoji}</div>
+            <div className="mt-8 space-y-2">
+              <p className="text-sm font-semibold tracking-[-0.01em] text-white">
                 {m.title}
-              </span>
-              {m.locked ? (
-                <span className="block text-xs text-[var(--text-dim)]">
-                  coming soon
-                </span>
-              ) : (
-                <Progress value={pct} size="sm" />
+              </p>
+              <p className="text-xs text-[var(--text-3)]">
+                {m.locked ? 'coming soon' : `${m.lessonCount} lessons`}
+              </p>
+              {!m.locked && (
+                <div className="flex items-center gap-2">
+                  <Progress value={pct} size="sm" className="flex-1" />
+                  <span className="text-[10px] font-semibold tabular-nums text-[var(--text-3)]">
+                    {Math.round(pct)}%
+                  </span>
+                </div>
               )}
             </div>
           </div>
@@ -65,7 +65,7 @@ export function ModuleGrid({ modules }: Props) {
           return <div key={m.id}>{inner}</div>
         }
         return (
-          <Link key={m.id} href={`/module/${m.id}`}>
+          <Link key={m.id} href={`/module/${m.id}`} className="block">
             {inner}
           </Link>
         )

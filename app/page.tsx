@@ -4,8 +4,6 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import { AppShell } from '@/components/ui/AppShell'
-import { BaseSquare } from '@/components/brand/BaseSquare'
-import { OnboardingExplainer } from '@/components/learning/OnboardingExplainer'
 import { ModuleGrid } from '@/components/learning/ModuleGrid'
 import { getModules } from '@/lib/content'
 import { useProgress } from '@/stores/useProgress'
@@ -27,40 +25,35 @@ export default function Home() {
   return (
     <AppShell>
       {/* hero */}
-      <section className="flex flex-col items-center px-6 pt-12 pb-14 text-center">
-        <h1
-          className="font-display text-6xl font-medium uppercase tracking-[0.04em] text-white hero-glow md:text-8xl"
-        >
-          defi, demystified
+      <section className="flex flex-col items-center px-6 pt-16 pb-12 text-center">
+        <h1 className="hero-glow font-display text-[64px] font-medium uppercase leading-none tracking-[0.03em] text-white md:text-[96px]">
+          defi,
+          <br />
+          demystified
         </h1>
-        <p className="mt-6 max-w-md text-lg leading-relaxed text-[var(--text-secondary)]">
-          learn defi by playing. six modules. real calculators. no theory
-          dumps.
+        <p className="mt-6 max-w-xs text-base leading-relaxed text-[var(--text-3)]">
+          learn defi by playing. six modules. real calculators.
         </p>
       </section>
 
-      {/* onboarding explainer */}
-      <OnboardingExplainer />
-
       {/* module grid */}
-      <section className="px-4 pb-12">
+      <section className="px-5 pb-8">
+        <p className="label mb-4 px-1">modules</p>
         <ModuleGrid modules={modules} />
       </section>
 
       {/* primary CTA */}
-      <section className="px-6 pb-12">
+      <section className="px-5 pb-12">
         <Link href="/module/defi-basics" className="block">
-          <button className="press min-h-11 w-full cursor-pointer rounded-md bg-base-blue py-4 text-base font-medium tracking-[-0.01em] text-white shadow-[0_0_24px_rgba(0,0,255,0.3)] transition-all duration-150 hover:brightness-[1.08] hover:shadow-[0_0_32px_rgba(0,0,255,0.4)]">
+          <button className="press w-full cursor-pointer rounded-xl bg-base-blue py-4 text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-150 hover:brightness-110">
             start with defi basics →
           </button>
         </Link>
       </section>
 
       {/* footer */}
-      <footer className="flex items-center justify-center gap-2 pb-6 text-xs text-[var(--text-dim)]">
-        <span>built on</span>
-        <BaseSquare size={12} variant="current" className="text-white/40" decorative />
-        <span>base</span>
+      <footer className="flex items-center justify-center gap-1.5 pb-6 text-xs text-[var(--text-4)]">
+        <span>🟦 base</span>
       </footer>
     </AppShell>
   )

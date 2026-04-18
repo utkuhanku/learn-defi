@@ -37,21 +37,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         paddingRight: insets.right,
       }}
     >
-      {/* header */}
-      <header className="glass-bar sticky top-0 z-10 flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg)] px-5 py-3.5">
         <div className="flex items-center gap-2">
-          <BaseSquare size={22} />
-          <span className="text-base font-medium tracking-[-0.01em]">
+          <BaseSquare size={20} />
+          <span className="text-[15px] font-semibold tracking-[-0.01em]">
             learn defi
           </span>
         </div>
         {hasUser ? <UserChip /> : <ConnectButton />}
       </header>
 
-      {/* scrollable content area */}
       <main className="flex-1 pb-24">{children}</main>
 
-      {/* bottom navigation */}
       <BottomNav />
     </div>
   )

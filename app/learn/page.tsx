@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
 import { Button } from '@/components/ui/Button'
 import { Progress } from '@/components/ui/Progress'
@@ -46,28 +47,26 @@ export default function LearnPage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-8">
-        {/* continue section */}
+      <div className="px-5 py-8">
         {active && (
           <div className="mb-10">
-            <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-              continue
-            </h2>
-            <div className="glass space-y-5 rounded-md p-5">
-              <div>
-                <h3 className="text-xl font-semibold tracking-[-0.02em]">
-                  {active.mod.title}
-                </h3>
-                <p className="mt-1 text-sm text-[var(--text-muted)]">
-                  lesson {active.completed + 1} of {active.mod.lessonCount}
-                </p>
+            <p className="label mb-3 px-1">continue</p>
+            <div className="rounded-xl bg-[var(--surface)] p-6">
+              <h3 className="text-2xl font-bold tracking-[-0.02em]">
+                {active.mod.title}
+              </h3>
+              <p className="mt-1 text-sm text-[var(--text-3)]">
+                lesson {active.completed + 1} of {active.mod.lessonCount}
+              </p>
+              <div className="mt-4">
+                <Progress
+                  value={(active.completed / active.mod.lessonCount) * 100}
+                  size="md"
+                />
               </div>
-              <Progress
-                value={(active.completed / active.mod.lessonCount) * 100}
-                size="md"
-              />
               <Link
                 href={`/module/${active.mod.id}/lesson/${active.nextLesson}`}
+                className="mt-5 block"
               >
                 <Button className="w-full">continue →</Button>
               </Link>
@@ -75,12 +74,9 @@ export default function LearnPage() {
           </div>
         )}
 
-        {/* all modules */}
-        <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-          your modules
-        </h2>
-        <div className="space-y-3">
-          {modules.map((mod) => {
+        <p className="label mb-3 px-1">your modules</p>
+        <div className="overflow-hidden rounded-xl bg-[var(--surface)]">
+          {modules.map((mod, i) => {
             const lessonIds = Array.from(
               { length: mod.lessonCount },
               (_, i) => `${mod.id}-${i + 1}`,
@@ -93,18 +89,25 @@ export default function LearnPage() {
 
             return (
               <Link key={mod.id} href={`/module/${mod.id}`}>
-                <div className="glass glass-hover press flex cursor-pointer items-center gap-4 rounded-md p-4">
+                <div
+                  className={`press flex cursor-pointer items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)] ${
+                    i < modules.length - 1
+                      ? 'border-b border-[var(--border)]'
+                      : ''
+                  }`}
+                >
                   <div className="flex-1">
-                    <p className="text-sm font-medium tracking-[-0.01em]">
+                    <p className="text-[15px] font-medium tracking-[-0.01em]">
                       {mod.title}
                     </p>
-                    <p className="text-xs text-[var(--text-dim)]">
+                    <p className="text-xs text-[var(--text-3)]">
                       {completed}/{mod.lessonCount} lessons
                     </p>
                   </div>
-                  <div className="w-20">
+                  <div className="w-16">
                     <Progress value={pct} size="sm" />
                   </div>
+                  <ChevronRight size={16} className="text-[var(--text-4)]" />
                 </div>
               </Link>
             )

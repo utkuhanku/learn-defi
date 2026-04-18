@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Check, HelpCircle, Wrench, Lock } from 'lucide-react'
+import { ChevronRight, HelpCircle, Wrench, Lock } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
 import { Progress } from '@/components/ui/Progress'
 import { useProgress } from '@/stores/useProgress'
@@ -31,94 +31,90 @@ export function ModuleContent({ module: mod, lessons }: Props) {
 
   return (
     <AppShell>
-      <div className="px-4 py-8">
+      <div className="px-5 py-8">
         {/* header */}
         <div className="mb-10 space-y-4">
-          <h1 className="text-3xl font-semibold tracking-[-0.02em]">{mod.title}</h1>
-          <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+          <h1 className="text-4xl font-bold tracking-[-0.03em] text-white">
+            {mod.title}
+          </h1>
+          <p className="text-[15px] leading-relaxed text-[var(--text-2)]">
             {mod.description}
           </p>
-          <Progress value={progressPct} size="md" />
-          <p className="text-xs text-[var(--text-dim)]">
-            {completedCount}/{lessons.length} lessons complete
-          </p>
+          <div className="flex items-center gap-3 pt-2">
+            <Progress value={progressPct} size="md" className="flex-1" />
+            <span className="text-xs font-semibold tabular-nums text-[var(--text-3)]">
+              {completedCount}/{lessons.length}
+            </span>
+          </div>
         </div>
 
-        {/* lesson list */}
-        <div className="mb-10 space-y-3">
-          <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            lessons
-          </h2>
-          {lessons.map((lesson, i) => {
-            const done = !!completedLessons[lesson.id]
-            return (
-              <Link
-                key={lesson.id}
-                href={`/module/${mod.id}/lesson/${lesson.id}`}
-              >
-                <div className="glass glass-hover press flex cursor-pointer items-center justify-between rounded-md p-4">
-                  <div className="flex items-center gap-3">
+        {/* lessons */}
+        <div className="mb-10">
+          <p className="label mb-3 px-1">lessons</p>
+          <div className="overflow-hidden rounded-xl bg-[var(--surface)]">
+            {lessons.map((lesson, i) => {
+              const done = !!completedLessons[lesson.id]
+              return (
+                <Link
+                  key={lesson.id}
+                  href={`/module/${mod.id}/lesson/${lesson.id}`}
+                >
+                  <div
+                    className={`press flex cursor-pointer items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)] ${
+                      i < lessons.length - 1
+                        ? 'border-b border-[var(--border)]'
+                        : ''
+                    }`}
+                  >
                     <span
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold tracking-[-0.01em] ${
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tracking-[-0.01em] ${
                         done
-                          ? 'bg-base-blue/15 text-base-blue'
-                          : 'border border-white/10 text-white/60'
+                          ? 'bg-base-blue text-white'
+                          : 'border border-white/10 text-[var(--text-3)]'
                       }`}
-                      style={
-                        done
-                          ? { boxShadow: '0 0 8px rgba(0,0,255,0.25)' }
-                          : undefined
-                      }
                     >
                       {i + 1}
                     </span>
-                    <span className="text-sm font-medium tracking-[-0.01em]">
+                    <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
                       {lesson.title}
                     </span>
+                    <ChevronRight size={16} className="text-[var(--text-4)]" />
                   </div>
-                  {done && <Check size={16} className="text-base-blue" />}
-                </div>
-              </Link>
-            )
-          })}
+                </Link>
+              )
+            })}
+          </div>
         </div>
 
-        {/* quiz */}
-        <div className="mb-6">
-          <h2 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            quiz
-          </h2>
+        {/* quiz + tool */}
+        <p className="label mb-3 px-1">challenge</p>
+        <div className="overflow-hidden rounded-xl bg-[var(--surface)]">
           {allLessonsDone ? (
             <Link href={`/module/${mod.id}/quiz`}>
-              <div className="glass glass-hover press flex cursor-pointer items-center gap-3 rounded-md p-4">
-                <HelpCircle size={20} className="text-base-blue" />
-                <span className="text-sm font-medium tracking-[-0.01em]">
+              <div className="press flex cursor-pointer items-center gap-4 border-b border-[var(--border)] px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]">
+                <HelpCircle size={20} className="shrink-0 text-base-blue" />
+                <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
                   {quizDone ? 'retake quiz' : 'take the quiz'}
                 </span>
-                {quizDone && <Check size={16} className="ml-auto text-base-blue" />}
+                <ChevronRight size={16} className="text-[var(--text-4)]" />
               </div>
             </Link>
           ) : (
-            <div className="glass flex items-center gap-3 rounded-md p-4 opacity-40">
-              <Lock size={18} className="text-[var(--text-muted)]" />
-              <span className="text-sm text-[var(--text-muted)]">
+            <div className="flex items-center gap-4 border-b border-[var(--border)] px-5 py-4 opacity-40">
+              <Lock size={18} className="shrink-0 text-[var(--text-3)]" />
+              <span className="flex-1 text-[15px] text-[var(--text-3)]">
                 complete all lessons to unlock
               </span>
             </div>
           )}
-        </div>
 
-        {/* tool */}
-        <div>
-          <h2 className="mb-3 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            tool
-          </h2>
           <Link href={`/module/${mod.id}/tool`}>
-            <div className="glass glass-hover press flex cursor-pointer items-center gap-3 rounded-md p-4">
-              <Wrench size={20} className="text-base-blue" />
-              <span className="text-sm font-medium tracking-[-0.01em]">
+            <div className="press flex cursor-pointer items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]">
+              <Wrench size={20} className="shrink-0 text-base-blue" />
+              <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
                 {TOOL_NAMES[mod.id] ?? 'interactive tool'}
               </span>
+              <ChevronRight size={16} className="text-[var(--text-4)]" />
             </div>
           </Link>
         </div>

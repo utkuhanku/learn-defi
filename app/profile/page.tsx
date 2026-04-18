@@ -42,22 +42,22 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-8">
+      <div className="px-5 py-8">
         {/* user identity */}
         <div className="mb-10 flex flex-col items-center gap-3 text-center">
           {pfpUrl ? (
             <img
               src={pfpUrl}
               alt=""
-              className="h-20 w-20 rounded-full object-cover ring-1 ring-white/10"
+              className="h-[72px] w-[72px] rounded-full object-cover ring-2 ring-white/10"
             />
           ) : (
-            <div className="glass flex h-20 w-20 items-center justify-center rounded-full">
-              <User size={36} strokeWidth={1.5} className="text-white/50" />
+            <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[var(--surface)] ring-2 ring-white/10">
+              <User size={32} strokeWidth={1.5} className="text-[var(--text-3)]" />
             </div>
           )}
           <div className="flex flex-col items-center gap-2">
-            <p className="text-xl font-semibold tracking-[-0.02em]">
+            <p className="text-xl font-bold tracking-[-0.02em]">
               {displayName ?? 'guest'}
             </p>
             <Chip variant="blue">{levelTitle}</Chip>
@@ -65,53 +65,47 @@ export default function ProfilePage() {
         </div>
 
         {/* XP & level */}
-        <div className="mb-10 space-y-3">
+        <div className="mb-10 rounded-xl bg-[var(--surface)] p-6">
           <div className="flex items-baseline justify-between">
-            <span className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-              experience
-            </span>
+            <span className="label">experience</span>
             <div className="flex items-baseline gap-1">
               <NumberTicker
                 value={xp}
-                className="text-4xl font-bold tracking-[-0.02em]"
+                className="text-5xl font-bold tracking-[-0.03em]"
               />
-              <span className="text-sm text-[var(--text-muted)]">XP</span>
+              <span className="text-sm text-[var(--text-3)]">XP</span>
             </div>
           </div>
-          <Progress
-            value={nextThreshold ? (xpInLevel / xpForLevel) * 100 : 100}
-            size="md"
-          />
-          <p className="text-xs text-[var(--text-dim)]">
-            {nextThreshold
-              ? `${xpInLevel} / ${xpForLevel} XP to level ${level + 1}`
-              : 'max level reached'}
-          </p>
+          <div className="mt-4">
+            <Progress
+              value={nextThreshold ? (xpInLevel / xpForLevel) * 100 : 100}
+              size="md"
+            />
+            <p className="mt-2 text-xs text-[var(--text-3)]">
+              {nextThreshold
+                ? `${xpInLevel} / ${xpForLevel} XP to level ${level + 1}`
+                : 'max level reached'}
+            </p>
+          </div>
         </div>
 
         {/* streak */}
         <div className="mb-10">
-          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            streak
-          </h2>
-          <div className="flex justify-center">
+          <p className="label mb-5 px-1">streak</p>
+          <div className="flex justify-center rounded-xl bg-[var(--surface)] py-8">
             <StreakRing current={streak.current} longest={streak.longest} />
           </div>
         </div>
 
         {/* badges */}
         <div className="mb-10">
-          <h2 className="mb-5 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            badges
-          </h2>
+          <p className="label mb-4 px-1">badges</p>
           <BadgeGrid earnedBadges={earnedBadges} />
         </div>
 
         {/* stats */}
         <div>
-          <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-            stats
-          </h2>
+          <p className="label mb-4 px-1">stats</p>
           <div className="grid grid-cols-3 gap-3">
             {[
               { label: 'lessons', value: lessonCount },
@@ -120,12 +114,12 @@ export default function ProfilePage() {
             ].map((s) => (
               <div
                 key={s.label}
-                className="glass flex flex-col items-center gap-1 rounded-md p-4"
+                className="flex flex-col items-center gap-1 rounded-xl bg-[var(--surface)] py-5"
               >
-                <p className="text-2xl font-bold tracking-[-0.02em] text-white">
+                <p className="text-3xl font-bold tracking-[-0.02em] text-white">
                   {s.value}
                 </p>
-                <p className="text-xs text-[var(--text-dim)]">{s.label}</p>
+                <p className="text-xs text-[var(--text-3)]">{s.label}</p>
               </div>
             ))}
           </div>

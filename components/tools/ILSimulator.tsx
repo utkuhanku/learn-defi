@@ -18,10 +18,9 @@ import { impermanentLoss } from '@/lib/formulas/impermanentLoss'
 const INITIAL_VALUE = 1000
 
 const tooltipStyle = {
-  background: 'rgba(10,11,13,0.9)',
+  background: '#1a1a1a',
   border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: '8px',
-  backdropFilter: 'blur(12px)',
 }
 
 export function ILSimulator() {
@@ -63,17 +62,17 @@ export function ILSimulator() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-[-0.02em]">
+        <h2 className="text-2xl font-bold tracking-[-0.02em]">
           impermanent loss simulator
         </h2>
-        <p className="mt-1 text-sm text-[var(--text-muted)]">
+        <p className="mt-1 text-sm text-[var(--text-3)]">
           see how price changes affect your LP position
         </p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">
+          <label className="text-sm font-medium text-[var(--text-2)]">
             token A price change: {priceChangeA > 0 ? '+' : ''}{priceChangeA}%
           </label>
           <input
@@ -87,7 +86,7 @@ export function ILSimulator() {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-[var(--text-secondary)]">
+          <label className="text-sm font-medium text-[var(--text-2)]">
             token B price change: {priceChangeB > 0 ? '+' : ''}{priceChangeB}%
           </label>
           <input
@@ -102,33 +101,33 @@ export function ILSimulator() {
         </div>
       </div>
 
-      <div className="glass h-52 w-full rounded-md p-4">
+      <div className="h-56 w-full rounded-xl bg-[var(--surface)] p-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-            <XAxis dataKey="change" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.4)' }} interval={3} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
-            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.4)' }} tickFormatter={(v: number) => `$${v}`} axisLine={{ stroke: 'rgba(255,255,255,0.1)' }} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+            <XAxis dataKey="change" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.25)' }} interval={3} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.25)' }} tickFormatter={(v: number) => `$${v}`} axisLine={false} tickLine={false} />
             <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: 'rgba(255,255,255,0.1)' }} />
-            <Legend wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }} />
-            <Area type="monotone" dataKey="hold" stroke="rgba(255,255,255,0.4)" fill="rgba(255,255,255,0.05)" name="HODL" />
+            <Legend wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }} />
+            <Area type="monotone" dataKey="hold" stroke="rgba(255,255,255,0.3)" fill="rgba(255,255,255,0.04)" name="HODL" />
             <Area type="monotone" dataKey="lp" stroke="#0000ff" fill="rgba(0,0,255,0.08)" name="LP" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
       <div className="grid grid-cols-2 gap-3 text-center">
-        <div className="glass rounded-md p-4">
-          <p className="text-xs text-[var(--text-dim)]">if you held</p>
+        <div className="rounded-xl bg-[var(--surface)] p-4">
+          <p className="text-xs text-[var(--text-3)]">if you held</p>
           <p className="mt-1 text-xl font-bold tracking-[-0.02em]">${holdValue.toFixed(0)}</p>
         </div>
-        <div className="glass rounded-md p-4">
-          <p className="text-xs text-[var(--text-dim)]">as LP</p>
+        <div className="rounded-xl bg-[var(--surface)] p-4">
+          <p className="text-xs text-[var(--text-3)]">as LP</p>
           <p className="mt-1 text-xl font-bold tracking-[-0.02em]">${lpValue.toFixed(0)}</p>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <span className="text-sm text-[var(--text-secondary)]">impermanent loss:</span>
+        <span className="text-sm text-[var(--text-2)]">impermanent loss:</span>
         <Chip variant="red">{(il * 100).toFixed(2)}%</Chip>
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
   ArrowLeftRight,
   Calculator,
   Lock,
+  ChevronRight,
 } from 'lucide-react'
 import { AppShell } from '@/components/ui/AppShell'
 import { Chip } from '@/components/ui/Chip'
@@ -17,7 +18,7 @@ const tools = [
   {
     id: 'gas-comparator',
     name: 'gas cost comparator',
-    desc: 'compare Ethereum L1 vs Base transaction costs',
+    desc: 'Ethereum L1 vs Base costs',
     href: '/module/defi-basics/tool',
     icon: Fuel,
     locked: false,
@@ -25,7 +26,7 @@ const tools = [
   {
     id: 'peg-tracker',
     name: 'stablecoin peg tracker',
-    desc: '7-day peg deviation for USDC, USDT, DAI',
+    desc: '7-day peg deviation',
     href: '/module/stablecoins/tool',
     icon: LineChart,
     locked: false,
@@ -33,7 +34,7 @@ const tools = [
   {
     id: 'health-factor-calc',
     name: 'health factor calculator',
-    desc: 'check if your lending position is safe',
+    desc: 'lending position safety',
     href: '/module/lending/tool',
     icon: ShieldCheck,
     locked: false,
@@ -41,7 +42,7 @@ const tools = [
   {
     id: 'il-simulator',
     name: 'impermanent loss simulator',
-    desc: 'see how price changes affect your LP position',
+    desc: 'LP vs HODL comparison',
     href: '/module/dex-swaps/tool',
     icon: ArrowLeftRight,
     locked: false,
@@ -49,7 +50,7 @@ const tools = [
   {
     id: 'apr-apy-calc',
     name: 'APR → APY calculator',
-    desc: 'compare compounding frequencies and returns',
+    desc: 'compounding frequencies',
     href: '/module/yield/tool',
     icon: Calculator,
     locked: false,
@@ -57,7 +58,7 @@ const tools = [
   {
     id: 'strategy-calc',
     name: 'defi strategy calculator',
-    desc: 'delta-neutral, funding rate scenarios',
+    desc: 'delta-neutral scenarios',
     href: '#',
     icon: Calculator,
     locked: true,
@@ -69,33 +70,36 @@ export default function ToolsPage() {
 
   return (
     <AppShell>
-      <div className="px-4 py-8">
-        <h1 className="mb-8 text-3xl font-semibold tracking-[-0.02em]">
+      <div className="px-5 py-8">
+        <h1 className="mb-8 text-4xl font-bold tracking-[-0.03em]">
           calculators
         </h1>
-        <div className="space-y-3">
-          {tools.map((tool) => {
+        <div className="overflow-hidden rounded-xl bg-[var(--surface)]">
+          {tools.map((tool, i) => {
             const used = toolsUsed.includes(tool.id)
             const Icon = tool.icon
+            const isLast = i === tools.length - 1
+
+            const rowClasses = `flex items-center gap-4 px-5 py-4 ${
+              isLast ? '' : 'border-b border-[var(--border)]'
+            }`
 
             if (tool.locked) {
               return (
                 <div
                   key={tool.id}
-                  className="glass flex items-center gap-4 rounded-md p-4 opacity-30"
+                  className={`${rowClasses} opacity-30`}
                 >
                   <Lock
-                    size={22}
+                    size={20}
                     strokeWidth={1.5}
-                    className="shrink-0 text-[var(--text-muted)]"
+                    className="shrink-0 text-[var(--text-3)]"
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-medium tracking-[-0.01em]">
+                    <p className="text-[15px] font-medium tracking-[-0.01em]">
                       {tool.name}
                     </p>
-                    <p className="text-xs text-[var(--text-dim)]">
-                      coming soon
-                    </p>
+                    <p className="text-xs text-[var(--text-3)]">coming soon</p>
                   </div>
                 </div>
               )
@@ -103,22 +107,25 @@ export default function ToolsPage() {
 
             return (
               <Link key={tool.id} href={tool.href}>
-                <div className="glass glass-hover press flex cursor-pointer items-center gap-4 rounded-md p-4">
+                <div
+                  className={`press cursor-pointer transition-colors duration-150 hover:bg-[var(--surface-2)] ${rowClasses}`}
+                >
                   <Icon
-                    size={22}
+                    size={20}
                     strokeWidth={1.5}
                     className="shrink-0 text-base-blue"
-                    style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,255,0.3))' }}
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-medium tracking-[-0.01em]">
+                    <p className="text-[15px] font-medium tracking-[-0.01em]">
                       {tool.name}
                     </p>
-                    <p className="text-xs text-[var(--text-muted)]">
-                      {tool.desc}
-                    </p>
+                    <p className="text-xs text-[var(--text-3)]">{tool.desc}</p>
                   </div>
                   {used && <Chip variant="green">used</Chip>}
+                  <ChevronRight
+                    size={16}
+                    className="text-[var(--text-4)]"
+                  />
                 </div>
               </Link>
             )

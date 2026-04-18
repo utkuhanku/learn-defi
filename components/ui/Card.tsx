@@ -1,5 +1,5 @@
 type CardProps = {
-  /** kept for API compatibility; all cards now use glass surface */
+  /** kept for API compat */
   variant?: 'default' | 'surface'
   hoverable?: boolean
   className?: string
@@ -16,7 +16,11 @@ export function Card({
   void variant
   return (
     <div
-      className={`glass rounded-md p-5 ${hoverable ? 'glass-hover cursor-pointer' : ''} ${className}`}
+      className={`rounded-xl bg-[var(--surface)] p-5 ${
+        hoverable
+          ? 'press cursor-pointer transition-colors duration-150 hover:bg-[var(--surface-2)]'
+          : ''
+      } ${className}`}
       {...props}
     >
       {children}

@@ -1,22 +1,17 @@
 import { type ButtonHTMLAttributes } from 'react'
 
 const variantStyles = {
-  primary:
-    'bg-base-blue text-white shadow-[0_0_16px_rgba(0,0,255,0.25)] hover:shadow-[0_0_24px_rgba(0,0,255,0.35)] hover:brightness-[1.08]',
-  secondary:
-    'glass text-white/80 hover:border-white/20 hover:text-white dark:text-white/80',
-  ghost:
-    'bg-transparent text-[var(--text-muted)] hover:bg-white/5 hover:text-[var(--text-primary)]',
-  success:
-    'bg-green text-white shadow-[0_0_16px_rgba(102,200,0,0.2)] hover:brightness-[1.08]',
-  danger:
-    'bg-red text-white shadow-[0_0_16px_rgba(252,64,31,0.2)] hover:brightness-[1.08]',
+  primary: 'bg-base-blue text-white hover:brightness-110',
+  secondary: 'bg-[var(--surface)] text-white/80 hover:bg-[var(--surface-2)] hover:text-white',
+  ghost: 'bg-transparent text-white/40 hover:bg-[var(--surface)] hover:text-white',
+  success: 'bg-green text-white hover:brightness-110',
+  danger: 'bg-red text-white hover:brightness-110',
 } as const
 
 const sizeStyles = {
-  sm: 'px-3 py-2 text-sm',
-  md: 'px-5 py-3 text-base',
-  lg: 'px-7 py-4 text-lg',
+  sm: 'px-4 py-2 text-sm min-h-10',
+  md: 'px-5 py-3 text-base min-h-12',
+  lg: 'px-7 py-4 text-lg min-h-14',
 } as const
 
 type ButtonProps = {
@@ -34,7 +29,7 @@ export function Button({
   return (
     <button
       disabled={disabled}
-      className={`press min-h-11 cursor-pointer rounded-sm font-medium tracking-[-0.01em] transition-all duration-150 ${variantStyles[variant]} ${sizeStyles[size]} ${
+      className={`press cursor-pointer rounded-xl font-semibold tracking-[-0.01em] transition-colors duration-150 ${variantStyles[variant]} ${sizeStyles[size]} ${
         disabled ? 'cursor-not-allowed opacity-40' : ''
       } ${className}`}
       {...props}

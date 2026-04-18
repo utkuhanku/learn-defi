@@ -23,7 +23,6 @@ export function Quiz({ quiz, moduleSlug }: Props) {
 
   const total = quiz.questions.length
   const question = quiz.questions[currentIndex]
-
   const xpEarned = score === total ? 50 : score >= 3 ? 30 : 10
 
   const handleSelect = useCallback(
@@ -59,14 +58,12 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   if (finished) {
     return (
       <div className="flex flex-col items-center gap-6 py-12 text-center">
-        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
-          quiz complete
-        </p>
-        <p className="text-6xl font-bold tracking-[-0.03em] hero-glow">
+        <p className="label">quiz complete</p>
+        <p className="text-7xl font-bold tracking-[-0.03em] hero-glow">
           {score}/{total}
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-lg text-[var(--text-secondary)]">+</span>
+          <span className="text-lg text-[var(--text-2)]">+</span>
           <NumberTicker value={xpEarned} className="text-lg font-bold" />
           <Chip variant="yellow">XP</Chip>
         </div>
@@ -81,54 +78,54 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   return (
     <div className="flex flex-col gap-8">
       <div className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--text-dim)]">
+        <p className="label">
           question {currentIndex + 1} of {total}
         </p>
         <div className="flex gap-1.5">
           {quiz.questions.map((_, i) => (
             <div
               key={i}
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                i <= currentIndex
-                  ? 'bg-base-blue shadow-[0_0_8px_rgba(0,0,255,0.4)]'
-                  : 'bg-white/[0.08]'
+              className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+                i <= currentIndex ? 'bg-base-blue' : 'bg-white/10'
               }`}
             />
           ))}
         </div>
       </div>
 
-      <h2 className="text-xl font-semibold tracking-[-0.02em] leading-snug">
+      <h2 className="text-xl font-semibold leading-snug tracking-[-0.01em]">
         {question.text}
       </h2>
 
       <div className="flex flex-col gap-3">
         {question.options.map((option, i) => {
-          let variant: 'secondary' | 'success' | 'danger' = 'secondary'
+          let cls = 'bg-[var(--surface)] text-white/80 hover:bg-[var(--surface-2)]'
           let icon = null
 
           if (selected !== null) {
             if (i === question.correctIndex) {
-              variant = 'success'
+              cls = 'bg-green/10 text-green ring-1 ring-green/30'
               icon = <Check size={16} />
             } else if (i === selected) {
-              variant = 'danger'
+              cls = 'bg-red/10 text-red ring-1 ring-red/30'
               icon = <X size={16} />
+            } else {
+              cls = 'bg-[var(--surface)] text-white/30'
             }
           }
 
           return (
-            <Button
+            <button
               key={i}
-              variant={variant}
-              size="md"
-              className="justify-start gap-2 text-left"
               onClick={() => handleSelect(i)}
               disabled={selected !== null}
+              className={`press flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-left text-[15px] font-medium tracking-[-0.01em] transition-colors duration-150 ${cls} ${
+                selected !== null ? 'cursor-not-allowed' : ''
+              }`}
             >
               {icon}
               {option}
-            </Button>
+            </button>
           )
         })}
       </div>
