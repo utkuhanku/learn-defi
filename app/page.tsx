@@ -8,17 +8,23 @@ import { BaseSquare } from '@/components/brand/BaseSquare'
 import { OnboardingExplainer } from '@/components/learning/OnboardingExplainer'
 import { ModuleGrid } from '@/components/learning/ModuleGrid'
 import { getModules } from '@/lib/content'
+import { useProgress } from '@/stores/useProgress'
 
 const modules = getModules()
 
 export default function Home() {
   const { setMiniAppReady, isMiniAppReady } = useMiniKit()
+  const touchStreak = useProgress((s) => s.touchStreak)
 
   useEffect(() => {
     if (!isMiniAppReady) {
       setMiniAppReady()
     }
   }, [setMiniAppReady, isMiniAppReady])
+
+  useEffect(() => {
+    touchStreak()
+  }, [touchStreak])
 
   return (
     <AppShell>
