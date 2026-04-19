@@ -43,6 +43,7 @@ type ProgressState = {
   toolsUsed: string[]
   dailyXp: number
   lastDailyReset: string
+  hasTipped: boolean
 
   addXp: (amount: number) => void
   completeLesson: (lessonId: string) => void
@@ -51,12 +52,13 @@ type ProgressState = {
   clearLastBadge: () => void
   touchStreak: () => void
   markToolUsed: (toolId: string) => void
+  recordTip: () => void
   reset: () => void
 }
 
 const INITIAL: Pick<
   ProgressState,
-  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'lastEarnedBadge' | 'streak' | 'toolsUsed' | 'dailyXp' | 'lastDailyReset'
+  'xp' | 'level' | 'levelTitle' | 'completedLessons' | 'completedQuizzes' | 'earnedBadges' | 'lastEarnedBadge' | 'streak' | 'toolsUsed' | 'dailyXp' | 'lastDailyReset' | 'hasTipped'
 > = {
   xp: 0,
   level: 1,
@@ -69,6 +71,7 @@ const INITIAL: Pick<
   toolsUsed: [],
   dailyXp: 0,
   lastDailyReset: '',
+  hasTipped: false,
 }
 
 export const useProgress = create<ProgressState>()(
@@ -156,6 +159,29 @@ export const useProgress = create<ProgressState>()(
         set((s) => {
           if (s.toolsUsed.includes(toolId)) return s
           return { toolsUsed: [...s.toolsUsed, toolId] }
+        }),
+
+      recordTip: () =>
+        set((s) => {
+          if (s.hasTipped) return s
+          const xp = s.xp + 100
+          const info = computeLevel(xp)
+          const today = todayISO()
+          const dailyXp =
+            s.lastDailyReset === today ? s.dailyXp + 100 : 100
+          const earnedBadges = s.earnedBadges.includes('supporter')
+            ? s.earnedBadges
+            : [...s.earnedBadges, 'supporter']
+          return {
+            hasTipped: true,
+            xp,
+            level: info.level,
+            levelTitle: info.title,
+            dailyXp,
+            lastDailyReset: today,
+            earnedBadges,
+            lastEarnedBadge: 'supporter',
+          }
         }),
 
       reset: () => set(INITIAL),

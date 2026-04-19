@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { User } from 'lucide-react'
 import { useMiniKit } from '@coinbase/onchainkit/minikit'
 import { AppShell } from '@/components/ui/AppShell'
@@ -10,11 +11,13 @@ import { StreakRing } from '@/components/gamification/StreakRing'
 import { BadgeGrid } from '@/components/gamification/BadgeGrid'
 import { DailyGoal } from '@/components/gamification/DailyGoal'
 import { LottieAnimation } from '@/components/ui/LottieAnimation'
+import { TipModal } from '@/components/tip/TipModal'
 import { ANIMATIONS } from '@/lib/animations'
 import { useProgress, LEVEL_THRESHOLDS, DAILY_GOAL } from '@/stores/useProgress'
 
 export default function ProfilePage() {
   const { context } = useMiniKit()
+  const [tipModalOpen, setTipModalOpen] = useState(false)
   const {
     xp,
     level,
@@ -25,6 +28,7 @@ export default function ProfilePage() {
     completedQuizzes,
     toolsUsed,
     dailyXp,
+    hasTipped,
   } = useProgress()
 
   const user = context?.user as
@@ -118,6 +122,27 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        {/* tip the dev */}
+        <div className="mb-10">
+          <button
+            onClick={() => setTipModalOpen(true)}
+            className="press flex w-full cursor-pointer items-center gap-4 rounded-2xl bg-[var(--surface)] p-5 text-left transition-colors duration-150 hover:bg-[var(--surface-2)]"
+          >
+            <div className="text-3xl leading-none">☕</div>
+            <div className="flex-1">
+              <div className="text-[15px] font-semibold tracking-[-0.01em] text-white">
+                {hasTipped ? 'tip the dev again' : 'tip the dev'}
+              </div>
+              <div className="mt-0.5 text-xs text-[var(--text-3)]">
+                {hasTipped
+                  ? 'thanks for the support 💙'
+                  : 'support open-source DeFi education'}
+              </div>
+            </div>
+            <span className="text-[var(--text-4)]">→</span>
+          </button>
+        </div>
+
         {/* badges */}
         <div className="mb-10">
           <p className="label mb-4 px-1">badges</p>
@@ -146,6 +171,10 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <TipModal
+        open={tipModalOpen}
+        onClose={() => setTipModalOpen(false)}
+      />
     </AppShell>
   )
 }
