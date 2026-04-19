@@ -6,6 +6,7 @@ import { WagmiProvider } from 'wagmi'
 import { OnchainKitProvider } from '@coinbase/onchainkit'
 import { base } from 'wagmi/chains'
 import { wagmiConfig } from '@/lib/wagmi/config'
+import { NotificationEffects } from '@/components/effects/NotificationEffects'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -29,8 +30,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
             },
             wallet: { preference: 'all' },
           }}
-          miniKit={{ enabled: true }}
+          miniKit={{
+            enabled: true,
+            notificationProxyUrl: '/api/notification',
+          }}
         >
+          <NotificationEffects />
           {children}
         </OnchainKitProvider>
       </QueryClientProvider>

@@ -14,9 +14,14 @@ type ClientCtx = {
   added?: boolean
 }
 
+type UserCtx = {
+  fid?: number
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { context } = useMiniKit()
   const clientCtx = context?.client as ClientCtx | undefined
+  const userCtx = context?.user as UserCtx | undefined
   const insets = clientCtx?.safeAreaInsets ?? {
     top: 0,
     right: 0,
@@ -25,6 +30,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
   const inFrame = !!context
   const added = clientCtx?.added ?? false
+  const fid = userCtx?.fid
 
   const theme = useTheme((s) => s.theme)
   useEffect(() => {
@@ -43,9 +49,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     setAdding(true)
     try {
       const result = await addFrame()
-      if (result) {
+      if (result && fid) {
         console.log('[mini-app] frame added:', result.url, result.token)
-        // TODO (Paket 2B): POST to /api/frame-added to persist token for notifications
+        try {
+          const res = await fetch('/api/frame-added', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fid,
+              url: result.url,
+              token: result.token,
+              streak: streakCurrent,
+            }),
+          })
+          if (!res.ok) {
+            console.error(
+              '[mini-app] /api/frame-added failed:',
+              res.status,
+            )
+          }
+        } catch (persistErr) {
+          console.error('[mini-app] persist failed:', persistErr)
+        }
       }
     } catch (err) {
       console.error('[mini-app] addFrame failed:', err)

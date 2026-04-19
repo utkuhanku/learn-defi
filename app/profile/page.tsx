@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { User } from 'lucide-react'
-import { useMiniKit } from '@coinbase/onchainkit/minikit'
+import { useMiniKit, useNotification } from '@coinbase/onchainkit/minikit'
 import { AppShell } from '@/components/ui/AppShell'
 import { Progress } from '@/components/ui/Progress'
 import { Chip } from '@/components/ui/Chip'
@@ -18,6 +18,21 @@ import { useProgress, LEVEL_THRESHOLDS, DAILY_GOAL } from '@/stores/useProgress'
 export default function ProfilePage() {
   const { context } = useMiniKit()
   const [tipModalOpen, setTipModalOpen] = useState(false)
+  const sendNotification = useNotification()
+  const frameAdded =
+    (context?.client as { added?: boolean } | undefined)?.added ?? false
+
+  async function handleTestNotification() {
+    try {
+      const ok = await sendNotification({
+        title: 'test from learn defi',
+        body: 'notifications are working 🎉',
+      })
+      alert(ok ? 'sent!' : 'failed (see console)')
+    } catch (err) {
+      alert('failed: ' + String(err))
+    }
+  }
   const {
     xp,
     level,
@@ -170,6 +185,18 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
+
+        {/* dev test notification button */}
+        {process.env.NODE_ENV === 'development' && frameAdded && (
+          <div className="mt-6">
+            <button
+              onClick={handleTestNotification}
+              className="press w-full cursor-pointer rounded-xl border border-dashed border-white/20 bg-transparent px-4 py-3 text-xs font-semibold text-white/50 transition-colors duration-150 hover:text-white"
+            >
+              [dev] send test notification
+            </button>
+          </div>
+        )}
       </div>
       <TipModal
         open={tipModalOpen}
