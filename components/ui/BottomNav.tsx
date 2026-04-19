@@ -11,14 +11,21 @@ const tabs = [
   { href: '/profile', label: 'profile', icon: User },
 ] as const
 
-export function BottomNav() {
+type Props = {
+  /** Extra bottom padding to honor MiniKit safe-area inset (in pixels). */
+  bottomInset?: number
+}
+
+export function BottomNav({ bottomInset = 0 }: Props) {
   const pathname = usePathname()
 
   return (
     <nav
       aria-label="Main navigation"
       className="fixed bottom-0 left-0 right-0 z-20 border-t border-[var(--border)] bg-[var(--bg)]"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      style={{
+        paddingBottom: `max(${bottomInset}px, env(safe-area-inset-bottom, 0px))`,
+      }}
     >
       <div className="flex min-h-16 items-stretch">
         {tabs.map(({ href, label, icon: Icon }) => {
