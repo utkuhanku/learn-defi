@@ -6,6 +6,7 @@ import { AppShell } from '@/components/ui/AppShell'
 import { PathNode, type PathStatus } from '@/components/learning/PathNode'
 import { DailyGoal } from '@/components/gamification/DailyGoal'
 import { TipModal } from '@/components/tip/TipModal'
+import { WelcomeScreen } from '@/components/learning/WelcomeScreen'
 import { getModules } from '@/lib/content'
 import { getGreeting } from '@/lib/greeting'
 import { useProgress, DAILY_GOAL } from '@/stores/useProgress'
@@ -114,7 +115,8 @@ export default function Home() {
   const hasUser = !!(user?.displayName || user?.username)
 
   return (
-    <AppShell>
+    <WelcomeScreen>
+      <AppShell>
       {/* personalized hero when we have user context */}
       {hasUser ? (
         <section className="px-5 pt-6 pb-4">
@@ -221,6 +223,7 @@ export default function Home() {
       </footer>
 
       <TipModal open={tipOpen} onClose={() => setTipOpen(false)} />
-    </AppShell>
+      </AppShell>
+    </WelcomeScreen>
   )
 }

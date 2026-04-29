@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Zap, Flame, Check } from 'lucide-react'
+import { Zap, Flame, Check, User as UserIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { BaseSquare } from '@/components/brand/BaseSquare'
 import { BottomNav } from '@/components/ui/BottomNav'
@@ -16,6 +16,9 @@ type ClientCtx = {
 
 type UserCtx = {
   fid?: number
+  username?: string
+  displayName?: string
+  pfpUrl?: string
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -91,9 +94,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     >
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg)] px-5 py-3.5">
         <div className="flex items-center gap-2">
-          <BaseSquare size={18} />
+          {userCtx?.pfpUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={userCtx.pfpUrl}
+              alt=""
+              className="h-6 w-6 rounded-full border border-white/10 object-cover"
+            />
+          ) : userCtx?.username || userCtx?.displayName ? (
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--surface-2)]">
+              <UserIcon size={12} className="text-white/50" />
+            </div>
+          ) : (
+            <BaseSquare size={18} />
+          )}
           <span className="text-[15px] font-semibold tracking-[-0.01em]">
-            learn defi
+            {userCtx?.displayName ?? userCtx?.username ?? 'learn defi'}
           </span>
         </div>
 

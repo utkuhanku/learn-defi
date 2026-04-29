@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { User } from 'lucide-react'
+import { User, Code2, ExternalLink, RotateCcw } from 'lucide-react'
 import { useMiniKit, useNotification } from '@coinbase/onchainkit/minikit'
 import { AppShell } from '@/components/ui/AppShell'
 import { Progress } from '@/components/ui/Progress'
@@ -11,9 +11,13 @@ import { StreakRing } from '@/components/gamification/StreakRing'
 import { BadgeGrid } from '@/components/gamification/BadgeGrid'
 import { DailyGoal } from '@/components/gamification/DailyGoal'
 import { LottieAnimation } from '@/components/ui/LottieAnimation'
+import { ConnectButton } from '@/components/ui/ConnectButton'
 import { TipModal } from '@/components/tip/TipModal'
 import { ANIMATIONS } from '@/lib/animations'
 import { useProgress, LEVEL_THRESHOLDS, DAILY_GOAL } from '@/stores/useProgress'
+
+const APP_VERSION = 'v1.0.0'
+const GITHUB_URL = 'https://github.com/utkuhanku/learn-defi'
 
 export default function ProfilePage() {
   const { context } = useMiniKit()
@@ -33,6 +37,19 @@ export default function ProfilePage() {
       alert('failed: ' + String(err))
     }
   }
+
+  const reset = useProgress((s) => s.reset)
+  function handleReset() {
+    if (
+      confirm(
+        'are you sure? this will erase all your XP, badges, and progress.',
+      )
+    ) {
+      reset()
+      window.location.reload()
+    }
+  }
+
   const {
     xp,
     level,
@@ -185,6 +202,69 @@ export default function ProfilePage() {
             ))}
           </div>
         </div>
+
+        {/* wallet */}
+        <div className="mt-10">
+          <p className="label mb-4 px-1">wallet</p>
+          <div className="flex justify-center rounded-xl bg-[var(--surface)] py-5">
+            <ConnectButton />
+          </div>
+        </div>
+
+        {/* links */}
+        <div className="mt-10">
+          <p className="label mb-3 px-1">about</p>
+          <div className="overflow-hidden rounded-xl bg-[var(--surface)]">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press flex cursor-pointer items-center gap-3 border-b border-[var(--border)] px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]"
+            >
+              <Code2 size={18} className="shrink-0 text-[var(--text-2)]" />
+              <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
+                view on GitHub
+              </span>
+              <ExternalLink size={14} className="text-[var(--text-4)]" />
+            </a>
+            <a
+              href="https://base.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press flex cursor-pointer items-center gap-3 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]"
+            >
+              <span className="text-base leading-none">🟦</span>
+              <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
+                built on base
+              </span>
+              <ExternalLink size={14} className="text-[var(--text-4)]" />
+            </a>
+          </div>
+        </div>
+
+        {/* danger zone — reset progress */}
+        <div className="mt-10">
+          <p className="label mb-3 px-1">danger zone</p>
+          <button
+            onClick={handleReset}
+            className="press flex w-full cursor-pointer items-center gap-3 rounded-xl border border-red/20 bg-red/5 px-5 py-4 text-left transition-colors duration-150 hover:bg-red/10"
+          >
+            <RotateCcw size={16} className="shrink-0 text-red" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-red">
+                reset progress
+              </p>
+              <p className="text-xs text-[var(--text-3)]">
+                erase XP, badges, and lesson history
+              </p>
+            </div>
+          </button>
+        </div>
+
+        {/* version */}
+        <p className="mt-8 text-center text-xs text-[var(--text-4)]">
+          {APP_VERSION}
+        </p>
 
         {/* dev test notification button */}
         {process.env.NODE_ENV === 'development' && frameAdded && (
