@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { X, BookOpen, Zap, Check, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { Progress } from '@/components/ui/Progress'
@@ -32,6 +32,8 @@ type Props = {
   onContinue: () => void
 }
 
+const CONFETTI_COLORS = ['#0000ff', '#ffd12f', '#66c800', '#fea8cd', '#ffffff']
+
 export function LessonComplete({ stats, onContinue }: Props) {
   const dailyXp = useProgress((s) => s.dailyXp)
   const lastEarnedBadge = useProgress((s) => s.lastEarnedBadge)
@@ -42,6 +44,20 @@ export function LessonComplete({ stats, onContinue }: Props) {
   const isPerfect = isQuiz && stats.isPerfect
   const heading = isQuiz ? 'quiz complete!' : 'lesson complete!'
   const subtitle = isQuiz ? 'great work' : stats.lessonTitle
+
+  // Generate confetti particles once on mount.
+  // useState lazy init runs only on first render — react-hooks/purity allows
+  // impure calls here (vs. during render body or useMemo).
+  const [confetti] = useState(() =>
+    Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+      delay: `${Math.random() * 2}s`,
+      duration: `${2 + Math.random() * 2}s`,
+      size: `${4 + Math.random() * 6}px`,
+    })),
+  )
 
   // Auto-clear badge popup after 3s
   useEffect(() => {
@@ -62,11 +78,30 @@ export function LessonComplete({ stats, onContinue }: Props) {
         { label: 'done', value: '100%', icon: Check, color: 'text-green' },
       ]
 
+  // Staggered delays for stat cards (per spec: 0.3s / 0.45s / 0.6s)
+  const statDelays = ['0.3s', '0.45s', '0.6s']
+
   const heroAnimation = isPerfect ? ANIMATIONS.confetti : ANIMATIONS.celebration
   const heroEmoji = isPerfect ? '🏆' : '🎉'
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[var(--bg)]">
+      {/* confetti rain */}
+      {confetti.map((c) => (
+        <div
+          key={c.id}
+          className="confetti-particle"
+          style={{
+            left: c.left,
+            backgroundColor: c.color,
+            animationDelay: c.delay,
+            animationDuration: c.duration,
+            width: c.size,
+            height: c.size,
+          }}
+        />
+      ))}
+
       {/* close */}
       <div className="flex justify-end p-5">
         <button
@@ -124,7 +159,7 @@ export function LessonComplete({ stats, onContinue }: Props) {
           </div>
         )}
 
-        {/* stat cards */}
+        {/* stat cards — staggered */}
         <div className="mt-8 grid w-full max-w-xs grid-cols-3 gap-3">
           {statCards.map((s, i) => {
             const Icon = s.icon
@@ -132,8 +167,8 @@ export function LessonComplete({ stats, onContinue }: Props) {
             return (
               <div
                 key={s.label}
-                className="animate-celebrate flex flex-col items-center gap-2 rounded-xl bg-[var(--surface)] p-4"
-                style={{ animationDelay: `${0.25 + i * 0.08}s` }}
+                className="animate-slide-up flex flex-col items-center gap-2 rounded-xl bg-[var(--surface)] p-4 opacity-0"
+                style={{ animationDelay: statDelays[i] }}
               >
                 {isXpCard ? (
                   <div className="h-[18px] w-[18px]">
@@ -160,7 +195,7 @@ export function LessonComplete({ stats, onContinue }: Props) {
         {lastEarnedBadge && (
           <div
             className="animate-celebrate mt-6 flex flex-col items-center gap-1"
-            style={{ animationDelay: '0.5s' }}
+            style={{ animationDelay: '0.7s' }}
           >
             <div className="h-16 w-16">
               <LottieAnimation

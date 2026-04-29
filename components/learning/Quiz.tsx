@@ -1,25 +1,22 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Check, X } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { Chip } from '@/components/ui/Chip'
-import { LottieAnimation } from '@/components/ui/LottieAnimation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { LessonComplete } from '@/components/learning/LessonComplete'
-import { ANIMATIONS } from '@/lib/animations'
 import { useProgress } from '@/stores/useProgress'
 import type { Quiz as QuizType } from '@/lib/types'
 
 const MOTIVATIONS = [
   'excellent!',
-  'nice one!',
-  "you're on fire!",
   'nailed it!',
-  'perfect!',
-  'keep going!',
+  "you're on fire!",
   'brilliant!',
+  'spot on!',
+  'perfect!',
   'well done!',
+  'keep going!',
 ]
 
 function randomMotivation() {
@@ -36,6 +33,7 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
+  const [motivation, setMotivation] = useState<string | null>(null)
   const [finished, setFinished] = useState(false)
   const [finalStats, setFinalStats] = useState<{ score: number; xp: number } | null>(null)
   const { submitQuiz, addXp, earnBadge, completedLessons } = useProgress()
@@ -43,19 +41,21 @@ export function Quiz({ quiz, moduleSlug }: Props) {
   const total = quiz.questions.length
   const question = quiz.questions[currentIndex]
 
-  // fresh motivation per question (not per render)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const motivation = useMemo(() => randomMotivation(), [currentIndex])
-
   const handleSelect = useCallback(
     (optionIndex: number) => {
       if (selected !== null) return
       setSelected(optionIndex)
 
       const isCorrect = optionIndex === question.correctIndex
-      if (isCorrect) setScore((s) => s + 1)
+      if (isCorrect) {
+        setScore((s) => s + 1)
+        setMotivation(randomMotivation())
+      } else {
+        setMotivation('not quite — keep going!')
+      }
 
       setTimeout(() => {
+        setMotivation(null)
         if (currentIndex < total - 1) {
           setCurrentIndex((i) => i + 1)
           setSelected(null)
@@ -95,8 +95,6 @@ export function Quiz({ quiz, moduleSlug }: Props) {
     )
   }
 
-  const showMotivation = selected !== null && selected === question.correctIndex
-
   return (
     <div className="flex flex-col gap-8">
       <div className="space-y-3">
@@ -115,37 +113,25 @@ export function Quiz({ quiz, moduleSlug }: Props) {
         </div>
       </div>
 
-      <div className="space-y-3">
-        <h2 className="text-xl font-semibold leading-snug tracking-[-0.01em]">
-          {question.text}
-        </h2>
-        {showMotivation && (
-          <div className="flex animate-celebrate items-center gap-2">
-            <div className="h-6 w-6">
-              <LottieAnimation
-                src={ANIMATIONS.lightning}
-                loop={false}
-                className="h-full w-full"
-                fallback={<span className="text-lg">⚡</span>}
-              />
-            </div>
-            <Chip variant="green">{motivation}</Chip>
-          </div>
-        )}
-      </div>
+      <h2 className="text-xl font-semibold leading-snug tracking-[-0.01em]">
+        {question.text}
+      </h2>
 
       <div className="flex flex-col gap-3">
         {question.options.map((option, i) => {
           let cls = 'bg-[var(--surface)] text-white/80 hover:bg-[var(--surface-2)]'
           let icon = null
+          let animateProps = {}
 
           if (selected !== null) {
             if (i === question.correctIndex) {
               cls = 'bg-green/10 text-green ring-1 ring-green/30'
               icon = <Check size={16} />
+              animateProps = { scale: [1, 1.02, 1] }
             } else if (i === selected) {
               cls = 'bg-red/10 text-red ring-1 ring-red/30'
               icon = <X size={16} />
+              animateProps = { x: [0, -8, 8, -8, 8, 0] }
             } else {
               cls = 'bg-[var(--surface)] text-white/30'
             }
@@ -156,8 +142,10 @@ export function Quiz({ quiz, moduleSlug }: Props) {
               key={i}
               onClick={() => handleSelect(i)}
               disabled={selected !== null}
-              whileHover={selected === null ? { scale: 1.02 } : undefined}
+              whileHover={selected === null ? { scale: 1.01 } : undefined}
               whileTap={selected === null ? { scale: 0.97 } : undefined}
+              animate={animateProps}
+              transition={{ duration: 0.3 }}
               className={`flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-5 py-3 text-left text-[15px] font-medium tracking-[-0.01em] transition-colors duration-150 ${cls} ${
                 selected !== null ? 'cursor-not-allowed' : ''
               }`}
@@ -168,6 +156,29 @@ export function Quiz({ quiz, moduleSlug }: Props) {
           )
         })}
       </div>
+
+      {/* motivation chip */}
+      <AnimatePresence>
+        {motivation && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center justify-center"
+          >
+            <span
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
+                motivation.includes('not quite')
+                  ? 'bg-yellow/10 text-yellow'
+                  : 'bg-green/10 text-green'
+              }`}
+            >
+              ⚡ {motivation}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

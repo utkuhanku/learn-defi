@@ -143,6 +143,52 @@ body {
   animation: soft-pulse 2s ease-in-out infinite;
 }
 
+/* Shake animation for wrong quiz answer */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Count up number animation */
+@keyframes count-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); color: #ffd12f; }
+  100% { transform: scale(1); }
+}
+.animate-count-pop {
+  animation: count-pop 0.3s ease-out;
+}
+
+/* Slide up entrance */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+/* Confetti particle */
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.confetti-particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+  pointer-events: none;
+  z-index: 51;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .press:active {
     transform: none;
@@ -150,7 +196,13 @@ body {
   }
   .animate-celebrate,
   .animate-xp-pop,
-  .animate-soft-pulse {
+  .animate-soft-pulse,
+  .animate-shake,
+  .animate-count-pop,
+  .animate-slide-up {
     animation: none;
+  }
+  .confetti-particle {
+    display: none;
   }
 }
