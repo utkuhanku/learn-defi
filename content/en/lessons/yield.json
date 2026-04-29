@@ -9,17 +9,27 @@
         {
           "type": "text",
           "heading": "simple vs compound interest",
-          "body": "APR (Annual Percentage Rate) is simple interest — 10% APR on $1,000 earns $100/year, period. APY (Annual Percentage Yield) includes compounding — your interest earns interest. The more frequently you compound, the higher the APY."
+          "body": "APR (Annual Percentage Rate) is simple interest — 10% APR on $1,000 earns exactly $100/year. APY (Annual Percentage Yield) includes compounding — your interest earns interest. The more frequently you compound, the higher the APY relative to APR."
         },
         {
           "type": "text",
           "heading": "the compounding formula",
-          "body": "APY = (1 + APR/n)^n - 1, where n is compounds per year. 10% APR compounded daily (n=365) gives 10.52% APY. Compounded continuously, it gives 10.52% APY via e^APR - 1. Small difference at low rates, huge at high rates."
+          "body": "APY = (1 + APR/n)^n - 1, where n is the number of compounds per year. 10% APR compounded daily (n=365) = 10.52% APY. Compounded continuously: APY = e^APR - 1 = 10.52% as well. Small difference at low rates, massive at high rates."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "100% APR sounds the same compounded any way, right? Wrong. Compounded yearly: 100% APY. Compounded monthly: 161% APY. Compounded daily: 171.5% APY. That's a $715 difference per $1,000 deposited per year — just from compounding frequency."
         },
         {
           "type": "highlight",
           "emoji": "📊",
-          "text": "A 100% APR compounded daily becomes 171.5% APY. Always check if a protocol shows APR or APY — the difference can be massive at high rates."
+          "text": "Always check if a protocol shows APR or APY. Marketing teams love showing APY (the bigger number). Engineers care about APR (the actual rate). The difference matters more at higher rates."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: compounding turns small rates into big returns over time. The frequency of compounding can dramatically change your effective yield."
         }
       ]
     },
@@ -31,39 +41,65 @@
         {
           "type": "text",
           "heading": "how farms work",
-          "body": "1. Deposit tokens into a liquidity pool → receive LP tokens.\n2. Stake LP tokens in a farm contract.\n3. Earn reward tokens (e.g., AERO, COMP) proportional to your share.\n4. Harvest rewards and optionally compound back."
+          "body": "Yield farming combines liquidity providing with reward token emissions. Steps: (1) deposit two tokens into an LP pool, (2) receive LP tokens, (3) stake LP tokens in a 'farm' contract, (4) earn reward tokens (e.g., AERO, COMP, CAKE) on top of trading fees, (5) harvest and optionally compound."
         },
         {
           "type": "comparison",
-          "left": { "label": "Single-sided staking", "items": ["deposit one token", "no impermanent loss", "typically lower yields", "simpler to manage"] },
-          "right": { "label": "LP farming", "items": ["deposit a token pair", "impermanent loss risk", "typically higher yields", "requires rebalancing"] }
+          "left": {
+            "label": "single-sided staking",
+            "items": ["deposit just one token", "no impermanent loss risk", "typically lower yields (5-15%)", "simpler to manage", "ideal for stablecoins"]
+          },
+          "right": {
+            "label": "LP farming",
+            "items": ["deposit a token pair", "impermanent loss risk", "typically higher yields (20-200%+)", "requires monitoring", "high reward, high complexity"]
+          }
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "Aerodrome's USDC/ETH farm pays ~25% APR in trading fees + AERO emissions. You deposit $5,000 each of USDC and ETH ($10,000 total), receive LP tokens, stake them, and earn ~$2,500/year. But if ETH moves 50% in either direction, IL eats ~6% of your principal."
         },
         {
           "type": "highlight",
           "emoji": "🌾",
-          "text": "Auto-compounding vaults (like Beefy or Yearn) automatically harvest and restake your rewards, saving gas and maximizing APY."
+          "text": "Auto-compounding vaults (Beefy, Yearn) automatically harvest rewards and restake them, saving gas and maximizing APY. Trade-off: vault fees (typically 5-20% of yield) for convenience."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: farming layers rewards on top of trading fees. Higher yield = higher complexity and risk. Net yield = farm APR - IL - gas - vault fees."
         }
       ]
     },
     {
       "id": "yield-3",
-      "title": "the risk-return spectrum",
+      "title": "risk-return spectrum",
       "order": 3,
       "cards": [
         {
           "type": "text",
           "heading": "low risk, low reward",
-          "body": "Lending USDC on Aave: 3-8% APY. Your principal stays in dollars, smart contract risk is the main concern. Blue-chip protocols with years of track record and audits."
+          "body": "Lending USDC on Aave or Moonwell on Base: 4-8% APY, fully transparent, battle-tested. Your principal stays in dollars, smart contract risk is the main concern (mitigated by audits and years of operation). Best for capital preservation with modest growth."
+        },
+        {
+          "type": "text",
+          "heading": "moderate risk, moderate reward",
+          "body": "Stablecoin pairs (USDC/USDT) in Curve or Aerodrome: 8-25% APY, minimal IL, decent diversification. Or blue-chip pairs (ETH/USDC) on top DEXes: 15-40% APY but with real IL risk during volatility. The sweet spot for active DeFi users."
         },
         {
           "type": "text",
           "heading": "high risk, high reward",
-          "body": "LP farming a new memecoin pair: 200-1000%+ APY. But the token might drop 90%, IL can be devastating, and the smart contract might not be audited. The APY number is meaningless if your principal goes to zero."
+          "body": "LP farming a new memecoin pair: 200-1000%+ APY. But the token might drop 90%, IL can be devastating, and the smart contract might not be audited. The APY number is meaningless if your principal goes to zero. Most degen farms last weeks, not months."
         },
         {
           "type": "highlight",
           "emoji": "🎰",
-          "text": "If an APY looks too good to be true, ask: where is the yield coming from? Real fees, or printed tokens? Sustainable yield comes from real economic activity."
+          "text": "If an APY looks too good to be true, ask: where is the yield coming from? Real fees from trading volume? Or printed tokens from inflation? Sustainable yield comes from real economic activity."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: yield is paid for risk. Higher APYs always come with higher risk — usually IL, smart contract, or token-going-to-zero risk."
         }
       ]
     },
@@ -75,17 +111,27 @@
         {
           "type": "text",
           "heading": "why APY drops over time",
-          "body": "Most farm rewards come from token emissions — the protocol prints new tokens to attract liquidity. As more people farm, the same emissions are split among more stakers. Plus, farmers sell reward tokens, pushing prices down."
+          "body": "Most farm rewards come from token emissions — the protocol prints new tokens to attract liquidity. As more capital enters the farm, the same emissions are split across more stakers, lowering APY. Plus, farmers sell reward tokens, pushing prices down further."
         },
         {
           "type": "text",
           "heading": "real yield vs emission yield",
-          "body": "Real yield comes from actual protocol revenue — trading fees, interest, liquidation penalties. Emission yield comes from token inflation. Real yield is sustainable; emission yield is a temporary incentive that dilutes token holders."
+          "body": "Real yield comes from actual protocol revenue — trading fees, lending interest, liquidation penalties. Emission yield comes from token inflation. Real yield is sustainable and dollar-denominated; emission yield is a temporary incentive that dilutes existing holders."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "A new farm launches with 1000% APY in 'XYZ' token emissions. Sounds great. But: $10M emitted per month, market cap only $5M. Within 30 days, the price collapses 80% as farmers dump. Your nominal APY was 1000%, but your dollar return was -50% due to token depreciation."
         },
         {
           "type": "highlight",
           "emoji": "📉",
-          "text": "A farm paying 500% APY in emissions is likely printing tokens faster than demand can absorb. Check the token's price chart — if it's trending down, your 'yield' is being offset by depreciation."
+          "text": "Always check the reward token's price chart. If it's trending down faster than the APY can compensate, you're losing money in dollar terms even with positive yield. Sustainable yield = stable or rising token price."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: distinguish real yield (from fees) from emission yield (from inflation). Real yield is durable, emission yield is a marketing tactic."
         }
       ]
     },
@@ -97,17 +143,27 @@
         {
           "type": "text",
           "heading": "strategy types",
-          "body": "Delta-neutral: hedge price exposure, earn only fees/funding. Pair farming: provide LP with correlated assets (ETH/stETH) for low IL. Single-sided: lend stablecoins for safe yield. Each fits different risk appetites."
+          "body": "Delta-neutral: hedge price exposure, earn only fees/funding. Pair farming: provide LP with correlated assets (ETH/stETH) for low IL. Single-sided staking: lend stablecoins for safe yield. Each strategy fits different risk appetites and capital levels."
         },
         {
           "type": "text",
           "heading": "calculating net yield",
-          "body": "Net yield = farming APY - impermanent loss - gas costs - smart contract risk premium. A 20% APY farm with 8% IL and 2% gas overhead nets you ~10%. Always do the math before committing capital."
+          "body": "Net yield = farming APY - impermanent loss - gas costs - smart contract risk premium. A 20% APY farm with 8% expected IL and 1% gas overhead nets you ~11%. Always run the math before committing capital — yield without risk-adjustment is meaningless."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "Conservative starter portfolio: 60% USDC lending on Aave (6% APY), 30% ETH/USDC LP on Aerodrome (20% APY before IL), 10% experimental farms. Expected blended yield: 8-12% with manageable risk. Most experienced farmers run portfolios like this — boring works."
         },
         {
           "type": "highlight",
           "emoji": "🧮",
-          "text": "The best strategy is the one you understand. Start with simple stablecoin lending, then gradually explore LP farming as you gain confidence."
+          "text": "The best strategy is the one you understand and can monitor. Start with simple stablecoin lending, master that, then gradually explore LP farming as you gain confidence."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: match your strategy to your risk tolerance and time. You're now ready to use the APR → APY Calculator and compare different yields!"
         }
       ]
     }

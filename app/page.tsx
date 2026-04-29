@@ -37,10 +37,11 @@ type NodeInfo = {
 function buildPath(
   modules: Module[],
   completedLessons: Record<string, number>,
-  completedQuizzes: Record<string, { score: number; total: number; ts: number }>,
 ): NodeInfo[] {
+  // Module unlock rule: previous module's lessons must all be complete.
+  // Quiz is optional (bonus XP only).
   const nodes: NodeInfo[] = []
-  let foundActive = false
+  let prevModuleLessonsDone = true // first module is always unlocked
 
   for (const mod of modules) {
     const lessonIds = Array.from(
@@ -48,24 +49,21 @@ function buildPath(
       (_, i) => `${mod.id}-${i + 1}`,
     )
     const completed = lessonIds.filter((id) => completedLessons[id]).length
-    const quizDone = !!completedQuizzes[mod.id]
-    const fullyComplete = completed === mod.lessonCount && quizDone
+    const allLessonsDone =
+      mod.lessonCount > 0 && completed === mod.lessonCount
     const nextLessonId = lessonIds.find((id) => !completedLessons[id]) ?? null
 
     let status: PathStatus
-
     if (mod.locked) {
       status = 'locked'
-    } else if (fullyComplete) {
-      status = 'completed'
-    } else if (!foundActive && (completed > 0 || nodes.every((n) => n.status === 'completed'))) {
-      status = 'active'
-      foundActive = true
-    } else if (!foundActive) {
-      status = 'available'
-      foundActive = true
-    } else {
+    } else if (!prevModuleLessonsDone) {
       status = 'locked'
+    } else if (allLessonsDone) {
+      status = 'completed'
+    } else if (completed > 0) {
+      status = 'active'
+    } else {
+      status = 'available'
     }
 
     nodes.push({
@@ -75,6 +73,11 @@ function buildPath(
       totalLessons: mod.lessonCount,
       nextLessonId,
     })
+
+    // Lock all subsequent modules unless this one's lessons are all done
+    if (!mod.locked) {
+      prevModuleLessonsDone = allLessonsDone
+    }
   }
 
   return nodes
@@ -105,9 +108,11 @@ export default function Home() {
     if (loc) console.log('[mini-app] launched from:', loc)
   }, [context])
 
+  // completedQuizzes intentionally not in deps — quiz is optional now
+  void completedQuizzes
   const nodes = useMemo(
-    () => buildPath(modules, completedLessons, completedQuizzes),
-    [completedLessons, completedQuizzes],
+    () => buildPath(modules, completedLessons),
+    [completedLessons],
   )
 
   const ctx = context as MiniKitCtx | null

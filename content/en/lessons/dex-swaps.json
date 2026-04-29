@@ -9,17 +9,27 @@
         {
           "type": "text",
           "heading": "automated market makers",
-          "body": "Traditional exchanges use order books — buyers and sellers post prices. AMMs replace this with liquidity pools and a math formula. The most common: x × y = k, where x and y are token quantities and k is a constant."
+          "body": "Traditional exchanges use order books — buyers and sellers post bids and asks, and the exchange matches them. AMMs (Automated Market Makers) replace this with liquidity pools and a math formula. The most common formula is x × y = k, where x and y are token quantities and k is constant."
         },
         {
           "type": "text",
           "heading": "how a swap works",
-          "body": "When you swap Token A for Token B, you add A to the pool and remove B. The formula rebalances prices automatically. More A in the pool means A gets cheaper, B gets more expensive. No counterparty needed."
+          "body": "When you swap Token A for Token B, you add A to the pool and remove B. The formula rebalances prices automatically. More A in the pool means A gets cheaper, B gets more expensive. No counterparty needed — the pool itself trades against you using its math."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "Uniswap was the first major AMM, launched in 2018. It now processes billions in daily volume with zero employees handling trades. Anyone can be a market maker by depositing two tokens. Anyone can swap, anytime, for any pair that has liquidity. Permissionless trading at scale."
         },
         {
           "type": "highlight",
-          "emoji": "🔄",
-          "text": "Uniswap, the first major AMM, processes billions in volume with zero employees running trades. It's just code."
+          "emoji": "⚠️",
+          "text": "AMMs always have slippage. Larger trades move prices more in shallow pools. The smaller the pool relative to your trade, the worse the price you'll get."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: AMMs replace order books with math. Trades execute instantly against a pool, with prices set by a formula instead of human matching."
         }
       ]
     },
@@ -31,17 +41,33 @@
         {
           "type": "text",
           "heading": "depositing into pools",
-          "body": "Liquidity providers (LPs) deposit equal value of two tokens into a pool — e.g., $500 of ETH + $500 of USDC. In return, they receive LP tokens representing their share. They earn trading fees proportional to their share."
+          "body": "Liquidity providers (LPs) deposit equal value of two tokens into a pool — e.g., $500 of ETH + $500 of USDC. In return, they receive LP tokens representing their share of the pool. They earn trading fees (typically 0.05-0.3% per swap) proportional to their share."
         },
         {
           "type": "comparison",
-          "left": { "label": "Full-range LP", "items": ["covers all prices", "less capital efficient", "simpler to manage", "lower fee income per $"] },
-          "right": { "label": "Concentrated LP", "items": ["covers a price range", "much more capital efficient", "needs active management", "higher fee income per $"] }
+          "left": {
+            "label": "full-range LP",
+            "items": ["covers all possible prices", "less capital efficient", "simpler to manage", "lower fee income per dollar", "set and forget"]
+          },
+          "right": {
+            "label": "concentrated LP",
+            "items": ["covers a chosen price range", "much more capital efficient", "needs active management", "higher fee income per dollar", "rebalance when out of range"]
+          }
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "On Aerodrome (Base's largest DEX), LPs in the USDC/ETH pool earn ~10-30% APY in trading fees plus AERO token emissions. A $10,000 LP position might earn $1,500-3,000/year — but is exposed to impermanent loss if prices diverge significantly."
         },
         {
           "type": "highlight",
           "emoji": "💧",
-          "text": "On Aerodrome (Base's largest DEX), LPs also earn AERO token emissions on top of trading fees — but emissions dilute over time."
+          "text": "On Aerodrome and Velodrome-style DEXes, LPs also earn token emissions on top of trading fees. But emissions dilute over time — check if the rewards are sustainable or just temporary incentives."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: providing liquidity earns trading fees, but exposes you to impermanent loss. The yield needs to compensate for the risk."
         }
       ]
     },
@@ -53,17 +79,27 @@
         {
           "type": "text",
           "heading": "what is slippage?",
-          "body": "Slippage is the difference between the expected price and the actual execution price. In a large pool with deep liquidity, slippage is tiny. In a shallow pool, even small trades can move the price significantly."
+          "body": "Slippage is the difference between the expected price and the actual execution price of your swap. In a deep pool with lots of liquidity, slippage is tiny (under 0.1%). In a shallow pool, even small trades can move the price 1%+ — that's the cost of being a price-mover."
         },
         {
           "type": "text",
           "heading": "slippage tolerance",
-          "body": "When you set 0.5% slippage tolerance, your swap will revert if the price moves more than 0.5% between when you submit and when it executes. Too tight and your tx fails; too loose and you might get a bad deal."
+          "body": "When you set 0.5% slippage tolerance, your swap will revert if the actual price moves more than 0.5% from quoted. Too tight (0.1%) and your tx fails repeatedly during volatility. Too loose (5%+) and you might get sandwiched by MEV bots. Most DEXes default to 0.5-1%."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You want to swap $10,000 USDC for ETH. In a $100M USDC/ETH pool, slippage is ~0.01% — basically free. In a $50,000 pool (rare but exists for new tokens), the same trade would push the price 10%+ against you. Always check liquidity depth before large swaps."
         },
         {
           "type": "highlight",
           "emoji": "📉",
-          "text": "A $10 swap in a $100M pool has near-zero slippage. The same $10 swap in a $1,000 pool could move the price 1%+. Always check liquidity depth."
+          "text": "MEV bots scan the mempool and 'sandwich' trades with high slippage tolerance — buying before you, selling after. On Base, the sequencer offers some MEV protection, but not all."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: pool depth determines slippage. Always check the size of the pool relative to your trade — and use aggregators like Matcha for the best routing."
         }
       ]
     },
@@ -75,17 +111,27 @@
         {
           "type": "text",
           "heading": "the LP's hidden cost",
-          "body": "When you provide liquidity and one token's price changes relative to the other, the AMM rebalances your position. You end up with more of the cheaper token and less of the expensive one. This divergence from simply holding is called impermanent loss."
+          "body": "When you provide liquidity and one token's price changes relative to the other, the AMM rebalances your position automatically. You end up with MORE of the cheaper token and LESS of the expensive one. This divergence from simply holding both tokens is called impermanent loss."
         },
         {
           "type": "text",
           "heading": "when it becomes permanent",
-          "body": "It's 'impermanent' because if prices return to the original ratio, the loss disappears. But if you withdraw while prices are different, the loss is locked in. The formula: IL = 2√(price_ratio) / (1 + price_ratio) - 1."
+          "body": "It's called 'impermanent' because if prices return to the original ratio when you LP'd, the loss disappears. But if you withdraw while prices are different, the loss is locked in — permanent. The formula: IL = 2 × √(price_ratio) / (1 + price_ratio) - 1."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You LP $1,000 of ETH and $1,000 of USDC at $2,000/ETH. ETH then doubles to $4,000. The pool rebalances — you now have less ETH but more USDC. Your LP position is worth ~$2,828 vs $3,000 if you'd just held — that's ~5.7% IL. Trading fees need to exceed this to be profitable."
         },
         {
           "type": "highlight",
           "emoji": "⚠️",
-          "text": "A 2x price change in one token causes ~5.7% IL. A 5x change causes ~25.5% IL. Trading fees need to exceed IL for LP to be profitable."
+          "text": "A 2x price change in one token causes ~5.7% IL. A 5x change causes ~25.5% IL. A 10x change causes ~42.3% IL. Always model the worst case before LPing volatile assets."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: impermanent loss is the price of providing liquidity. It's only impermanent if prices revert. Always compare LP yield to expected IL."
         }
       ]
     },
@@ -97,17 +143,27 @@
         {
           "type": "text",
           "heading": "the Base DEX landscape",
-          "body": "Aerodrome is Base's native DEX and largest by TVL — it uses the ve(3,3) model with vote-locked emissions. Uniswap V3 is also deployed on Base with concentrated liquidity. BaseSwap and other protocols offer additional options."
+          "body": "Aerodrome is Base's native DEX and largest by TVL ($1B+) — it uses the ve(3,3) model with vote-locked emissions. Uniswap V3 is also deployed on Base with concentrated liquidity. BaseSwap, SushiSwap, and others provide additional options. Most volume is on Aerodrome and Uniswap."
         },
         {
           "type": "text",
           "heading": "why DEXes on Base win",
-          "body": "Sub-penny gas makes small swaps viable. On Ethereum L1, a $50 swap might cost $10 in gas — on Base it costs $0.001. This unlocks DeFi for everyday users, not just whales."
+          "body": "Sub-penny gas makes small swaps viable. On Ethereum L1, a $50 swap might cost $10 in gas — on Base it costs $0.001. This unlocks DeFi for everyday users, not just whales. Volume has grown 10x since launch and continues to climb."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "A typical Base DEX user might swap weekly amounts of $50-500 between USDC and ETH for opportunistic trades. Total gas cost for a year of weekly swaps: ~$0.50. Same activity on Ethereum L1 would cost $250-2,500 in gas alone. Base economics enable real, daily DeFi usage."
         },
         {
           "type": "highlight",
           "emoji": "🟦",
-          "text": "Always compare swap routes. DEX aggregators like Matcha or 1inch find the best price across multiple pools and protocols."
+          "text": "Always compare swap routes. DEX aggregators like Matcha, 1inch, and Odos find the best price across multiple pools and protocols — often saving 0.1-2% on every trade."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: Base's cheap gas turns DEXes from speculation tools into everyday infrastructure. You're now ready to use the Impermanent Loss Simulator!"
         }
       ]
     }

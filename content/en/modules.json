@@ -2,7 +2,7 @@
   {
     "id": "defi-basics",
     "title": "defi basics",
-    "description": "wallet, gas, L1/L2, Base — start here.",
+    "description": "wallets, gas, transactions, and why Base changes everything. the foundation for everything that follows.",
     "order": 1,
     "lessonCount": 5,
     "icon": "BookOpen"
@@ -10,7 +10,7 @@
   {
     "id": "stablecoins",
     "title": "stablecoins",
-    "description": "why a dollar stays a dollar — usually.",
+    "description": "USDC, USDT, DAI — how they keep their peg, what happens when they don't, and why they're the backbone of DeFi.",
     "order": 2,
     "lessonCount": 5,
     "icon": "Coins"
@@ -18,7 +18,7 @@
   {
     "id": "lending",
     "title": "lending & borrowing",
-    "description": "collateral, health factor, liquidation.",
+    "description": "supply, borrow, collateral, liquidation. understand Aave, health factors, and how to borrow without a credit score.",
     "order": 3,
     "lessonCount": 5,
     "icon": "Landmark"
@@ -26,7 +26,7 @@
   {
     "id": "dex-swaps",
     "title": "dex & swaps",
-    "description": "AMMs, slippage, impermanent loss.",
+    "description": "automated market makers, liquidity pools, impermanent loss. learn how to trade and provide liquidity on-chain.",
     "order": 4,
     "lessonCount": 5,
     "icon": "ArrowLeftRight"
@@ -34,7 +34,7 @@
   {
     "id": "yield",
     "title": "yield farming",
-    "description": "APR vs APY, compounding, risk-return.",
+    "description": "APR vs APY, farming mechanics, real yield vs emissions. learn to evaluate and choose yield strategies.",
     "order": 5,
     "lessonCount": 5,
     "icon": "TrendingUp"
@@ -42,9 +42,9 @@
   {
     "id": "advanced",
     "title": "advanced strategies",
-    "description": "delta-neutral, funding rate, Pendle.",
+    "description": "delta-neutral, funding rate, Pendle. for experienced DeFi users.",
     "order": 6,
-    "lessonCount": 6,
+    "lessonCount": 0,
     "icon": "Brain",
     "locked": true
   }

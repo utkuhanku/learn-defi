@@ -8,18 +8,34 @@
       "cards": [
         {
           "type": "text",
-          "heading": "decentralized finance",
-          "body": "DeFi replaces banks with code. Smart contracts on blockchains like Ethereum handle lending, trading, and earning — no middleman, no office hours, no permission needed."
+          "heading": "finance without the middleman",
+          "body": "DeFi — decentralized finance — replaces banks, brokers, and institutions with smart contracts. These are programs that run on blockchains like Ethereum and Base, executing financial operations automatically. No CEO, no office hours, no approval needed."
+        },
+        {
+          "type": "text",
+          "heading": "how it actually works",
+          "body": "When you use DeFi, you interact directly with smart contracts through your wallet. Want to lend money? A smart contract matches you with borrowers and handles interest payments. Want to trade? An automated market maker executes your swap instantly. Every transaction is recorded on the blockchain — transparent and verifiable by anyone."
         },
         {
           "type": "comparison",
-          "left": { "label": "Traditional Finance", "items": ["banks control your money", "9-to-5 hours", "KYC paperwork", "days to settle"] },
-          "right": { "label": "DeFi", "items": ["you hold your keys", "24/7/365", "connect wallet, done", "seconds to settle"] }
+          "left": {
+            "label": "traditional finance",
+            "items": ["bank controls your money", "9-to-5 business hours", "requires ID, credit check", "slow cross-border transfers", "opaque fees and spreads"]
+          },
+          "right": {
+            "label": "DeFi",
+            "items": ["you control your money", "runs 24/7/365", "only needs a wallet", "instant global transfers", "transparent, verifiable fees"]
+          }
+        },
+        {
+          "type": "highlight",
+          "emoji": "⚠️",
+          "text": "DeFi isn't risk-free. Smart contracts can have bugs, protocols can be hacked, and there's no customer support to call. You are your own bank — that means you're also your own security team."
         },
         {
           "type": "highlight",
           "emoji": "💡",
-          "text": "DeFi doesn't mean 'no rules' — it means the rules are written in code that anyone can read and verify."
+          "text": "Key takeaway: DeFi uses code instead of companies to run financial services. It's open to everyone, runs nonstop, but comes with real risks you need to understand."
         }
       ]
     },
@@ -30,18 +46,28 @@
       "cards": [
         {
           "type": "text",
-          "heading": "your keys, your coins",
-          "body": "A crypto wallet stores your private keys — the passwords that prove you own your assets. Unlike a bank account, nobody can freeze or seize your wallet."
+          "heading": "your keys, your crypto",
+          "body": "A crypto wallet doesn't actually hold your coins — they live on the blockchain. Your wallet holds your private key, which proves you own those assets. Think of it like a password to your bank account, except if you lose it, nobody can help you recover it."
         },
         {
-          "type": "comparison",
-          "left": { "label": "EOA (classic)", "items": ["single private key", "seed phrase backup", "you pay gas directly"] },
-          "right": { "label": "Smart Wallet", "items": ["social recovery", "batched transactions", "gas sponsoring possible"] }
+          "type": "text",
+          "heading": "how wallets work",
+          "body": "Every wallet has two parts: a public address (like your email — safe to share, people send you crypto here) and a private key (like your password — never share this). When you sign a transaction, your wallet uses the private key to prove it's really you authorizing it."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "Coinbase Wallet (what you're using right now in Base App) is a self-custody wallet. Coinbase the company can't access your funds — only you can. Compare this to keeping crypto on Coinbase the exchange, where they hold the keys for you. Self-custody = more control, more responsibility."
         },
         {
           "type": "highlight",
-          "emoji": "🔐",
-          "text": "Never share your seed phrase. Not with 'support', not on a website, not in a DM. Ever."
+          "emoji": "⚠️",
+          "text": "Never share your seed phrase (12 or 24 words) with anyone. No legitimate service will ever ask for it. If someone asks, it's a scam — 100% of the time."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: your wallet is your identity in DeFi. Guard your private key and seed phrase like you'd guard the deed to your house."
         }
       ]
     },
@@ -53,17 +79,27 @@
         {
           "type": "text",
           "heading": "the cost of computation",
-          "body": "Every transaction on a blockchain costs gas — a small fee paid to validators who process your request. More complex actions (like swaps) cost more gas than simple transfers."
+          "body": "Every blockchain transaction requires computational work from thousands of nodes around the world. Gas is the fee you pay for that work — it compensates validators for processing and securing your transaction. More complex operations (like swapping tokens) cost more gas than simple ones (like sending ETH)."
         },
         {
           "type": "text",
-          "heading": "why gas prices change",
-          "body": "Gas is priced by demand. When many people transact at once, gas spikes. L2 chains like Base batch transactions to Ethereum, making gas 50-100x cheaper."
+          "heading": "how gas fees are calculated",
+          "body": "Gas fee = gas units × gas price. Gas units measure complexity (a simple transfer uses ~21,000 units, a swap uses ~150,000). Gas price fluctuates based on network demand — when everyone's trading, gas gets expensive. On Ethereum L1, this can mean $5-50 per transaction. On Base L2, it's usually under $0.01."
+        },
+        {
+          "type": "text",
+          "heading": "why Base is different",
+          "body": "Base is a Layer 2 — it batches hundreds of transactions together and submits them to Ethereum as one. This sharing effect divides the cost dramatically. A swap that costs $15 on Ethereum L1 costs less than a penny on Base. Same security guarantees, 1000x cheaper."
         },
         {
           "type": "highlight",
-          "emoji": "⛽",
-          "text": "On Base, a typical swap costs less than $0.01. The same swap on Ethereum L1 can cost $5-50+."
+          "emoji": "⚠️",
+          "text": "On Ethereum L1, failed transactions still cost gas. You pay for the computation attempt, not the result. On Base, this still applies but the cost is negligible. Always double-check transaction details before confirming."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: gas is the fuel for blockchain transactions. Base makes it nearly free — that's why we're building here."
         }
       ]
     },
@@ -74,18 +110,28 @@
       "cards": [
         {
           "type": "text",
-          "heading": "ethereum, but faster and cheaper",
-          "body": "Base is a Layer 2 (L2) chain built by Coinbase. It inherits Ethereum's security while processing transactions faster and cheaper. Your assets on Base are secured by Ethereum."
+          "heading": "ethereum's express lane",
+          "body": "Base is a Layer 2 blockchain built on top of Ethereum. It inherits Ethereum's security and decentralization while processing transactions much faster and cheaper. Think of Ethereum as a highway and Base as an express lane — same destination, way less traffic."
         },
         {
           "type": "text",
-          "heading": "why builders choose Base",
-          "body": "Low fees, fast confirmations, Coinbase ecosystem distribution, and a growing community of apps and users. Over 100M transactions processed."
+          "heading": "how L2s work",
+          "body": "Base processes transactions off Ethereum's main chain, then periodically posts compressed proofs back to Ethereum L1. This means your assets on Base are ultimately secured by Ethereum's massive validator network. You get L1 security at L2 prices — the best of both worlds."
+        },
+        {
+          "type": "text",
+          "heading": "the Base ecosystem",
+          "body": "Base is built by Coinbase and hosts a thriving DeFi ecosystem: Aerodrome (largest DEX by TVL), Aave and Moonwell (lending), native USDC, and hundreds of apps. Over $10B in total value locked, processing millions of transactions daily at sub-penny costs."
         },
         {
           "type": "highlight",
-          "emoji": "🟦",
-          "text": "Base is open-source, permissionless, and decentralized. Anyone can build on it."
+          "emoji": "⚠️",
+          "text": "While Base is built by Coinbase, it's designed to be progressively decentralized. Currently it relies on a centralized sequencer — understand this tradeoff. The roadmap includes full decentralization over time."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: Base gives you Ethereum-grade security with sub-penny transaction costs. It's where DeFi becomes accessible to everyone, not just whales."
         }
       ]
     },
@@ -96,18 +142,28 @@
       "cards": [
         {
           "type": "text",
-          "heading": "what happens when you tap 'send'",
-          "body": "1. You sign the transaction with your private key.\n2. It enters the mempool (waiting room).\n3. A validator picks it up and includes it in a block.\n4. The block is confirmed — your transaction is final."
+          "heading": "what happens when you tap 'confirm'",
+          "body": "Every DeFi transaction follows the same path: (1) you create the transaction in your wallet, (2) you sign it with your private key, (3) it's broadcast to the network, (4) a validator includes it in a block, (5) the block is confirmed. On Base, steps 3-5 happen in about 2 seconds."
         },
         {
           "type": "text",
           "heading": "reading a transaction",
-          "body": "Every tx has: sender (from), receiver (to), value, gas used, gas price, status (success/fail), and a unique hash. You can view any tx on BaseScan."
+          "body": "Every transaction has: a hash (unique ID), from/to addresses, value (how much), gas used, status (success/fail), and block number. You can look up any transaction on BaseScan (basescan.org) — complete transparency is a core feature of blockchain."
+        },
+        {
+          "type": "text",
+          "heading": "approvals and allowances",
+          "body": "Before you can use tokens in DeFi, you often need to 'approve' a smart contract to spend them on your behalf. This is a separate transaction that costs gas. You can approve a specific amount or unlimited — unlimited is convenient but riskier if the contract is compromised. Always revoke unused approvals."
         },
         {
           "type": "highlight",
-          "emoji": "🔍",
-          "text": "Try it: open basescan.org, paste any address, and explore the transaction history. Everything is public."
+          "emoji": "⚠️",
+          "text": "Be careful with unlimited token approvals. A compromised protocol with unlimited approval can drain your tokens. Use tools like revoke.cash to audit and revoke old approvals regularly."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: understand what you're signing before you confirm. You're now ready to explore the Gas Cost Comparator tool and see Base's savings firsthand!"
         }
       ]
     }

@@ -108,15 +108,24 @@ export function ModuleContent({ module: mod, lessons }: Props) {
             </div>
           )}
 
-          <Link href={`/module/${mod.id}/tool`}>
-            <div className="press flex cursor-pointer items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]">
-              <Wrench size={20} className="shrink-0 text-base-blue" />
-              <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
-                {TOOL_NAMES[mod.id] ?? 'interactive tool'}
+          {allLessonsDone ? (
+            <Link href={`/module/${mod.id}/tool`}>
+              <div className="press flex cursor-pointer items-center gap-4 px-5 py-4 transition-colors duration-150 hover:bg-[var(--surface-2)]">
+                <Wrench size={20} className="shrink-0 text-base-blue" />
+                <span className="flex-1 text-[15px] font-medium tracking-[-0.01em]">
+                  {TOOL_NAMES[mod.id] ?? 'interactive tool'}
+                </span>
+                <ChevronRight size={16} className="text-[var(--text-4)]" />
+              </div>
+            </Link>
+          ) : (
+            <div className="flex items-center gap-4 px-5 py-4 opacity-40">
+              <Lock size={18} className="shrink-0 text-[var(--text-3)]" />
+              <span className="flex-1 text-[15px] text-[var(--text-3)]">
+                complete all lessons to unlock the tool
               </span>
-              <ChevronRight size={16} className="text-[var(--text-4)]" />
             </div>
-          </Link>
+          )}
         </div>
       </div>
     </AppShell>

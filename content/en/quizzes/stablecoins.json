@@ -4,32 +4,69 @@
     {
       "id": "q1",
       "text": "How does USDC maintain its dollar peg?",
-      "options": ["An algorithm adjusts supply", "Circle holds dollar reserves and allows 1:1 redemption", "Miners vote on the price", "It's backed by Bitcoin"],
+      "options": [
+        "An algorithm adjusts supply automatically",
+        "Circle holds dollar reserves and allows 1:1 redemption",
+        "Miners vote on the price",
+        "It's backed by Bitcoin"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q2",
       "text": "What is the biggest risk of algorithmic stablecoins?",
-      "options": ["High gas fees", "Slow transactions", "A death spiral where the peg breaks and can't recover", "Too many audits"],
+      "options": [
+        "High gas fees",
+        "Slow transactions",
+        "A death spiral where the peg breaks and can't recover",
+        "Too many audits"
+      ],
       "correctIndex": 2
     },
     {
       "id": "q3",
-      "text": "Which stablecoin is natively issued on Base?",
+      "text": "Which stablecoin is natively issued on Base (not bridged)?",
       "options": ["DAI", "USDT", "USDC", "BUSD"],
       "correctIndex": 2
     },
     {
       "id": "q4",
       "text": "What category is DAI?",
-      "options": ["Fiat-backed", "Algorithmic", "Crypto-backed and overcollateralized", "Commodity-backed"],
+      "options": [
+        "Fiat-backed",
+        "Algorithmic",
+        "Crypto-backed and overcollateralized",
+        "Commodity-backed"
+      ],
       "correctIndex": 2
     },
     {
       "id": "q5",
-      "text": "If USDC drops to $0.98, what happens?",
-      "options": ["Nothing, it stays there", "Arbitrageurs buy cheap USDC and redeem at $1 for profit", "Circle prints more USDC", "The blockchain halts"],
+      "text": "USDC briefly drops to $0.98 in the market. What's most likely to happen next?",
+      "options": [
+        "Nothing — it stays there permanently",
+        "Arbitrageurs buy cheap USDC and redeem at $1 for profit, restoring the peg",
+        "Circle prints more USDC to push the price down",
+        "The blockchain halts trading"
+      ],
       "correctIndex": 1
+    },
+    {
+      "id": "q6",
+      "text": "You're holding $50,000 in stablecoins. You notice USDC has been trading at $0.93 for 6 hours and Circle has paused redemptions. What's the smart move?",
+      "options": [
+        "Buy more — it must bounce back",
+        "Hold and wait — depegs always recover",
+        "Investigate the cause and consider diversifying to other stablecoins",
+        "Move it all to algorithmic stablecoins"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q7",
+      "text": "DAI requires at least 150% collateral to mint. If you lock $1,500 of ETH, what's the maximum DAI you can create?",
+      "options": ["$2,250 DAI", "$1,500 DAI", "$1,000 DAI", "$500 DAI"],
+      "correctIndex": 2
     }
   ]
 }

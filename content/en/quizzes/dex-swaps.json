@@ -4,31 +4,78 @@
     {
       "id": "q1",
       "text": "What does the x × y = k formula describe?",
-      "options": ["A lending interest rate curve", "The constant product invariant of an AMM", "A stablecoin peg mechanism", "A gas price calculation"],
+      "options": [
+        "A lending interest rate curve",
+        "The constant product invariant of an AMM",
+        "A stablecoin peg mechanism",
+        "A gas price calculation"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q2",
       "text": "When does impermanent loss become permanent?",
-      "options": ["When gas fees are high", "When you withdraw liquidity at a different price ratio", "When the pool runs out of tokens", "It's always permanent"],
+      "options": [
+        "When gas fees are high",
+        "When you withdraw liquidity at a different price ratio than when you deposited",
+        "When the pool runs out of tokens",
+        "It's always permanent"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q3",
-      "text": "You set 5% slippage tolerance on a shallow pool. What might happen?",
-      "options": ["Your swap executes at a much worse price", "Nothing, 5% is always safe", "The pool gets drained", "Your tokens are locked forever"],
+      "text": "You set 5% slippage tolerance on a shallow pool. What's the most likely outcome?",
+      "options": [
+        "Your swap executes at a much worse price than quoted",
+        "Nothing — 5% is always safe",
+        "The pool gets drained",
+        "Your tokens are locked forever"
+      ],
       "correctIndex": 0
     },
     {
       "id": "q4",
-      "text": "What is the main advantage of concentrated liquidity?",
-      "options": ["Zero impermanent loss", "Higher capital efficiency and more fees per dollar", "No gas costs", "Guaranteed profits"],
+      "text": "What is the main advantage of concentrated liquidity over full-range LP?",
+      "options": [
+        "Zero impermanent loss",
+        "Higher capital efficiency and more fees per dollar deposited",
+        "No gas costs",
+        "Guaranteed profits"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q5",
-      "text": "What are the main risks of being an LP?",
-      "options": ["Only gas fees", "Impermanent loss and smart contract risk", "Losing your wallet password", "Exchange rate fees"],
+      "text": "What are the main risks of being a liquidity provider?",
+      "options": [
+        "Only gas fees",
+        "Impermanent loss and smart contract risk",
+        "Losing your wallet password",
+        "Exchange rate fees"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q6",
+      "text": "You provided $1,000 of ETH + $1,000 of USDC when ETH was at $2,000. ETH doubles to $4,000. Approximately what's your IL?",
+      "options": [
+        "0% — you're break-even",
+        "About 5.7% — fees need to compensate",
+        "About 25% — significant loss",
+        "About 50% — you lost half your value"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q7",
+      "text": "You're about to swap $20,000 USDC. The pool has $50,000 total liquidity. What should you do?",
+      "options": [
+        "Swap normally — pool size doesn't matter",
+        "Use a DEX aggregator to split across multiple pools and minimize price impact",
+        "Set 50% slippage tolerance just in case",
+        "Wait for the pool to grow"
+      ],
       "correctIndex": 1
     }
   ]

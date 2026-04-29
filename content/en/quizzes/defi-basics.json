@@ -3,32 +3,79 @@
   "questions": [
     {
       "id": "q1",
-      "text": "Which of these is NOT a feature of DeFi?",
-      "options": ["24/7 availability", "No middlemen needed", "A personal account manager", "Permissionless access"],
-      "correctIndex": 2
+      "text": "What makes DeFi different from traditional finance?",
+      "options": [
+        "It's only available to wealthy investors",
+        "Smart contracts replace banks and brokers",
+        "It requires a credit check",
+        "Transactions take 3-5 business days"
+      ],
+      "correctIndex": 1
     },
     {
       "id": "q2",
-      "text": "What is Base?",
-      "options": ["A cryptocurrency token", "A Layer 2 chain built by Coinbase", "A centralized exchange", "A hardware wallet"],
-      "correctIndex": 1
-    },
-    {
-      "id": "q3",
-      "text": "Why do gas fees exist?",
-      "options": ["To make crypto expensive", "To pay validators who process transactions", "To fund Coinbase", "To prevent trading"],
-      "correctIndex": 1
-    },
-    {
-      "id": "q4",
-      "text": "Where should you NEVER store your seed phrase?",
-      "options": ["Written on paper in a safe", "In a password manager", "In a cloud note or DM", "On a steel plate"],
+      "text": "Your friend asks to see your seed phrase to 'verify your wallet.' What should you do?",
+      "options": [
+        "Share it — they're trying to help",
+        "Share only the first 6 words",
+        "Never share it — this is always a scam",
+        "Post it on social media for verification"
+      ],
       "correctIndex": 2
     },
     {
+      "id": "q3",
+      "text": "A swap costs $15 in gas on Ethereum L1. Approximately how much would the same swap cost on Base?",
+      "options": [
+        "$7.50 (half price)",
+        "$1-2",
+        "Less than $0.01",
+        "The same — $15"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q4",
+      "text": "What does 'gas' actually pay for?",
+      "options": [
+        "The electricity used to mine crypto",
+        "Computational work done by network validators",
+        "A subscription to use the blockchain",
+        "Storage on your phone"
+      ],
+      "correctIndex": 1
+    },
+    {
       "id": "q5",
-      "text": "What advantage does a smart wallet have over a classic EOA?",
-      "options": ["Higher gas fees", "Social recovery and batched transactions", "More seed phrases to remember", "Slower confirmation times"],
+      "text": "You approved unlimited USDC spending on a DeFi protocol. The protocol gets hacked. What's at risk?",
+      "options": [
+        "Nothing — approvals are just for convenience",
+        "Only the amount you originally deposited",
+        "All USDC in your wallet — the approval lets the contract take it",
+        "Only future transactions"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q6",
+      "text": "What is Base's relationship to Ethereum?",
+      "options": [
+        "A competing blockchain with no connection",
+        "A Layer 2 that inherits Ethereum's security",
+        "A copy of Ethereum with different rules",
+        "A wallet app made by Coinbase"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q7",
+      "text": "A transaction on Base shows status: 'failed.' What happened to your gas fee?",
+      "options": [
+        "Refunded automatically",
+        "You still paid it — gas covers the attempt, not the result",
+        "Deducted from your next transaction",
+        "Charged double as a penalty"
+      ],
       "correctIndex": 1
     }
   ]

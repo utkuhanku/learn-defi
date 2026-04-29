@@ -4,32 +4,79 @@
     {
       "id": "q1",
       "text": "What does a health factor of 0.9 mean?",
-      "options": ["Your position is very safe", "Your position can be liquidated", "You need to deposit more collateral to borrow", "Your interest rate is 0.9%"],
+      "options": [
+        "Your position is very safe",
+        "Your position can be liquidated",
+        "You need to deposit more collateral to borrow",
+        "Your interest rate is 0.9%"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q2",
-      "text": "If the LTV is 75% and you borrow at 60%, are you safe?",
-      "options": ["No, you're over the limit", "Yes, but you have limited buffer against price drops", "Yes, with a comfortable safety margin", "It depends on the interest rate"],
-      "correctIndex": 1
+      "text": "If the max LTV is 75% and you borrow at 60% LTV, are you safe?",
+      "options": [
+        "No, you're over the limit",
+        "Yes, but with limited buffer against price drops",
+        "Yes, with a comfortable safety margin",
+        "It depends only on the interest rate"
+      ],
+      "correctIndex": 2
     },
     {
       "id": "q3",
       "text": "Why is Supply APY lower than Borrow APY?",
-      "options": ["It's a bug in the protocol", "The protocol takes a spread for reserves and revenue", "Suppliers take more risk", "Borrowers get a discount"],
+      "options": [
+        "It's a bug in the protocol",
+        "The protocol takes a spread for reserves and revenue",
+        "Suppliers take more risk",
+        "Borrowers get a discount"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q4",
       "text": "What is the liquidation penalty for?",
-      "options": ["Punishing the borrower", "Incentivizing liquidators to repay bad debt", "Paying gas fees", "Funding the DAO treasury"],
+      "options": [
+        "Punishing the borrower",
+        "Incentivizing liquidators to repay bad debt at a discount",
+        "Paying gas fees",
+        "Funding the DAO treasury"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q5",
-      "text": "You deposit ETH and borrow USDC. ETH price drops 30%. What happens?",
-      "options": ["Nothing, USDC is stable", "Your health factor drops and you risk liquidation", "Your borrow amount increases", "Your ETH amount decreases"],
-      "correctIndex": 1
+      "text": "You deposit $10,000 of ETH (LT 82.5%) and borrow $5,000 USDC. What is your starting health factor?",
+      "options": [
+        "0.825",
+        "1.0",
+        "1.65",
+        "2.0"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q6",
+      "text": "Your ETH collateral drops 30% in a flash crash. Your HF was 1.5 before. What's the smart move?",
+      "options": [
+        "Wait — it'll bounce back",
+        "Take out more loans to average down",
+        "Repay part of your debt or add collateral immediately",
+        "Switch to a stable interest rate"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "q7",
+      "text": "When would you choose a stable rate over a variable rate?",
+      "options": [
+        "When you expect rates to drop sharply",
+        "For very short-term loans",
+        "For long-term loans where you want predictable interest",
+        "When the variable rate is higher than the stable rate"
+      ],
+      "correctIndex": 2
     }
   ]
 }

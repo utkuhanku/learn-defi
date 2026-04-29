@@ -14,14 +14,26 @@ import { AppShell } from '@/components/ui/AppShell'
 import { Chip } from '@/components/ui/Chip'
 import { useProgress } from '@/stores/useProgress'
 
-const tools = [
+const LESSON_COUNT = 5
+
+type Tool = {
+  id: string
+  name: string
+  desc: string
+  href: string
+  icon: typeof Fuel
+  /** Module slug whose lessons unlock this tool. null = always locked (coming soon). */
+  moduleSlug: string | null
+}
+
+const tools: Tool[] = [
   {
     id: 'gas-comparator',
     name: 'gas cost comparator',
     desc: 'Ethereum L1 vs Base costs',
     href: '/module/defi-basics/tool',
     icon: Fuel,
-    locked: false,
+    moduleSlug: 'defi-basics',
   },
   {
     id: 'peg-tracker',
@@ -29,7 +41,7 @@ const tools = [
     desc: '7-day peg deviation',
     href: '/module/stablecoins/tool',
     icon: LineChart,
-    locked: false,
+    moduleSlug: 'stablecoins',
   },
   {
     id: 'health-factor-calc',
@@ -37,7 +49,7 @@ const tools = [
     desc: 'lending position safety',
     href: '/module/lending/tool',
     icon: ShieldCheck,
-    locked: false,
+    moduleSlug: 'lending',
   },
   {
     id: 'il-simulator',
@@ -45,7 +57,7 @@ const tools = [
     desc: 'LP vs HODL comparison',
     href: '/module/dex-swaps/tool',
     icon: ArrowLeftRight,
-    locked: false,
+    moduleSlug: 'dex-swaps',
   },
   {
     id: 'apr-apy-calc',
@@ -53,7 +65,7 @@ const tools = [
     desc: 'compounding frequencies',
     href: '/module/yield/tool',
     icon: Calculator,
-    locked: false,
+    moduleSlug: 'yield',
   },
   {
     id: 'strategy-calc',
@@ -61,12 +73,33 @@ const tools = [
     desc: 'delta-neutral scenarios',
     href: '#',
     icon: Calculator,
-    locked: true,
+    moduleSlug: null,
   },
 ]
 
 export default function ToolsPage() {
-  const { toolsUsed } = useProgress()
+  const { toolsUsed, completedLessons } = useProgress()
+
+  function isUnlocked(moduleSlug: string | null): boolean {
+    if (!moduleSlug) return false
+    const lessonIds = Array.from(
+      { length: LESSON_COUNT },
+      (_, i) => `${moduleSlug}-${i + 1}`,
+    )
+    return lessonIds.every((id) => completedLessons[id])
+  }
+
+  function lessonProgress(moduleSlug: string | null): string {
+    if (!moduleSlug) return 'coming soon'
+    const lessonIds = Array.from(
+      { length: LESSON_COUNT },
+      (_, i) => `${moduleSlug}-${i + 1}`,
+    )
+    const done = lessonIds.filter((id) => completedLessons[id]).length
+    return `complete ${LESSON_COUNT - done} more lesson${
+      LESSON_COUNT - done === 1 ? '' : 's'
+    } to unlock`
+  }
 
   return (
     <AppShell>
@@ -79,17 +112,17 @@ export default function ToolsPage() {
             const used = toolsUsed.includes(tool.id)
             const Icon = tool.icon
             const isLast = i === tools.length - 1
+            const unlocked = isUnlocked(tool.moduleSlug)
+            const comingSoon = tool.moduleSlug === null
 
             const rowClasses = `flex items-center gap-4 px-5 py-4 ${
               isLast ? '' : 'border-b border-[var(--border)]'
             }`
 
-            if (tool.locked) {
+            // Coming soon — fully locked
+            if (comingSoon) {
               return (
-                <div
-                  key={tool.id}
-                  className={`${rowClasses} opacity-30`}
-                >
+                <div key={tool.id} className={`${rowClasses} opacity-30`}>
                   <Lock
                     size={20}
                     strokeWidth={1.5}
@@ -105,6 +138,28 @@ export default function ToolsPage() {
               )
             }
 
+            // Locked — module not yet completed
+            if (!unlocked) {
+              return (
+                <div key={tool.id} className={`${rowClasses} opacity-40`}>
+                  <Lock
+                    size={20}
+                    strokeWidth={1.5}
+                    className="shrink-0 text-[var(--text-3)]"
+                  />
+                  <div className="flex-1">
+                    <p className="text-[15px] font-medium tracking-[-0.01em]">
+                      {tool.name}
+                    </p>
+                    <p className="text-xs text-[var(--text-3)]">
+                      {lessonProgress(tool.moduleSlug)}
+                    </p>
+                  </div>
+                </div>
+              )
+            }
+
+            // Unlocked
             return (
               <Link key={tool.id} href={tool.href}>
                 <div
@@ -122,10 +177,7 @@ export default function ToolsPage() {
                     <p className="text-xs text-[var(--text-3)]">{tool.desc}</p>
                   </div>
                   {used && <Chip variant="green">used</Chip>}
-                  <ChevronRight
-                    size={16}
-                    className="text-[var(--text-4)]"
-                  />
+                  <ChevronRight size={16} className="text-[var(--text-4)]" />
                 </div>
               </Link>
             )

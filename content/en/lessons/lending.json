@@ -9,17 +9,27 @@
         {
           "type": "text",
           "heading": "supply and borrow",
-          "body": "DeFi lending works like a peer-to-pool system. Suppliers deposit assets into a smart contract pool and earn interest. Borrowers take assets from the pool by posting collateral and paying interest."
+          "body": "DeFi lending works as a peer-to-pool system. Suppliers deposit assets into a smart contract pool and earn interest. Borrowers take assets from the pool by posting collateral and paying interest. Everything is automated — no loan officer, no paperwork."
         },
         {
           "type": "text",
           "heading": "how interest rates work",
-          "body": "Rates are set by supply and demand. When many people borrow, the utilization rate rises and interest goes up — incentivizing more suppliers. Protocols like Aave and Compound automate this with rate curves."
+          "body": "Rates are set algorithmically by supply and demand. When many people borrow (high utilization), interest rises — incentivizing more suppliers to deposit. When utilization drops, rates fall. Aave and Compound use rate curves with sharp 'kinks' near 80% utilization."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You deposit 1,000 USDC into Aave on Base. The current supply APY is 6%, so you earn ~$60/year passively. Other users borrow that USDC at 8% APY, posting ETH as collateral. The 2% spread funds Aave's reserves. You can withdraw your USDC anytime, instantly."
         },
         {
           "type": "highlight",
           "emoji": "🏦",
-          "text": "Unlike a bank, there's no credit check. Anyone with collateral can borrow instantly. The smart contract is the only intermediary."
+          "text": "Unlike a bank, there's no credit check. Anyone with collateral can borrow instantly. The smart contract is the only intermediary, and rates adjust every second based on usage."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: DeFi lending replaces loan officers with smart contracts. Rates float with supply and demand, and everything happens in seconds."
         }
       ]
     },
@@ -31,17 +41,33 @@
         {
           "type": "text",
           "heading": "why >100% collateral?",
-          "body": "In DeFi, there's no identity or credit score. The only guarantee is your collateral. To protect lenders, protocols require you to deposit more value than you borrow — typically 120-150% of the loan value."
+          "body": "In DeFi, there's no identity, credit score, or legal recourse. The only guarantee is your collateral. To protect lenders, protocols require you to deposit MORE value than you borrow — typically 120-150%. If your collateral drops, the protocol auto-sells it to repay the loan."
         },
         {
           "type": "comparison",
-          "left": { "label": "Traditional loan", "items": ["credit score matters", "can be undercollateralized", "takes days to approve", "legal recourse if you default"] },
-          "right": { "label": "DeFi loan", "items": ["no credit check", "always overcollateralized", "instant approval", "smart contract liquidates automatically"] }
+          "left": {
+            "label": "traditional loan",
+            "items": ["credit score matters", "can be undercollateralized", "takes days to approve", "legal recourse if you default", "fixed term length", "human underwriter"]
+          },
+          "right": {
+            "label": "DeFi loan",
+            "items": ["no credit check needed", "always overcollateralized", "instant approval", "smart contract liquidates automatically", "borrow as long as healthy", "all rules in code"]
+          }
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You want to borrow $1,000 USDC without selling your ETH. You deposit $1,500 of ETH as collateral on Aave (66% LTV). You walk away with $1,000 USDC to spend. As long as ETH stays above ~$1,200 worth, you're safe. Pay back the loan anytime to reclaim your ETH."
         },
         {
           "type": "highlight",
           "emoji": "🛡️",
-          "text": "Overcollateralization means if you want to borrow $1,000, you might need to lock up $1,500 in ETH. The extra cushion protects against price drops."
+          "text": "Overcollateralization is why DeFi lending works without credit checks. The protocol can always sell your collateral to recover the loan — the math is the only protection."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: in DeFi you borrow against your assets, not your identity. The trade-off is you need MORE assets than you want to borrow."
         }
       ]
     },
@@ -53,17 +79,27 @@
         {
           "type": "text",
           "heading": "the number that keeps you safe",
-          "body": "Health Factor = (Collateral Value × Liquidation Threshold) / Borrow Value. Above 1.0, you're safe. At 1.0, you get liquidated. Most users aim to stay above 1.5 for a comfortable buffer."
+          "body": "Health Factor = (Collateral Value × Liquidation Threshold) / Borrow Value. Above 1.0, you're safe. At exactly 1.0, you get liquidated. Most experienced users aim to stay above 1.5 for a comfortable buffer against price swings."
         },
         {
           "type": "text",
           "heading": "what happens at liquidation",
-          "body": "When HF drops to 1.0, a liquidator repays part of your debt and takes your collateral at a discount (typically 5-10% bonus). You lose your collateral and still owe the remaining debt minus what was repaid."
+          "body": "When HF drops to 1.0, anyone can become a 'liquidator' — they repay part of your debt and take your collateral at a 5-10% discount as their reward. You lose that collateral permanently and still owe the remaining debt minus what was repaid."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You deposit $10,000 of ETH (LT 82.5%) and borrow $5,000 USDC. HF = (10,000 × 0.825) / 5,000 = 1.65 — comfortable. If ETH drops 30% to $7,000, HF = (7,000 × 0.825) / 5,000 = 1.155 — getting risky. Another 7% drop and you're liquidated."
         },
         {
           "type": "highlight",
           "emoji": "⚠️",
-          "text": "A health factor of 1.1 means a 10% drop in your collateral's price could trigger liquidation. Always monitor your positions."
+          "text": "A health factor of 1.1 means a 10% drop in your collateral's price could trigger liquidation. Volatile assets like memecoins as collateral are dangerous — set price alerts."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: HF is your safety dashboard. Stay above 1.5 to sleep at night. Watch it like you'd watch your bank balance."
         }
       ]
     },
@@ -75,17 +111,27 @@
         {
           "type": "text",
           "heading": "two different numbers",
-          "body": "LTV (Loan-to-Value) is the maximum you can borrow against your collateral — e.g., 75% LTV means you can borrow up to $750 per $1,000 collateral. The Liquidation Threshold is higher (e.g., 82.5%) — the point where liquidation actually happens."
+          "body": "LTV (Loan-to-Value) is the maximum you can borrow against your collateral when you open a loan — e.g., 75% LTV means $750 max per $1,000 collateral. The Liquidation Threshold is HIGHER (e.g., 82.5%) — the point where the protocol actually liquidates you."
         },
         {
           "type": "text",
           "heading": "the buffer zone",
-          "body": "The gap between LTV (75%) and Liquidation Threshold (82.5%) is your safety buffer. If you borrow the maximum immediately, you have only a 7.5% cushion before liquidation. Smart borrowers stay well below max LTV."
+          "body": "The gap between LTV (75%) and Liquidation Threshold (82.5%) is your safety buffer. If you borrow the maximum at 75%, you only have 7.5% of cushion before liquidation. Smart borrowers borrow at 50-60% of max LTV, giving themselves a 30%+ price drop tolerance."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "Aave's ETH parameters on Base: LTV 80%, LT 82.5%. You deposit $10,000 ETH and borrow $8,000 (max LTV) of USDC. ETH only needs to drop 3.1% for you to be liquidated. Borrow $5,000 instead (50% of LTV), and ETH would need to drop 39% to liquidate you."
         },
         {
           "type": "highlight",
           "emoji": "📊",
-          "text": "Rule of thumb: borrow at 50-60% of your max LTV. This gives you room to absorb a 30-40% price drop without getting liquidated."
+          "text": "Rule of thumb: borrow at 40-60% of max LTV. This gives you room to absorb a 25-40% price drop without getting liquidated. Crypto is volatile — buffer is everything."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: max LTV is the temptation, liquidation threshold is the cliff. The space between them is your survival zone."
         }
       ]
     },
@@ -97,17 +143,27 @@
         {
           "type": "text",
           "heading": "variable rate",
-          "body": "Changes based on pool utilization — when demand is high, rates spike. Good when you expect rates to stay low or you plan to repay quickly. Most DeFi borrowing uses variable rates."
+          "body": "Changes based on pool utilization — when demand is high, rates spike. Aave's ETH borrow rate has gone from 1% to 50%+ in volatile periods. Variable is good when you expect rates to stay low or you plan to repay quickly. Most DeFi borrowing uses variable rates."
         },
         {
           "type": "text",
           "heading": "stable rate",
-          "body": "Locks in a rate for predictability, but typically starts higher than the current variable rate. Some protocols (like Aave) offer this, though it can be rebalanced in extreme conditions."
+          "body": "Locks in a rate for predictability, but typically starts higher than the current variable rate. Some protocols (like Aave V3) offer this — though under extreme conditions, it can be rebalanced. Useful for long-term loans where you want predictable interest."
+        },
+        {
+          "type": "text",
+          "heading": "real-world example",
+          "body": "You're borrowing $10,000 USDC for 1 year. Variable rate is 5%, stable rate is 7%. If rates stay low, you save $200 with variable. If rates spike to 15% mid-year, variable could cost you $1,000+ extra. Stable rates are an insurance product — you pay a premium for certainty."
         },
         {
           "type": "highlight",
           "emoji": "📈",
-          "text": "Supply APY is almost always lower than Borrow APY — the difference is the protocol's spread and reserve factor. This is how lending protocols generate revenue."
+          "text": "Supply APY is almost always lower than Borrow APY — the spread funds the protocol's reserves and revenue. This is how lending protocols sustain themselves without venture capital."
+        },
+        {
+          "type": "highlight",
+          "emoji": "💡",
+          "text": "Key takeaway: variable for short-term/low-rate environments, stable for long-term certainty. You're now ready to use the Health Factor Calculator and stress-test your positions!"
         }
       ]
     }

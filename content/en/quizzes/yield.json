@@ -10,25 +10,62 @@
     {
       "id": "q2",
       "text": "What is the biggest red flag for a high-APY farm?",
-      "options": ["It's on a reputable protocol", "The yield comes from token emissions with a declining token price", "It has many users", "It offers auto-compounding"],
+      "options": [
+        "It's on a reputable protocol",
+        "The yield comes from token emissions while the reward token price is dropping",
+        "It has many users",
+        "It offers auto-compounding"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q3",
       "text": "What is the goal of delta-neutral farming?",
-      "options": ["Maximize token exposure", "Eliminate price risk and earn only fees", "Buy low, sell high", "Avoid all smart contract risk"],
+      "options": [
+        "Maximize token exposure",
+        "Eliminate price risk and earn only fees and funding",
+        "Buy low, sell high",
+        "Avoid all smart contract risk"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q4",
-      "text": "When calculating net yield from LP farming, what must you subtract?",
-      "options": ["Only gas fees", "Impermanent loss, gas costs, and risk premium", "Nothing, APY is the final number", "The token's market cap"],
+      "text": "When calculating net yield from LP farming, what must you subtract from the headline APY?",
+      "options": [
+        "Only gas fees",
+        "Impermanent loss, gas costs, and smart contract risk premium",
+        "Nothing — APY is the final number",
+        "The token's market cap"
+      ],
       "correctIndex": 1
     },
     {
       "id": "q5",
       "text": "What is the difference between real yield and emission yield?",
-      "options": ["There is no difference", "Real yield comes from protocol fees; emission yield comes from token inflation", "Real yield is higher", "Emission yield is more sustainable"],
+      "options": [
+        "There is no difference",
+        "Real yield comes from protocol fees; emission yield comes from token inflation",
+        "Real yield is always higher",
+        "Emission yield is more sustainable"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "q6",
+      "text": "100% APR compounded daily for 1 year. $1,000 invested becomes approximately:",
+      "options": ["$2,000", "$2,718", "$2,000 + dividends", "$1,100"],
+      "correctIndex": 1
+    },
+    {
+      "id": "q7",
+      "text": "A farm advertises 800% APY. The reward token has dropped 95% in 3 months. You're considering depositing $5,000. What's the smart move?",
+      "options": [
+        "Deposit immediately — 800% is amazing",
+        "Skip it — emission yield without sustainable demand is a guaranteed loss",
+        "Deposit and immediately sell rewards every hour",
+        "Deposit only if you can leverage 5x"
+      ],
       "correctIndex": 1
     }
   ]
